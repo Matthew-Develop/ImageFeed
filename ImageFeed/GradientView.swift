@@ -7,14 +7,15 @@
 
 import UIKit
 
-class GradientView: UIView {
+final class GradientView: UIView {
     private let gradientLayer = CAGradientLayer()
-    private let firstColor = UIColor.ypBlack.cgColor.copy(alpha: 0.025)
-    private let secondColor = UIColor.ypBlack.cgColor.copy(alpha: 1)
+    private let firstColor = UIColor.ypBlack.withAlphaComponent(0.025).cgColor
+    private let secondColor = UIColor.ypBlack.withAlphaComponent(1).cgColor
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        addGradient(firstColor, secondColor)
     }
     
     required init?(coder: NSCoder) {
@@ -27,7 +28,7 @@ class GradientView: UIView {
         gradientLayer.frame = bounds
     }
     
-    func addGradient(_ first: CGColor?,_ second: CGColor?) {
+    private func addGradient(_ first: CGColor?,_ second: CGColor?) {
         self.layer.addSublayer(gradientLayer)
         guard let first = first,
               let second = second else { return }
