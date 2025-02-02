@@ -108,6 +108,6 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
     
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-//        updateInset()
+        updateInset()
     }
 }
