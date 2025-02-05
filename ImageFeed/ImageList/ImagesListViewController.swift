@@ -13,9 +13,9 @@ final class ImagesListViewController: UIViewController {
     @IBOutlet private var tableView: UITableView!
     
     // MARK: - Public Properties
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     // MARK: - Private Properties
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
+    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -66,7 +66,7 @@ extension ImagesListViewController {
         guard let image = UIImage(named: imageName) else { return }
         cell.imageCell.image = image
         
-        cell.dateLabel.text = dateFormatter.string(from: Date())
+        cell.dateLabel.text = dateFormatter.string(from: Date()).replacingOccurrences(of: "г.", with: "")
         
         indexPath.row % 2 == 0 ? cell.likeButton.setImage(UIImage(named: "like_active"), for: .normal) : cell.likeButton.setImage(UIImage(named: "like_no_active"), for: .normal)
     }

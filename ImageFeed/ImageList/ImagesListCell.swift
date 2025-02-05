@@ -12,7 +12,6 @@ final class ImagesListCell: UITableViewCell {
     @IBOutlet var imageCell: UIImageView!
     @IBOutlet var likeButton: UIButton!
     @IBOutlet var dateLabel: UILabel!
-    
     @IBOutlet var gradientDateBox: UIView!
     
     // MARK: - Public Properties
@@ -29,6 +28,4 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Public Methods
 
     // MARK: - Private Methods
-
-    
 }

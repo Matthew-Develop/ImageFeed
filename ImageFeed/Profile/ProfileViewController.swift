@@ -32,7 +32,6 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupUserInfo() {
-        profileName.autoResizeOff()
         profileName.text = "Екатерина Новикова"
         profileName.font = .systemFont(ofSize: 23, weight: .bold)
         profileName.textColor = .ypWhite
@@ -83,14 +82,14 @@ class ProfileViewController: UIViewController {
             action: #selector(Self.exitButton))
         button.autoResizeOff()
         button.tintColor = .ypRed
-//        button.imageView!.frame  = CGRect(x: 0, y: 0, width: 20, height: 22) Пытался сделать ограниченный фрейм для картинки внутри чтобы оставить ее 20*22 как в макете, но не вышло)
+//        button.imageView!.frame  = CGRect(x: 0, y: 0, width: 20, height: 22) Пытался сделать ограниченный фрейм для картинки внутри чтобы оставить ее 20*22 как в макете (и оставить кнопку с минимальным размером 44*44), но не вышло)
         
         view.addSubview(button)
         NSLayoutConstraint.activate([
-            button.heightAnchor.constraint(equalToConstant: 44),
-            button.widthAnchor.constraint(equalToConstant: 44),
+            button.heightAnchor.constraint(equalToConstant: 22),
+            button.widthAnchor.constraint(equalToConstant: 20),
             
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -26),
             button.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor)
         ])
     }

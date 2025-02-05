@@ -12,7 +12,6 @@ final class GradientView: UIView {
     private let firstColor = UIColor.ypBlack.withAlphaComponent(0.025).cgColor
     private let secondColor = UIColor.ypBlack.withAlphaComponent(1).cgColor
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addGradient(firstColor, secondColor)
