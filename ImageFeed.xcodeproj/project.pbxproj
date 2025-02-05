@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		347A98232D52299500FC28A6 /* ExtensionsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347A98222D52299500FC28A6 /* ExtensionsUIView.swift */; };
 		9F0567A02D44FDC100D3244E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F0567962D44FDC100D3244E /* AppDelegate.swift */; };
 		9F0567A12D44FDC100D3244E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F05679D2D44FDC100D3244E /* SceneDelegate.swift */; };
 		9F0567A22D44FDC100D3244E /* ImagesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F05679E2D44FDC100D3244E /* ImagesListViewController.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		347A98222D52299500FC28A6 /* ExtensionsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUIView.swift; sourceTree = "<group>"; };
 		9F0567962D44FDC100D3244E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9F0567972D44FDC100D3244E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9F0567982D44FDC100D3244E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -45,11 +47,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		347A98212D52297400FC28A6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				347A98222D52299500FC28A6 /* ExtensionsUIView.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		9F05679F2D44FDC100D3244E /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				9FDDB2C62D4F61FD002EEF93 /* SingleImage */,
 				9F4D54EE2D48F76C00EA6C93 /* GradientView.swift */,
+				347A98212D52297400FC28A6 /* Extensions */,
+				9FDDB2C62D4F61FD002EEF93 /* SingleImage */,
 				9F79A2862D476DE900986E30 /* ImageList */,
 				9F780B502D4BB81E0071B2E2 /* Profile */,
 				9F05679A2D44FDC100D3244E /* LaunchScreen.storyboard */,
@@ -179,6 +190,7 @@
 			files = (
 				9F780B522D4BB83B0071B2E2 /* ProfileViewController.swift in Sources */,
 				9F0567A02D44FDC100D3244E /* AppDelegate.swift in Sources */,
+				347A98232D52299500FC28A6 /* ExtensionsUIView.swift in Sources */,
 				9F79A2882D476E0700986E30 /* ImagesListCell.swift in Sources */,
 				9FDDB2C82D4F620D002EEF93 /* SingleImageViewController.swift in Sources */,
 				9F4D54EF2D48F76C00EA6C93 /* GradientView.swift in Sources */,
