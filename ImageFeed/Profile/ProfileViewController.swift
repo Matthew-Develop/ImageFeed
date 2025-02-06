@@ -82,14 +82,14 @@ class ProfileViewController: UIViewController {
             action: #selector(Self.exitButton))
         button.autoResizeOff()
         button.tintColor = .ypRed
-//        button.imageView!.frame  = CGRect(x: 0, y: 0, width: 20, height: 22) Пытался сделать ограниченный фрейм для картинки внутри чтобы оставить ее 20*22 как в макете (и оставить кнопку с минимальным размером 44*44), но не вышло)
+        button.imageEdgeInsets = UIEdgeInsets(top: 11, left: 12, bottom: 11, right: 12)
         
         view.addSubview(button)
         NSLayoutConstraint.activate([
-            button.heightAnchor.constraint(equalToConstant: 22),
-            button.widthAnchor.constraint(equalToConstant: 20),
+            button.heightAnchor.constraint(equalToConstant: 44),
+            button.widthAnchor.constraint(equalToConstant: 44),
             
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -26),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -14),
             button.centerYAnchor.constraint(equalTo: profileImage.centerYAnchor)
         ])
     }

@@ -154,7 +154,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rAL-QB-MFD" userLabel="Like Button">
-                                <rect key="frame" x="58" y="751" width="51" height="51"/>
+                                <rect key="frame" x="68" y="751" width="51" height="51"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="51" id="GcG-zn-5t5"/>
                                     <constraint firstAttribute="height" constant="51" id="iIo-tc-wPT"/>
@@ -180,14 +180,14 @@
                         <constraints>
                             <constraint firstItem="Zml-Y8-lmT" firstAttribute="trailing" secondItem="760-IN-DZE" secondAttribute="trailing" id="2Pf-gN-cyv"/>
                             <constraint firstItem="760-IN-DZE" firstAttribute="top" secondItem="K8e-ff-LV7" secondAttribute="top" id="8u1-bP-13d"/>
-                            <constraint firstItem="Zml-Y8-lmT" firstAttribute="bottom" secondItem="Rpk-lb-pt9" secondAttribute="bottom" constant="50" id="BjR-XV-rwX"/>
-                            <constraint firstItem="rAL-QB-MFD" firstAttribute="leading" secondItem="Zml-Y8-lmT" secondAttribute="leading" constant="58" id="CD4-sh-h54"/>
+                            <constraint firstAttribute="bottom" secondItem="Rpk-lb-pt9" secondAttribute="bottom" constant="50" id="BjR-XV-rwX"/>
+                            <constraint firstItem="rAL-QB-MFD" firstAttribute="leading" secondItem="K8e-ff-LV7" secondAttribute="leading" constant="68" id="CD4-sh-h54"/>
                             <constraint firstItem="760-IN-DZE" firstAttribute="leading" secondItem="Zml-Y8-lmT" secondAttribute="leading" id="MUL-Ef-1Op"/>
                             <constraint firstItem="EJE-yV-xax" firstAttribute="top" secondItem="Zml-Y8-lmT" secondAttribute="top" constant="1" id="ZCf-Qd-sia"/>
-                            <constraint firstItem="Zml-Y8-lmT" firstAttribute="trailing" secondItem="Rpk-lb-pt9" secondAttribute="trailing" constant="68" id="eWQ-cj-uij"/>
+                            <constraint firstAttribute="trailing" secondItem="Rpk-lb-pt9" secondAttribute="trailing" constant="68" id="eWQ-cj-uij"/>
                             <constraint firstAttribute="bottom" secondItem="760-IN-DZE" secondAttribute="bottom" id="eg2-WA-2Mz"/>
                             <constraint firstItem="EJE-yV-xax" firstAttribute="leading" secondItem="K8e-ff-LV7" secondAttribute="leading" id="gWb-Sz-di5"/>
-                            <constraint firstItem="Zml-Y8-lmT" firstAttribute="bottom" secondItem="rAL-QB-MFD" secondAttribute="bottom" constant="50" id="nBK-je-6S8"/>
+                            <constraint firstAttribute="bottom" secondItem="rAL-QB-MFD" secondAttribute="bottom" constant="50" id="nBK-je-6S8"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Zzo-9y-G0x"/>
