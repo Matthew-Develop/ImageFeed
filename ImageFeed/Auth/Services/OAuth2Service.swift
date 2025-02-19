@@ -16,7 +16,7 @@ final class OAuth2Service {
     private func makeTokenRequestOAuth(code: String) -> URLRequest? {
         guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeTokenURLString)
         else {
-            assertionFailure("ERROR creating oAuthTokenRequest URLComponents")
+            print("ERROR creating oAuthTokenRequest URLComponents")
             return nil
         }
         
@@ -30,7 +30,7 @@ final class OAuth2Service {
         
         guard let url = urlComponents.url
         else {
-            assertionFailure("ERROR creating oAuthTokenRequest URL from URLComponents")
+            print("ERROR creating oAuthTokenRequest URL from URLComponents")
             return nil
         }
         
@@ -39,7 +39,7 @@ final class OAuth2Service {
         return request
     }
     
-    func loadToken(code: String) {
+    func loadToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         guard let request = makeTokenRequestOAuth(code: code) else {return}
         
         networkClient.fetchOAuthToken(urlRequest: request) { result in
@@ -47,12 +47,14 @@ final class OAuth2Service {
             case .success(let data):
                 do {
                     let tokenDecoded = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                    OAuth2TokenStorage().token = tokenDecoded.accessToken
+                    handler(.success(tokenDecoded.accessToken))
                 } catch {
-                    assertionFailure(error.localizedDescription)
+                    handler(.failure(error))
+                    print(error.localizedDescription)
                 }
             case .failure(let error):
-                assertionFailure(error.localizedDescription)
+                handler(.failure(error))
+                print(error.localizedDescription)
             }
         }
     }

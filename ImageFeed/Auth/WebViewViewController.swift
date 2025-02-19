@@ -112,8 +112,6 @@ extension WebViewViewController: WKNavigationDelegate {
             decisionHandler(.cancel)
         } else {
             decisionHandler(.allow)
-            self.delegate?.webViewControllerDidCancel(self)
         }
-        
     }
 }

@@ -31,19 +31,21 @@ final class NetworkClient {
         let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 handlerOnMainThread(.failure(NetworkError.urlRequestError(error)))
+                print(error.localizedDescription)
                 return
             }
             
             if let response = response as? HTTPURLResponse,
                response.statusCode < 200 || response.statusCode >= 300 {
                 handlerOnMainThread(.failure(NetworkError.codeError(response.statusCode)))
+                print(NetworkError.codeError(response.statusCode).localizedDescription)
                 return
             }
             
             guard let data = data
             else {
                 handlerOnMainThread(.failure(NetworkError.urlSessionError))
-                print ("No data")
+                print(NetworkError.urlSessionError.localizedDescription)
                 return
             }
             

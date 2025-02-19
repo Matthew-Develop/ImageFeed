@@ -77,7 +77,7 @@ class ProfileViewController: UIViewController {
     
     private func addExitButton() {
         let button = UIButton.systemButton(
-            with: UIImage(systemName: "ipad.and.arrow.forward")!,
+            with: UIImage(systemName: "ipad.and.arrow.forward") ?? UIImage(),
             target: self,
             action: #selector(Self.exitButton))
         button.autoResizeOff()
