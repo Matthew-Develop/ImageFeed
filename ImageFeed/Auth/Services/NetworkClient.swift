@@ -15,6 +15,8 @@ final class NetworkClient {
     
     static let shared = NetworkClient()
     
+    private init() {}
+    
     private enum NetworkError: Error {
         case codeError(Int)
         case urlRequestError(Error)

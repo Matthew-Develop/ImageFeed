@@ -8,10 +8,6 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    // MARK: - IB Outlets
-
-    // MARK: - Public Properties
-
     // MARK: - Private Properties
     private let showAuthFlowSegueIdentifier = "ShowAuthFlow"
     private let userToken = OAuth2TokenStorage().token
@@ -23,11 +19,6 @@ final class SplashViewController: UIViewController {
         showNextController()
         print(userToken)
     }
-    
-    // MARK: - IB Actions
-
-    // MARK: - Public Methods
-
     // MARK: - Private Methods
     private func showNextController() {
         if isUserAuthorized(with: userToken) {

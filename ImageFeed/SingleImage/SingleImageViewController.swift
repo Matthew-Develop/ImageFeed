@@ -23,10 +23,6 @@ class SingleImageViewController: UIViewController {
             changeScaleAndCenterImage(image: image)
         }
     }
-    
-    // MARK: - Private Properties
-
-    // MARK: - Initializers
 
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -56,8 +52,6 @@ class SingleImageViewController: UIViewController {
         
         present(activity, animated: true, completion: nil)
     }
-    
-    // MARK: - Public Methods
 
     // MARK: - Private Methods
     private func changeScaleAndCenterImage(image: UIImage) {

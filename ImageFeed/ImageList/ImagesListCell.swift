@@ -17,15 +17,4 @@ final class ImagesListCell: UITableViewCell {
     // MARK: - Public Properties
     static let reuseIdentifier = "ImagesListCell"
     
-    // MARK: - Private Properties
-
-    // MARK: - Initializers
-
-    // MARK: - Overrides Methods
-
-    // MARK: - IB Actions
-
-    // MARK: - Public Methods
-
-    // MARK: - Private Methods
 }

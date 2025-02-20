@@ -8,39 +8,31 @@
 import UIKit
 
 final class AuthViewController: UIViewController{
-    // MARK: - IB Outlets
-
     // MARK: - Public Properties
     weak var delegate: AuthViewControllerDelegate?
     
     // MARK: - Private Properties
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let oAuthService = OAuth2Service.shared
-    // MARK: - Overrides Methods
-
-    // MARK: - IB Actions
-    
-    // MARK: - Public Methods
     
     // MARK: - Private Methods
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebViewSegueIdentifier {
-            guard let webVC = segue.destination as? WebViewViewController else {
-                assertionFailure("Invalid segue destination")
-                return
-            }
-            
-            webVC.delegate = self
-        } else {
+        guard segue.identifier == showWebViewSegueIdentifier,
+           let webVC = segue.destination as? WebViewViewController
+        else {
             super.prepare(for: segue, sender: sender)
+            return
         }
+        
+        webVC.delegate = self
     }
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
-        oAuthService.loadToken(code: code) { result in
+        oAuthService.loadToken(code: code) { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(let data):
                 OAuth2TokenStorage().token = data

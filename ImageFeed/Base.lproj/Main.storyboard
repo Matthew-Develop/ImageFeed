@@ -337,12 +337,15 @@
             <objects>
                 <tabBarController storyboardIdentifier="TabBar" id="YJ0-X0-fRW" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="Vua-pX-fqn"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="BCL-mt-zKw">
+                    <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="BCL-mt-zKw">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="YP Black"/>
+                        <color key="barTintColor" name="YP Black"/>
                         <color key="selectedImageTintColor" name="YP White"/>
                         <tabBarAppearance key="standardAppearance">
                             <color key="backgroundColor" name="YP Black"/>
+                            <color key="shadowColor" name="YP Black"/>
                         </tabBarAppearance>
                     </tabBar>
                     <connections>

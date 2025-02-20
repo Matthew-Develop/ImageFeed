@@ -15,8 +15,6 @@ final class WebViewViewController: UIViewController {
     
     // MARK: - Public Properties
     weak var delegate: WebViewViewControllerDelegate?
-    
-    // MARK: - Private Properties
 
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -59,8 +57,6 @@ final class WebViewViewController: UIViewController {
     @IBAction func didTapBackAuthButton(_ sender: Any) {
         self.delegate?.webViewControllerDidCancel(self)
     }
-    
-    // MARK: - Public Methods
 
     // MARK: - Private Methods
     private func loadAuthView() {
@@ -98,7 +94,7 @@ final class WebViewViewController: UIViewController {
     }
     
     private func updateProgress() {
-        progressView.progress = Float(webView.estimatedProgress)
+        progressView.setProgress(Float(webView.estimatedProgress), animated: true)
         progressView.isHidden = fabs(webView.estimatedProgress - 1) <= 0.001
     }
 }
@@ -107,6 +103,8 @@ extension WebViewViewController: WKNavigationDelegate {
     func webView(_ webView: WKWebView,
                  decidePolicyFor navigationAction: WKNavigationAction,
                  decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+        progressView.progress = 0
+        
         if let code = code(from: navigationAction) {
             self.delegate?.webViewViewController(self, didAuthenticateWithCode: code)
             decisionHandler(.cancel)
