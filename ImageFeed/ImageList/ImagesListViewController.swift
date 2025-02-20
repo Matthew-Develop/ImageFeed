@@ -12,7 +12,6 @@ final class ImagesListViewController: UIViewController {
     // MARK: - IB Outlets
     @IBOutlet private var tableView: UITableView!
     
-    // MARK: - Public Properties
     // MARK: - Private Properties
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
     private let showSingleImageSegueIdentifier = "ShowSingleImage"
@@ -25,8 +24,6 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    // MARK: - Initializers
-
     // MARK: - Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,10 +48,6 @@ final class ImagesListViewController: UIViewController {
         }
     }
     
-    // MARK: - IB Actions
-
-    // MARK: - Public Methods
-
     // MARK: - Private Methods
 }
 
