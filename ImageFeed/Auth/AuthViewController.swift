@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ProgressHUD
 
 final class AuthViewController: UIViewController{
     // MARK: - Public Properties
@@ -31,8 +32,14 @@ extension AuthViewController: WebViewViewControllerDelegate {
     }
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        vc.dismiss(animated: true)
+        ProgressHUD.animate()
+        
         oAuthService.loadToken(code: code) { [weak self] result in
             guard let self = self else { return }
+            
+            ProgressHUD.dismiss()
+            
             switch result {
             case .success(let data):
                 OAuth2TokenStorage().token = data
@@ -41,8 +48,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 print(error.localizedDescription)
             }
         }
-        
-        vc.dismiss(animated: true)
     }
     
     func webViewControllerDidCancel(_ vc: WebViewViewController) {

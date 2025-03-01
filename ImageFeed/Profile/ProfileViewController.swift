@@ -122,6 +122,6 @@ class ProfileViewController: UIViewController {
     }
     
     @objc private func exitButton() {
-        
+        UserDefaults.standard.removeObject(forKey: Constants.accessToken)
     }
 }
