@@ -9,6 +9,8 @@ import UIKit
 
 final class ProfileService {
     static let shared = ProfileService()
+    private(set) var profile: Profile?
+    
     private var task: URLSessionTask?
     private var lastToken: String?
     
@@ -99,6 +101,8 @@ final class ProfileService {
                 }
                 
                 handlerOnMainThread(.success(profile))
+                
+                self?.profile = profile
             } catch {
                 handlerOnMainThread(.failure(error))
                 print(error.localizedDescription)

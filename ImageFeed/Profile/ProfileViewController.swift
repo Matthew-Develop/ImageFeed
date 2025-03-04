@@ -22,18 +22,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileService.fetchProfile(token: accessToken) { [ weak self ] result in
-            switch result {
-                case .success(let profile):
-                
-                self?.profileName.text = profile.name
-                self?.profileLoginName.text = profile.loginName
-                self?.profileBio.text = profile.bio
-                
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
+        getProfileData(profile: profileService.profile)
         
         setupView()
         setupUserInfo()
@@ -41,6 +30,18 @@ class ProfileViewController: UIViewController {
         addUserInfo()
         addExitButton()
         addFavoriteImages()
+    }
+    
+    private func getProfileData(profile: Profile?) {
+        guard let profile = profile
+        else {
+            assertionFailure("ERROR getting profile data")
+            return
+        }
+        
+        profileName.text = profile.name
+        profileLoginName.text = profile.loginName
+        profileBio.text = profile.bio
     }
     
     private func setupView() {

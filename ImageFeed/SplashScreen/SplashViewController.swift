@@ -11,6 +11,7 @@ final class SplashViewController: UIViewController {
     // MARK: - Private Properties
     private let showAuthFlowSegueIdentifier = "ShowAuthFlow"
     private let userToken = OAuth2TokenStorage().token
+    private let profileService = ProfileService.shared
     
     // MARK: - Overrides Methods
     override func viewDidAppear(_ animated: Bool) {
@@ -22,7 +23,7 @@ final class SplashViewController: UIViewController {
     // MARK: - Private Methods
     private func showNextController() {
         if isUserAuthorized(with: userToken) {
-            switchToTabBarController()
+            fetchProfile(userToken)
         } else {
             performSegue(withIdentifier: showAuthFlowSegueIdentifier, sender: nil)
         }
@@ -63,6 +64,23 @@ extension SplashViewController: AuthViewControllerDelegate {
     func didAuthenticate(_ vc: AuthViewController) {
         vc.dismiss(animated: true)
         
-        switchToTabBarController()
+        if !userToken.isEmpty {
+            fetchProfile(userToken)
+        }
+    }
+    
+    private func fetchProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile(token: token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+            
+            switch result {
+            case .success(_):
+                self?.switchToTabBarController()
+
+            case .failure(let error):
+                assertionFailure("ERROR \(error.localizedDescription)")
+            }
+        }
     }
 }
