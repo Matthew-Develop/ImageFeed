@@ -33,13 +33,11 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
-        ProgressHUD.animate()
+        UIBlockingProgressHUD.show()
         
         oAuthService.loadToken(code: code) { [weak self] result in
             guard let self = self else { return }
-            
-            ProgressHUD.dismiss()
-            
+        
             switch result {
             case .success(let data):
                 OAuth2TokenStorage().token = data
@@ -47,6 +45,8 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .failure(let error):
                 print(error.localizedDescription)
             }
+            
+            UIBlockingProgressHUD.dismiss()
         }
     }
     

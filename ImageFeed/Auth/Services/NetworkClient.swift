@@ -7,13 +7,11 @@
 
 import UIKit
 
-protocol NetworkRouting {
-    func fetchOAuthToken(url: URLRequest, handler: @escaping (Result<Data, Error>) -> Void)
-}
-
 final class NetworkClient {
     
     static let shared = NetworkClient()
+    private var task: URLSessionTask?
+    private var lastCode: String?
     
     private init() {}
     
@@ -23,14 +21,27 @@ final class NetworkClient {
         case urlSessionError
     }
     
-    func fetchOAuthToken(urlRequest: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
+    enum AuthServiceError: Error {
+        case invalidRequest
+    }
+    
+    func fetchOAuthToken(code: String, urlRequest: URLRequest, handler: @escaping (Result<Data, Error>) -> Void) {
         let handlerOnMainThread: (Result<Data, Error>) ->Void = { result in
             DispatchQueue.main.async {
                 handler(result)
             }
         }
         
-        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+        assert(Thread.isMainThread)
+        guard lastCode != code else {
+            handler(.failure(AuthServiceError.invalidRequest))
+            return
+        }
+        
+        task?.cancel()
+        lastCode = code
+        
+        let task = URLSession.shared.dataTask(with: urlRequest) { [weak self] data, response, error in
             if let error = error {
                 handlerOnMainThread(.failure(NetworkError.urlRequestError(error)))
                 print(error.localizedDescription)
@@ -52,7 +63,11 @@ final class NetworkClient {
             }
             
             handlerOnMainThread(.success(data))
+            
+            self?.task = nil
+            self?.lastCode = nil
         }
+        self.task = task
         task.resume()
     }
 }

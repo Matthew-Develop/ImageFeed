@@ -9,15 +9,31 @@ import UIKit
 
 class ProfileViewController: UIViewController {
     
-    let profileImage = UIImageView()
-    let profileName = UILabel()
-    let profileUsername = UILabel()
-    let profileDescription = UILabel()
+    var profileImage = UIImageView()
+    var profileName = UILabel()
+    var profileLoginName = UILabel()
+    var profileBio = UILabel()
+    
+    private let profileService = ProfileService.shared
+    private var accessToken = OAuth2TokenStorage().token
     
     var vStack = UIStackView(arrangedSubviews: [])
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileService.fetchProfile(token: accessToken) { [ weak self ] result in
+            switch result {
+                case .success(let profile):
+                
+                self?.profileName.text = profile.name
+                self?.profileLoginName.text = profile.loginName
+                self?.profileBio.text = profile.bio
+                
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
         
         setupView()
         setupUserInfo()
@@ -32,17 +48,14 @@ class ProfileViewController: UIViewController {
     }
     
     private func setupUserInfo() {
-        profileName.text = "Екатерина Новикова"
         profileName.font = .systemFont(ofSize: 23, weight: .bold)
         profileName.textColor = .ypWhite
         
-        profileUsername.text = "@ekaterina_nov"
-        profileUsername.font = .systemFont(ofSize: 13)
-        profileUsername.textColor = .ypGray
+        profileLoginName.font = .systemFont(ofSize: 13)
+        profileLoginName.textColor = .ypGray
         
-        profileDescription.text = "Hello, world!"
-        profileDescription.font = .systemFont(ofSize: 13)
-        profileDescription.textColor = .ypWhite
+        profileBio.font = .systemFont(ofSize: 13)
+        profileBio.textColor = .ypWhite
     }
     
     private func addProfileImage() {
@@ -61,8 +74,8 @@ class ProfileViewController: UIViewController {
     
     private func addUserInfo() {
         vStack.addArrangedSubview(profileName)
-        vStack.addArrangedSubview(profileUsername)
-        vStack.addArrangedSubview(profileDescription)
+        vStack.addArrangedSubview(profileLoginName)
+        vStack.addArrangedSubview(profileBio)
         vStack.autoResizeOff()
         
         vStack.axis = .vertical
