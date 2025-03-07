@@ -13,14 +13,26 @@ class ProfileViewController: UIViewController {
     var profileName = UILabel()
     var profileLoginName = UILabel()
     var profileBio = UILabel()
+    var vStack = UIStackView(arrangedSubviews: [])
     
     private let profileService = ProfileService.shared
-    private var accessToken = OAuth2TokenStorage().token
-    
-    var vStack = UIStackView(arrangedSubviews: [])
+    private let profileImageService = ProfileImageService.shared
+    private let userToken = OAuth2TokenStorage().token
+    private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        profileImageServiceObserver = NotificationCenter.default
+            .addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main,
+                using: { [weak self] _ in
+                    guard let self = self else { return }
+                    self.updateProfileImage()
+                })
+        updateProfileImage()
         
         getProfileData(profile: profileService.profile)
         
@@ -42,6 +54,14 @@ class ProfileViewController: UIViewController {
         profileName.text = profile.name
         profileLoginName.text = profile.loginName
         profileBio.text = profile.bio
+    }
+    
+    private func updateProfileImage() {
+        guard
+            let profileImageURL = profileImageService.profileImageURL,
+            let url = URL(string: profileImageURL)
+        else { return }
+        
     }
     
     private func setupView() {
@@ -135,7 +155,8 @@ class ProfileViewController: UIViewController {
         ])
     }
     
-    @objc private func exitButton() {
+    @objc
+    private func exitButton() {
         UserDefaults.standard.removeObject(forKey: Constants.accessToken)
     }
 }

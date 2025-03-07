@@ -10,20 +10,29 @@ import UIKit
 final class SplashViewController: UIViewController {
     // MARK: - Private Properties
     private let showAuthFlowSegueIdentifier = "ShowAuthFlow"
-    private let userToken = OAuth2TokenStorage().token
     private let profileService = ProfileService.shared
+    private let profileImageService = ProfileImageService.shared
     
     // MARK: - Overrides Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+            
         showNextController()
-        print(userToken)
+        print(checkToken())
     }
     // MARK: - Private Methods
+    private func checkToken() -> String {
+        return OAuth2TokenStorage().token
+    }
+    
     private func showNextController() {
-        if isUserAuthorized(with: userToken) {
-            fetchProfile(userToken)
+        let token = checkToken()
+        if isUserAuthorized(with: token) {
+            fetchProfile(token)
         } else {
             performSegue(withIdentifier: showAuthFlowSegueIdentifier, sender: nil)
         }
@@ -62,10 +71,11 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     
     func didAuthenticate(_ vc: AuthViewController) {
+        let token = checkToken()
         vc.dismiss(animated: true)
         
-        if !userToken.isEmpty {
-            fetchProfile(userToken)
+        if !token.isEmpty {
+            fetchProfile(token)
         }
     }
     
@@ -75,8 +85,9 @@ extension SplashViewController: AuthViewControllerDelegate {
             UIBlockingProgressHUD.dismiss()
             
             switch result {
-            case .success(_):
+            case .success(let profile):
                 self?.switchToTabBarController()
+                self?.profileImageService.fetchProfileImage(token: token, username: profile.username) { _ in }
 
             case .failure(let error):
                 assertionFailure("ERROR \(error.localizedDescription)")

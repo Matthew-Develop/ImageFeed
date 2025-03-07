@@ -1,16 +1,18 @@
 //
-//  ProfileService.swift
+//  ProfileImageService.swift
 //  ImageFeed
 //
-//  Created by Matthew on 03.03.2025.
+//  Created by Matthew on 04.03.2025.
 //
 
 import UIKit
 
-final class ProfileService {
-    static let shared = ProfileService()
+final class ProfileImageService {
+    static let shared = ProfileImageService()
+    static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
-    private(set) var profile: Profile?
+    private(set) var profileImageURL: String?
+    private var profileService = ProfileService.shared
     private var task: URLSessionTask?
     private var lastToken: String?
     
@@ -20,19 +22,17 @@ final class ProfileService {
         case urlSessionError
     }
     
-    private init() { }
+    private init() {}
     
     //MARK: Public Functions
-    func fetchProfile(token: String, handler: @escaping (Result<Profile, Error>)-> Void) {
-        let handlerOnMainThread: (Result<Profile, Error>) -> Void = { result in
+    func fetchProfileImage(token: String, username: String, handler: @escaping (Result<String, Error>) -> Void) {
+        let handlerOnMainThread: (Result<String, Error>) -> Void = { result in
             DispatchQueue.main.async {
                 handler(result)
             }
         }
         
-        assert(Thread.isMainThread)
-        guard lastToken != token
-        else {
+        if lastToken != lastToken {
             handlerOnMainThread(.failure(NetworkError.urlSessionError))
             return
         }
@@ -40,7 +40,7 @@ final class ProfileService {
         task?.cancel()
         lastToken = token
         
-        guard let request = makeProfileDataRequest(token: token)
+        guard let request = makeProfileImageRequest(token: token, username: username)
         else {
             handlerOnMainThread(.failure(NetworkError.urlRequestError))
             return
@@ -56,7 +56,7 @@ final class ProfileService {
             if let response = response as? HTTPURLResponse,
                response.statusCode < 200 || response.statusCode >= 300 {
                 handlerOnMainThread(.failure(NetworkError.codeError(response.statusCode)))
-                print(NetworkError.codeError(response.statusCode).localizedDescription)
+                print(response.statusCode)
                 return
             }
             
@@ -70,27 +70,31 @@ final class ProfileService {
             do {
                 let decoder = JSONDecoder()
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
-                            
-                let decodedData = try decoder.decode(ProfileResult.self, from: data)
                 
-                print(decodedData)
+                let decodedData = try decoder.decode(UserResult.self, from: data)
                 
-                guard let profile = self?.convertResponseToProfile(data: decodedData)
+                guard let smallImageURL = decodedData.profileImage["small"]
                 else {
-                    print("ERROR Could not convert decodedData to Profile")
+                    print("ERROR getting small image")
                     return
                 }
                 
-                handlerOnMainThread(.success(profile))
+                handlerOnMainThread(.success(smallImageURL))
+                self?.profileImageURL = smallImageURL
                 
-                self?.profile = profile
+                NotificationCenter.default
+                    .post(
+                        name: ProfileImageService.didChangeNotification,
+                        object: self,
+                        userInfo: ["url": smallImageURL]
+                    )
             } catch {
                 handlerOnMainThread(.failure(error))
                 print(error.localizedDescription)
             }
             
-            self?.task = nil
             self?.lastToken = nil
+            self?.task = nil
         }
         
         self.task = task
@@ -98,21 +102,13 @@ final class ProfileService {
     }
     
     //MARK: Private Functions
-    private func makeProfileDataRequest(token: String) -> URLRequest? {
-        var request = URLRequest(url: Constants.unsplashGetProfileDataURL)
+    private func makeProfileImageRequest(token: String, username: String) -> URLRequest? {
+        let url = URL(string: "\(Constants.unsplashGetProfileImageURLString)\(username)")!
+        var request = URLRequest(url: url)
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
         print(request)
         return request
-    }
-    
-    private func convertResponseToProfile(data: ProfileResult) -> Profile {
-        guard let bio = data.bio else {
-            return Profile(username: data.username, name: "\(data.firstName) \(data.lastName)")
-        }
-        let profile = Profile(username: data.username, name: "\(data.firstName) \(data.lastName)", bio: bio)
-        
-        return profile
     }
 }
