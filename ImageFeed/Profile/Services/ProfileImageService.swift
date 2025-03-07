@@ -11,29 +11,24 @@ final class ProfileImageService {
     static let shared = ProfileImageService()
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
+    private var getData = NetworkClientAndDecode.shared
     private(set) var profileImageURL: String?
-    private var profileService = ProfileService.shared
     private var task: URLSessionTask?
     private var lastToken: String?
     
-    private enum NetworkError: Error {
-        case codeError(Int)
-        case urlRequestError
-        case urlSessionError
+    private enum GetProfileImageError: Error {
+        case badRequest
+        case taskIssue
+        case smallImageIssue
     }
     
     private init() {}
     
     //MARK: Public Functions
     func fetchProfileImage(token: String, username: String, handler: @escaping (Result<String, Error>) -> Void) {
-        let handlerOnMainThread: (Result<String, Error>) -> Void = { result in
-            DispatchQueue.main.async {
-                handler(result)
-            }
-        }
         
         if lastToken != lastToken {
-            handlerOnMainThread(.failure(NetworkError.urlSessionError))
+            handler(.failure(GetProfileImageError.taskIssue))
             return
         }
         
@@ -42,44 +37,71 @@ final class ProfileImageService {
         
         guard let request = makeProfileImageRequest(token: token, username: username)
         else {
-            handlerOnMainThread(.failure(NetworkError.urlRequestError))
+            handler(.failure(GetProfileImageError.badRequest))
             return
         }
         
-        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-            if let error = error {
-                handlerOnMainThread(.failure(NetworkError.urlRequestError))
-                print(error.localizedDescription)
-                return
-            }
+//        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
+//            if let error = error {
+//                handlerOnMainThread(.failure(NetworkError.urlRequestError))
+//                print(error.localizedDescription)
+//                return
+//            }
+//            
+//            if let response = response as? HTTPURLResponse,
+//               response.statusCode < 200 || response.statusCode >= 300 {
+//                handlerOnMainThread(.failure(NetworkError.codeError(response.statusCode)))
+//                print(response.statusCode)
+//                return
+//            }
+//            
+//            guard let data = data
+//            else {
+//                handlerOnMainThread(.failure(NetworkError.urlSessionError))
+//                print(NetworkError.urlSessionError.localizedDescription)
+//                return
+//            }
+//            
+//            do {
+//                let decoder = JSONDecoder()
+//                decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                
+//                let decodedData = try decoder.decode(UserResult.self, from: data)
+//                
+//                guard let smallImageURL = decodedData.profileImage["small"]
+//                else {
+//                    print("ERROR getting small image")
+//                    return
+//                }
+//                
+//                handlerOnMainThread(.success(smallImageURL))
+//                self?.profileImageURL = smallImageURL
+//                
+//                NotificationCenter.default
+//                    .post(
+//                        name: ProfileImageService.didChangeNotification,
+//                        object: self,
+//                        userInfo: ["url": smallImageURL]
+//                    )
+//            } catch {
+//                handlerOnMainThread(.failure(error))
+//                print(error.localizedDescription)
+//            }
+//            
+//            self?.lastToken = nil
+//            self?.task = nil
+//        }
+        let task = getData.decodeData(request: request) { [weak self] (result: Result<UserResult, Error>) in
             
-            if let response = response as? HTTPURLResponse,
-               response.statusCode < 200 || response.statusCode >= 300 {
-                handlerOnMainThread(.failure(NetworkError.codeError(response.statusCode)))
-                print(response.statusCode)
-                return
-            }
-            
-            guard let data = data
-            else {
-                handlerOnMainThread(.failure(NetworkError.urlSessionError))
-                print(NetworkError.urlSessionError.localizedDescription)
-                return
-            }
-            
-            do {
-                let decoder = JSONDecoder()
-                decoder.keyDecodingStrategy = .convertFromSnakeCase
-                
-                let decodedData = try decoder.decode(UserResult.self, from: data)
-                
+            switch result {
+            case .success(let decodedData):
                 guard let smallImageURL = decodedData.profileImage["small"]
                 else {
-                    print("ERROR getting small image")
+                    print("ERROR Get small image: \(GetProfileImageError.smallImageIssue), Decoded data: \(decodedData)")
                     return
                 }
                 
-                handlerOnMainThread(.success(smallImageURL))
+                handler(.success(smallImageURL))
                 self?.profileImageURL = smallImageURL
                 
                 NotificationCenter.default
@@ -88,9 +110,10 @@ final class ProfileImageService {
                         object: self,
                         userInfo: ["url": smallImageURL]
                     )
-            } catch {
-                handlerOnMainThread(.failure(error))
-                print(error.localizedDescription)
+                
+            case .failure(let error):
+                handler(.failure(error))
+                print("ERROR Get Decoded Data: \(error.localizedDescription))")
             }
             
             self?.lastToken = nil

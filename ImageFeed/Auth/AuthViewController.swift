@@ -39,8 +39,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             guard let self = self else { return }
         
             switch result {
-            case .success(let data):
-                OAuth2TokenStorage().token = data
+            case .success(_):
                 self.delegate?.didAuthenticate(self)
             case .failure(let error):
                 print(error.localizedDescription)

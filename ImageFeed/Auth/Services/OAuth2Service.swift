@@ -9,12 +9,69 @@ import UIKit
 
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private let networkClient = NetworkClient.shared
+    private let getData = NetworkClientAndDecode.shared
+    
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
+    private enum LoadTokenError: Error {
+        case badRequest
+        case taskIssue
+    }
     
     private init() {}
     
-    enum RequestError: Error {
-        case badRequest
+    func loadToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
+        
+        assert(Thread.isMainThread)
+        guard lastCode != code else {
+            handler(.failure(LoadTokenError.taskIssue))
+            return
+        }
+        
+        task?.cancel()
+        lastCode = code
+        
+        guard let request = makeTokenRequestOAuth(code: code)
+        else {
+            handler(.failure(LoadTokenError.badRequest))
+            print("ERROR URL Request: \(LoadTokenError.badRequest))")
+            return
+        }
+//        networkClient.fetchOAuthToken(code: code, urlRequest: request) { result in
+//            switch result {
+//            case .success(let data):
+//                do {
+//                    let decoder = JSONDecoder()
+//                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+//                    
+//                    let tokenDecoded = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+//                    handler(.success(tokenDecoded.accessToken))
+//                } catch {
+//                    handler(.failure(error))
+//                    print(error.localizedDescription)
+//                }
+//            case .failure(let error):
+//                handler(.failure(error))
+//                print(error.localizedDescription)
+//            }
+//        }
+        
+        let task = getData.decodeData(request: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            switch result {
+            case .success(let tokenDecoded):
+                OAuth2TokenStorage().token = tokenDecoded.accessToken
+                handler(.success(tokenDecoded.accessToken))
+            case .failure(let error):
+                handler(.failure(error))
+            }
+            
+            self?.lastCode = nil
+            self?.task = nil
+        }
+        
+        self.task = task
+        task.resume()
     }
     
     private func makeTokenRequestOAuth(code: String) -> URLRequest? {
@@ -41,32 +98,5 @@ final class OAuth2Service {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         return request
-    }
-    
-    func loadToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
-        guard let request = makeTokenRequestOAuth(code: code)
-        else {
-            handler(.failure(RequestError.badRequest))
-            return
-        }
-        
-        networkClient.fetchOAuthToken(code: code, urlRequest: request) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    
-                    let tokenDecoded = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-                    handler(.success(tokenDecoded.accessToken))
-                } catch {
-                    handler(.failure(error))
-                    print(error.localizedDescription)
-                }
-            case .failure(let error):
-                handler(.failure(error))
-                print(error.localizedDescription)
-            }
-        }
     }
 }

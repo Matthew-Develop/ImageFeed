@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct UserResult: Codable {
+struct UserResult: Decodable {
     let profileImage: [String: String]
 }
 
