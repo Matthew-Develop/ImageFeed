@@ -42,45 +42,6 @@ final class ProfileService {
             return
         }
         
-//        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-//            if let error = error {
-//                handlerOnMainThread(.failure(NetworkError.urlRequestError))
-//                print(error.localizedDescription)
-//                return
-//            }
-//            
-//            if let response = response as? HTTPURLResponse,
-//               response.statusCode < 200 || response.statusCode >= 300 {
-//                handlerOnMainThread(.failure(NetworkError.codeError(response.statusCode)))
-//                print(NetworkError.codeError(response.statusCode).localizedDescription)
-//                return
-//            }
-//            
-//            guard let data = data
-//            else {
-//                handlerOnMainThread(.failure(NetworkError.urlSessionError))
-//                print(NetworkError.urlSessionError.localizedDescription)
-//                return
-//            }
-//            
-//            do {
-//                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                            
-//                let decodedData = try decoder.decode(ProfileResult.self, from: data)
-//                
-//                print(decodedData)
-//                
-//                v
-//            } catch {
-//                handlerOnMainThread(.failure(error))
-//                print(error.localizedDescription)
-//            }
-//            
-//            self?.task = nil
-//            self?.lastToken = nil
-//        }
-        
         let task = getData.decodeData(request: request) { [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let decodedData):

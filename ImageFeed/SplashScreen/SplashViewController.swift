@@ -12,6 +12,7 @@ final class SplashViewController: UIViewController {
     private let showAuthFlowSegueIdentifier = "ShowAuthFlow"
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
+    private let authTokenService = AuthTokenService.shared
     
     // MARK: - Overrides Methods
     override func viewDidLoad() {
@@ -26,7 +27,12 @@ final class SplashViewController: UIViewController {
     }
     // MARK: - Private Methods
     private func checkToken() -> String {
-        return OAuth2TokenStorage().token
+        guard let token = authTokenService.getToken() else {
+            print("ERROR Getting token")
+            return ""
+        }
+        print(token)
+        return token
     }
     
     private func showNextController() {

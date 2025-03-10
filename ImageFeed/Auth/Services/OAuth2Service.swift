@@ -10,6 +10,7 @@ import UIKit
 final class OAuth2Service {
     static let shared = OAuth2Service()
     private let getData = NetworkClientAndDecode.shared
+    private let authTokenService = AuthTokenService.shared
     
     private var task: URLSessionTask?
     private var lastCode: String?
@@ -38,29 +39,11 @@ final class OAuth2Service {
             print("ERROR URL Request: \(LoadTokenError.badRequest))")
             return
         }
-//        networkClient.fetchOAuthToken(code: code, urlRequest: request) { result in
-//            switch result {
-//            case .success(let data):
-//                do {
-//                    let decoder = JSONDecoder()
-//                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                    
-//                    let tokenDecoded = try decoder.decode(OAuthTokenResponseBody.self, from: data)
-//                    handler(.success(tokenDecoded.accessToken))
-//                } catch {
-//                    handler(.failure(error))
-//                    print(error.localizedDescription)
-//                }
-//            case .failure(let error):
-//                handler(.failure(error))
-//                print(error.localizedDescription)
-//            }
-//        }
         
         let task = getData.decodeData(request: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
             switch result {
             case .success(let tokenDecoded):
-                OAuth2TokenStorage().token = tokenDecoded.accessToken
+                self?.authTokenService.saveToken(tokenDecoded.accessToken)
                 handler(.success(tokenDecoded.accessToken))
             case .failure(let error):
                 handler(.failure(error))

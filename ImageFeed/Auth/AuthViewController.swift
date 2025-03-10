@@ -9,14 +9,30 @@ import UIKit
 import ProgressHUD
 
 final class AuthViewController: UIViewController{
-    // MARK: - Public Properties
+    // MARK: Public Properties
     weak var delegate: AuthViewControllerDelegate?
     
-    // MARK: - Private Properties
+    // MARK: Private Properties
     private let showWebViewSegueIdentifier = "ShowWebView"
     private let oAuthService = OAuth2Service.shared
+    private var alertPresenter: AlertPresenter?
     
-    // MARK: - Private Methods
+    //MARK: Override Methods
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        alertPresenter = AlertPresenter(viewController: self, delegate: self)
+    }
+    
+    // MARK: Private Methods
+    private func showAuthAlertError(_ errorMessage: String) {
+        alertPresenter?.showAlert(
+            title: "Что-то пошло не так",
+            message: "Не удалось войти в систему: \(errorMessage)",
+            buttonTitle: "Ок") { [weak self] in
+                self?.dismissAlert()
+            }
+    }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
@@ -42,7 +58,9 @@ extension AuthViewController: WebViewViewControllerDelegate {
             case .success(_):
                 self.delegate?.didAuthenticate(self)
             case .failure(let error):
-                print(error.localizedDescription)
+                let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
+                print(errorMessage)
+                self.showAuthAlertError(String(errorMessage))
             }
             
             UIBlockingProgressHUD.dismiss()
@@ -52,4 +70,8 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
+}
+
+extension AuthViewController: AlertPresenterDelegate {
+    func dismissAlert() { }
 }

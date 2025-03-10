@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class ProfileViewController: UIViewController {
     
@@ -17,22 +18,27 @@ class ProfileViewController: UIViewController {
     
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
-    private let userToken = OAuth2TokenStorage().token
+    private let authTokenService = AuthTokenService.shared
     private var profileImageServiceObserver: NSObjectProtocol?
+    private var profileImageURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        profileImageServiceObserver = NotificationCenter.default
+        //TODO: Обработать / Проверить
+        NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.didChangeNotification,
                 object: nil,
                 queue: .main,
-                using: { [weak self] _ in
+                using: { [weak self] result in
                     guard let self = self else { return }
-                    self.updateProfileImage()
+                    self.updateProfileImage(profileImageService.profileImageURL)
+                    //пытался через userInfo передать string
+//                    let test = result.userInfo?["url"]
+//                    self.profileImageURL = URL(string: test as! String)
                 })
-        updateProfileImage()
+        updateProfileImage(profileImageService.profileImageURL)
         
         getProfileData(profile: profileService.profile)
         
@@ -56,12 +62,18 @@ class ProfileViewController: UIViewController {
         profileBio.text = profile.bio
     }
     
-    private func updateProfileImage() {
-        guard
-            let profileImageURL = profileImageService.profileImageURL,
-            let url = URL(string: profileImageURL)
-        else { return }
+    private func updateProfileImage(_ url: URL?) {
+        guard let url = url else { return }
         
+        if url.description.contains("placeholder") {
+            profileImage.image = UIImage(named: "placeholder_profile_image")
+        } else {
+            let processor = RoundCornerImageProcessor(cornerRadius: 35)
+            profileImage.kf.indicatorType = .activity
+            profileImage.kf.setImage(with: url,
+                                     placeholder: UIImage(named: "placeholder_profile_image"),
+                                     options: [.processor(processor)])
+        }
     }
     
     private func setupView() {
@@ -81,7 +93,8 @@ class ProfileViewController: UIViewController {
     
     private func addProfileImage() {
         profileImage.autoResizeOff()
-        profileImage.image = UIImage(named: "photo_profile")
+        profileImage.layer.cornerRadius = 35
+        profileImage.layer.masksToBounds = true
         view.addSubview(profileImage)
         NSLayoutConstraint.activate([
             profileImage.heightAnchor.constraint(equalToConstant: 70),
@@ -157,6 +170,6 @@ class ProfileViewController: UIViewController {
     
     @objc
     private func exitButton() {
-        UserDefaults.standard.removeObject(forKey: Constants.accessToken)
+        authTokenService.removeToken()
     }
 }

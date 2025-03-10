@@ -12,7 +12,7 @@ final class ProfileImageService {
     static let didChangeNotification = Notification.Name(rawValue: "ProfileImageProviderDidChange")
     
     private var getData = NetworkClientAndDecode.shared
-    private(set) var profileImageURL: String?
+    private(set) var profileImageURL: URL?
     private var task: URLSessionTask?
     private var lastToken: String?
     
@@ -25,7 +25,7 @@ final class ProfileImageService {
     private init() {}
     
     //MARK: Public Functions
-    func fetchProfileImage(token: String, username: String, handler: @escaping (Result<String, Error>) -> Void) {
+    func fetchProfileImage(token: String, username: String, handler: @escaping (Result<URL, Error>) -> Void) {
         
         if lastToken != lastToken {
             handler(.failure(GetProfileImageError.taskIssue))
@@ -41,74 +41,29 @@ final class ProfileImageService {
             return
         }
         
-//        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
-//            if let error = error {
-//                handlerOnMainThread(.failure(NetworkError.urlRequestError))
-//                print(error.localizedDescription)
-//                return
-//            }
-//            
-//            if let response = response as? HTTPURLResponse,
-//               response.statusCode < 200 || response.statusCode >= 300 {
-//                handlerOnMainThread(.failure(NetworkError.codeError(response.statusCode)))
-//                print(response.statusCode)
-//                return
-//            }
-//            
-//            guard let data = data
-//            else {
-//                handlerOnMainThread(.failure(NetworkError.urlSessionError))
-//                print(NetworkError.urlSessionError.localizedDescription)
-//                return
-//            }
-//            
-//            do {
-//                let decoder = JSONDecoder()
-//                decoder.keyDecodingStrategy = .convertFromSnakeCase
-//                
-//                let decodedData = try decoder.decode(UserResult.self, from: data)
-//                
-//                guard let smallImageURL = decodedData.profileImage["small"]
-//                else {
-//                    print("ERROR getting small image")
-//                    return
-//                }
-//                
-//                handlerOnMainThread(.success(smallImageURL))
-//                self?.profileImageURL = smallImageURL
-//                
-//                NotificationCenter.default
-//                    .post(
-//                        name: ProfileImageService.didChangeNotification,
-//                        object: self,
-//                        userInfo: ["url": smallImageURL]
-//                    )
-//            } catch {
-//                handlerOnMainThread(.failure(error))
-//                print(error.localizedDescription)
-//            }
-//            
-//            self?.lastToken = nil
-//            self?.task = nil
-//        }
         let task = getData.decodeData(request: request) { [weak self] (result: Result<UserResult, Error>) in
             
             switch result {
             case .success(let decodedData):
-                guard let smallImageURL = decodedData.profileImage["small"]
+                guard let mediumImage = decodedData.profileImage["medium"]
                 else {
-                    print("ERROR Get small image: \(GetProfileImageError.smallImageIssue), Decoded data: \(decodedData)")
+                    print("ERROR Get medium image: \(GetProfileImageError.smallImageIssue), Decoded data: \(decodedData)")
                     return
                 }
                 
-                handler(.success(smallImageURL))
-                self?.profileImageURL = smallImageURL
+                guard let url = URL(string: mediumImage) else {
+                    print("ERROR Get URL medium image: \(GetProfileImageError.smallImageIssue), Image string: \(mediumImage)")
+                    return
+                }
+                handler(.success(url))
+                print(url)
+                self?.profileImageURL = url
                 
                 NotificationCenter.default
                     .post(
                         name: ProfileImageService.didChangeNotification,
                         object: self,
-                        userInfo: ["url": smallImageURL]
+                        userInfo: ["url": url]
                     )
                 
             case .failure(let error):

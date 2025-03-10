@@ -9,17 +9,17 @@ import UIKit
 @preconcurrency import WebKit
 
 final class WebViewViewController: UIViewController {
-    // MARK: IB Outlets
+    //MARK: IB Outlets
     @IBOutlet private var webView: WKWebView!
     @IBOutlet private var progressView: UIProgressView!
     
-    // MARK: Public Properties
+    //MARK: Public Properties
     weak var delegate: WebViewViewControllerDelegate?
     
     //MARK: Private Properties
     private var estimatedProgressObservation: NSKeyValueObservation?
 
-    // MARK: Overrides Methods
+    //MARK: Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         progressView.progress = 0
@@ -37,42 +37,15 @@ final class WebViewViewController: UIViewController {
         webView.navigationDelegate = self
     }
     
-//    override func viewDidAppear(_ animated: Bool) {
-//        webView.addObserver(
-//            self,
-//            forKeyPath: #keyPath(WKWebView.estimatedProgress),
-//            options: .new,
-//            context: nil)
-//    }
-//    
-//    override func viewWillDisappear(_ animated: Bool) {
-//        webView.removeObserver(
-//            self,
-//            forKeyPath: #keyPath(WKWebView.estimatedProgress))
-//    }
-//    
-//    override func observeValue(
-//        forKeyPath keyPath: String?,
-//        of object: Any?,
-//        change: [NSKeyValueChangeKey : Any]?,
-//        context: UnsafeMutableRawPointer?)
-//    {
-//        if keyPath == #keyPath(WKWebView.estimatedProgress) {
-//            updateProgress()
-//        } else {
-//            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-//        }
-//    }
-    
-    // MARK: - IB Actions
+    // MARK: IB Actions
     @IBAction func didTapBackAuthButton(_ sender: Any) {
         self.delegate?.webViewControllerDidCancel(self)
     }
 
-    // MARK: - Private Methods
+    // MARK: Private Methods
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
-            print("ERROR creating URLComponents")
+            print("ERROR Creating URL Components for WebView")
             return }
         
         urlComponents.queryItems = [
@@ -83,7 +56,7 @@ final class WebViewViewController: UIViewController {
         ]
         
         guard let url = urlComponents.url else {
-            print("ERROR creating URL from URLComponents")
+            print("ERROR creating URL from URLComponents WebView")
             return }
         
         let request = URLRequest(url: url)
