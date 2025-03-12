@@ -28,6 +28,6 @@ final class AuthTokenService {
     }
     
     func removeToken() {
-        let removeSuccess: Bool = KeychainWrapper.standard.removeObject(forKey: "token")
+        let _: Bool = KeychainWrapper.standard.removeObject(forKey: "token")
     }
 }

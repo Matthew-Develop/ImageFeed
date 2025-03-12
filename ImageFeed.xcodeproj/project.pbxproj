@@ -17,6 +17,7 @@
 		344F93F62D75EF2C00775845 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344F93F52D75EF2C00775845 /* ProfileService.swift */; };
 		344F93F82D75EF6300775845 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344F93F72D75EF6300775845 /* ProfileResult.swift */; };
 		344F93FA2D75EF8200775845 /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344F93F92D75EF8200775845 /* Profile.swift */; };
+		3457DA752D8163D400AE4656 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3457DA742D8163D400AE4656 /* TabBarController.swift */; };
 		345A7F372D7EF8AE002FE876 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 345A7F362D7EF8AE002FE876 /* Kingfisher */; };
 		345A7F3A2D7F0B30002FE876 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 345A7F392D7F0B30002FE876 /* SwiftKeychainWrapper */; };
 		345A7F3C2D7F0B61002FE876 /* AuthTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A7F3B2D7F0B61002FE876 /* AuthTokenService.swift */; };
@@ -53,6 +54,7 @@
 		344F93F52D75EF2C00775845 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		344F93F72D75EF6300775845 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
 		344F93F92D75EF8200775845 /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		3457DA742D8163D400AE4656 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		345A7F3B2D7F0B61002FE876 /* AuthTokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenService.swift; sourceTree = "<group>"; };
 		347A98222D52299500FC28A6 /* ExtensionsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUIView.swift; sourceTree = "<group>"; };
 		34A8F3092D649F9F0051C20A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -132,6 +134,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		3457DA732D8163BE00AE4656 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				3457DA742D8163D400AE4656 /* TabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		347A98212D52297400FC28A6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +197,7 @@
 		9F05679F2D44FDC100D3244E /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
+				3457DA732D8163BE00AE4656 /* TabBar */,
 				34A8F3082D649F870051C20A /* SplashScreen */,
 				34F9F4FC2D5F513300BE4CE9 /* Auth */,
 				9F780B502D4BB81E0071B2E2 /* Profile */,
@@ -356,6 +367,7 @@
 				344F93FA2D75EF8200775845 /* Profile.swift in Sources */,
 				34F9F4FB2D5F3F9700BE4CE9 /* Constants.swift in Sources */,
 				345A7F3C2D7F0B61002FE876 /* AuthTokenService.swift in Sources */,
+				3457DA752D8163D400AE4656 /* TabBarController.swift in Sources */,
 				344460F92D622D30007C18ED /* OAuthTokenResponseBody.swift in Sources */,
 				34296D422D7AE0C80088B170 /* NetworkClient+Decode.swift in Sources */,
 			);
