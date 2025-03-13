@@ -10,11 +10,11 @@ import Kingfisher
 
 class ProfileViewController: UIViewController {
     
-    var profileImage = UIImageView()
-    var profileName = UILabel()
-    var profileLoginName = UILabel()
-    var profileBio = UILabel()
-    var vStack = UIStackView(arrangedSubviews: [])
+    private var profileImage = UIImageView()
+    private var profileName = UILabel()
+    private var profileLoginName = UILabel()
+    private var profileBio = UILabel()
+    private var vStack = UIStackView(arrangedSubviews: [])
     
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
@@ -26,18 +26,18 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         
         //TODO: Обработать / Проверить
-        NotificationCenter.default
+        profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.didChangeNotification,
                 object: nil,
-                queue: .main,
-                using: { [weak self] result in
+                queue: .main) { [weak self] (result) in
                     guard let self = self else { return }
+                    // почему-то не удается принять "url" из ProfileImageService((
+//                    profileImageURL = result.userInfo?["url"] as? URL
+//                    self.updateProfileImage(profileImageURL)
+//                    print(profileImageURL)
                     self.updateProfileImage(profileImageService.profileImageURL)
-                    //пытался через userInfo передать string
-//                    let test = result.userInfo?["url"]
-//                    self.profileImageURL = URL(string: test as! String)
-                })
+                }
         updateProfileImage(profileImageService.profileImageURL)
         
         getProfileData(profile: profileService.profile)
@@ -48,32 +48,6 @@ class ProfileViewController: UIViewController {
         addUserInfo()
         addExitButton()
         addFavoriteImages()
-    }
-    
-    private func getProfileData(profile: Profile?) {
-        guard let profile = profile
-        else {
-            assertionFailure("ERROR getting profile data")
-            return
-        }
-        
-        profileName.text = profile.name
-        profileLoginName.text = profile.loginName
-        profileBio.text = profile.bio
-    }
-    
-    private func updateProfileImage(_ url: URL?) {
-        guard let url = url else { return }
-        
-        if url.description.contains("placeholder") {
-            profileImage.image = UIImage(named: "placeholder_profile_image")
-        } else {
-            let processor = RoundCornerImageProcessor(cornerRadius: 35)
-            profileImage.kf.indicatorType = .activity
-            profileImage.kf.setImage(with: url,
-                                     placeholder: UIImage(named: "placeholder_profile_image"),
-                                     options: [.processor(processor)])
-        }
     }
     
     private func setupView() {
@@ -104,7 +78,6 @@ class ProfileViewController: UIViewController {
             profileImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
     }
-    
     
     private func addUserInfo() {
         vStack.addArrangedSubview(profileName)
@@ -166,6 +139,32 @@ class ProfileViewController: UIViewController {
             emptyFavoriteImage.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 110),
             emptyFavoriteImage.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
+    }
+    
+    private func getProfileData(profile: Profile?) {
+        guard let profile = profile
+        else {
+            assertionFailure("ERROR getting profile data")
+            return
+        }
+        
+        profileName.text = profile.name
+        profileLoginName.text = profile.loginName
+        profileBio.text = profile.bio
+    }
+    
+    private func updateProfileImage(_ url: URL?) {
+        guard let url = url else { return }
+        
+        if url.description.contains("placeholder") {
+            profileImage.image = UIImage(named: "placeholder_profile_image")
+        } else {
+            let processor = RoundCornerImageProcessor(cornerRadius: 35)
+            profileImage.kf.indicatorType = .activity
+            profileImage.kf.setImage(with: url,
+                                     placeholder: UIImage(named: "placeholder_profile_image"),
+                                     options: [.processor(processor)])
+        }
     }
     
     @objc

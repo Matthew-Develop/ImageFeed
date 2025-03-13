@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="8fe-tu-EtP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_3" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -206,7 +206,7 @@
         <!--Auth View Controller-->
         <scene sceneID="dKd-7O-E7c">
             <objects>
-                <viewController id="NN4-Wi-8Y5" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthViewController" id="NN4-Wi-8Y5" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="1LE-NQ-isS">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -335,46 +335,13 @@
             </objects>
             <point key="canvasLocation" x="-685" y="78"/>
         </scene>
-        <!--Splash View Controller-->
-        <scene sceneID="CF3-9f-wkc">
-            <objects>
-                <viewController keyboardType="off" id="8fe-tu-EtP" customClass="SplashViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="TEl-ax-FdI">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launchScreenLogo" translatesAutoresizingMaskIntoConstraints="NO" id="QA9-Yz-iGO">
-                                <rect key="frame" x="163.66666666666666" y="398.66666666666669" width="75" height="76.666666666666686"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="76.670000000000002" id="7Hm-iR-nOa"/>
-                                    <constraint firstAttribute="width" constant="75" id="Tuj-6f-EWD"/>
-                                </constraints>
-                            </imageView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="2pe-Wb-cUb"/>
-                        <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstItem="QA9-Yz-iGO" firstAttribute="centerY" secondItem="TEl-ax-FdI" secondAttribute="centerY" id="Ln5-ul-4aZ"/>
-                            <constraint firstItem="QA9-Yz-iGO" firstAttribute="centerX" secondItem="TEl-ax-FdI" secondAttribute="centerX" id="Z5o-qF-Yao"/>
-                        </constraints>
-                    </view>
-                    <nil key="simulatedTopBarMetrics"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <segue destination="AIG-uc-8Eo" kind="presentation" identifier="ShowAuthFlow" modalPresentationStyle="fullScreen" id="ubG-ac-15I"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JQV-gr-T1B" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1888.0597014925372" y="-512.12814645308924"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="UBq-LZ-u3K">
             <objects>
                 <navigationController storyboardIdentifier="AuthView" automaticallyAdjustsScrollViewInsets="NO" id="AIG-uc-8Eo" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="K8e-U3-wGV">
-                        <rect key="frame" x="0.0" y="0.0" width="402" height="44"/>
+                        <rect key="frame" x="0.0" y="62" width="402" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -392,7 +359,6 @@
         <image name="12" width="1280" height="945"/>
         <image name="active" width="168" height="168"/>
         <image name="back_fromSingleImage_button" width="96" height="96"/>
-        <image name="launchScreenLogo" width="300" height="311"/>
         <image name="like_button_singleImage" width="204" height="204"/>
         <image name="logo_unsplash" width="240" height="240"/>
         <image name="nav_back_button" width="96" height="96"/>

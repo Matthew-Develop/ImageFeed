@@ -13,8 +13,6 @@ final class ProfileImageService {
     
     private var getData = NetworkClientAndDecode.shared
     private(set) var profileImageURL: URL?
-    private var task: URLSessionTask?
-    private var lastToken: String?
     
     private enum GetProfileImageError: Error {
         case badRequest
@@ -26,14 +24,6 @@ final class ProfileImageService {
     
     //MARK: Public Functions
     func fetchProfileImage(token: String, username: String, handler: @escaping (Result<URL, Error>) -> Void) {
-        
-        if lastToken != lastToken {
-            handler(.failure(GetProfileImageError.taskIssue))
-            return
-        }
-        
-        task?.cancel()
-        lastToken = token
         
         guard let request = makeProfileImageRequest(token: token, username: username)
         else {
@@ -51,12 +41,12 @@ final class ProfileImageService {
                     return
                 }
                 
-                guard let url = URL(string: mediumImage) else {
+                guard let url = URL(string: mediumImage)
+                else {
                     print("ERROR Get URL medium image: \(GetProfileImageError.smallImageIssue), Image string: \(mediumImage)")
                     return
                 }
-                handler(.success(url))
-                print(url)
+                
                 self?.profileImageURL = url
                 
                 NotificationCenter.default
@@ -66,16 +56,14 @@ final class ProfileImageService {
                         userInfo: ["url": url]
                     )
                 
+                handler(.success(url))
+                
             case .failure(let error):
                 handler(.failure(error))
                 print("ERROR Get Decoded Data: \(error.localizedDescription))")
             }
-            
-            self?.lastToken = nil
-            self?.task = nil
         }
         
-        self.task = task
         task.resume()
     }
     
@@ -86,7 +74,7 @@ final class ProfileImageService {
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
-        print(request)
+
         return request
     }
 }

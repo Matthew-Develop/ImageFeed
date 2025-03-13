@@ -10,9 +10,7 @@
 		34072DBD2D7B38E600EA022A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34072DBC2D7B38E600EA022A /* AlertPresenter.swift */; };
 		34296D422D7AE0C80088B170 /* NetworkClient+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34296D412D7AE0C80088B170 /* NetworkClient+Decode.swift */; };
 		344460EC2D621892007C18ED /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344460EB2D621892007C18ED /* OAuth2Service.swift */; };
-		344460F62D6224DB007C18ED /* OLDNetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344460F52D6224DB007C18ED /* OLDNetworkClient.swift */; };
 		344460F92D622D30007C18ED /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344460F82D622D30007C18ED /* OAuthTokenResponseBody.swift */; };
-		344460FB2D622FE3007C18ED /* OLDOAuth2TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344460FA2D622FE3007C18ED /* OLDOAuth2TokenStorage.swift */; };
 		344F93F32D75DEC300775845 /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344F93F22D75DEC300775845 /* UIBlockingProgressHUD.swift */; };
 		344F93F62D75EF2C00775845 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344F93F52D75EF2C00775845 /* ProfileService.swift */; };
 		344F93F82D75EF6300775845 /* ProfileResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344F93F72D75EF6300775845 /* ProfileResult.swift */; };
@@ -47,9 +45,7 @@
 		34072DBC2D7B38E600EA022A /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		34296D412D7AE0C80088B170 /* NetworkClient+Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkClient+Decode.swift"; sourceTree = "<group>"; };
 		344460EB2D621892007C18ED /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
-		344460F52D6224DB007C18ED /* OLDNetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLDNetworkClient.swift; sourceTree = "<group>"; };
 		344460F82D622D30007C18ED /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
-		344460FA2D622FE3007C18ED /* OLDOAuth2TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLDOAuth2TokenStorage.swift; sourceTree = "<group>"; };
 		344F93F22D75DEC300775845 /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		344F93F52D75EF2C00775845 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		344F93F72D75EF6300775845 /* ProfileResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileResult.swift; sourceTree = "<group>"; };
@@ -99,6 +95,7 @@
 				34296D412D7AE0C80088B170 /* NetworkClient+Decode.swift */,
 				34072DBC2D7B38E600EA022A /* AlertPresenter.swift */,
 				345A7F3B2D7F0B61002FE876 /* AuthTokenService.swift */,
+				344F93F22D75DEC300775845 /* UIBlockingProgressHUD.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -107,9 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				344460EB2D621892007C18ED /* OAuth2Service.swift */,
-				344460FA2D622FE3007C18ED /* OLDOAuth2TokenStorage.swift */,
-				344F93F22D75DEC300775845 /* UIBlockingProgressHUD.swift */,
-				344460F52D6224DB007C18ED /* OLDNetworkClient.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -361,8 +355,6 @@
 				9F4D54EF2D48F76C00EA6C93 /* GradientView.swift in Sources */,
 				9F0567A12D44FDC100D3244E /* SceneDelegate.swift in Sources */,
 				34BE2F6A2D7727FA0072E3BE /* UserResult.swift in Sources */,
-				344460F62D6224DB007C18ED /* OLDNetworkClient.swift in Sources */,
-				344460FB2D622FE3007C18ED /* OLDOAuth2TokenStorage.swift in Sources */,
 				9F0567A22D44FDC100D3244E /* ImagesListViewController.swift in Sources */,
 				344F93FA2D75EF8200775845 /* Profile.swift in Sources */,
 				34F9F4FB2D5F3F9700BE4CE9 /* Constants.swift in Sources */,

@@ -12,8 +12,6 @@ final class ProfileService {
     
     private let getData = NetworkClientAndDecode.shared
     private(set) var profile: Profile?
-    private var task: URLSessionTask?
-    private var lastToken: String?
     
     private enum GetProfileError: Error {
         case badRequest
@@ -25,16 +23,6 @@ final class ProfileService {
     
     //MARK: Public Functions
     func fetchProfile(token: String, handler: @escaping (Result<Profile, Error>)-> Void) {
-        
-        assert(Thread.isMainThread)
-        guard lastToken != token
-        else {
-            handler(.failure(GetProfileError.taskIssue))
-            return
-        }
-        
-        task?.cancel()
-        lastToken = token
         
         guard let request = makeProfileDataRequest(token: token)
         else {
@@ -56,12 +44,8 @@ final class ProfileService {
             case .failure(let error):
                 handler(.failure(error))
             }
-            
-            self?.lastToken = nil
-            self?.task = nil
         }
         
-        self.task = task
         task.resume()
     }
     
@@ -71,7 +55,7 @@ final class ProfileService {
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
-        print(request)
+        
         return request
     }
     
