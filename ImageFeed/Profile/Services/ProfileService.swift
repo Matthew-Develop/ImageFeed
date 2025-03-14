@@ -51,7 +51,8 @@ final class ProfileService {
     
     //MARK: Private Functions
     private func makeProfileDataRequest(token: String) -> URLRequest? {
-        var request = URLRequest(url: Constants.unsplashGetProfileDataURL)
+        guard let url = URL(string: Constants.unsplashGetProfileDataURLString) else { return nil }
+        var request = URLRequest(url: url)
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
@@ -60,11 +61,6 @@ final class ProfileService {
     }
     
     private func convertResponseToProfile(data: ProfileResult) -> Profile {
-        guard let bio = data.bio else {
-            return Profile(username: data.username, name: "\(data.firstName) \(data.lastName)")
-        }
-        let profile = Profile(username: data.username, name: "\(data.firstName) \(data.lastName)", bio: bio)
-        
-        return profile
+        Profile(username: data.username, name: "\(data.firstName) \(data.lastName)", bio: data.bio)
     }
 }

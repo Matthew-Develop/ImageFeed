@@ -22,8 +22,8 @@ final class TabBarController: UITabBarController {
             selectedImage: nil)
         
         
-        self.tabBar.tintColor = .ypWhite
-        self.viewControllers = [imagesListViewController, profileViewController]
+        tabBar.tintColor = .ypWhite
+        viewControllers = [imagesListViewController, profileViewController]
     }
 }
 

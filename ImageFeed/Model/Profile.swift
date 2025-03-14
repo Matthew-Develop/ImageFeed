@@ -5,7 +5,7 @@
 //  Created by Matthew on 03.03.2025.
 //
 
-import UIKit
+import Foundation
 
 struct Profile {
     let username: String
@@ -13,6 +13,6 @@ struct Profile {
     var loginName: String {
         return "@\(username)"
     }
-    var bio: String? = nil
+    var bio: String?
 }
 

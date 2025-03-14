@@ -5,7 +5,7 @@
 //  Created by Matthew on 16.02.2025.
 //
 
-import UIKit
+import Foundation
 
 struct OAuthTokenResponseBody: Decodable {
     let accessToken: String

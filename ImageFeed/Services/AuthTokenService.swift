@@ -11,11 +11,12 @@ import SwiftKeychainWrapper
 final class AuthTokenService {
     
     static let shared = AuthTokenService()
+    private let userTokenKey = Constants.userTokenKey
     
     private init() {}
     
     func saveToken(_ token: String) {
-        let isSuccess = KeychainWrapper.standard.set(token, forKey: "token")
+        let isSuccess = KeychainWrapper.standard.set(token, forKey: userTokenKey)
         guard isSuccess else {
             assertionFailure("ERROR: Failed to save auth token")
             return
@@ -23,11 +24,11 @@ final class AuthTokenService {
     }
     
     func getToken() -> String? {
-        let token: String? = KeychainWrapper.standard.string(forKey: "token")
+        let token: String? = KeychainWrapper.standard.string(forKey: userTokenKey)
         return token
     }
     
     func removeToken() {
-        let _: Bool = KeychainWrapper.standard.removeObject(forKey: "token")
+        _ = KeychainWrapper.standard.removeObject(forKey: userTokenKey)
     }
 }

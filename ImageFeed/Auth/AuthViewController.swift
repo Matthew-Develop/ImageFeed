@@ -52,18 +52,18 @@ extension AuthViewController: WebViewViewControllerDelegate {
         UIBlockingProgressHUD.show()
         
         oAuthService.loadToken(code: code) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+
             guard let self = self else { return }
         
             switch result {
-            case .success(_):
+            case .success:
                 self.delegate?.didAuthenticate(self)
             case .failure(let error):
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
                 print(errorMessage)
                 self.showAuthAlertError(String(errorMessage))
             }
-            
-            UIBlockingProgressHUD.dismiss()
         }
     }
     

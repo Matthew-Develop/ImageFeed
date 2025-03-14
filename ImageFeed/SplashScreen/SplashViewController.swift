@@ -37,6 +37,7 @@ final class SplashViewController: UIViewController {
     
     private func addYpImageLogo() {
         ypImageLogo.image = UIImage(named: "launchScreenLogo")
+        ypImageLogo.autoResizeOff()
         view.addSubview(ypImageLogo)
         NSLayoutConstraint.activate([
             ypImageLogo.heightAnchor.constraint(equalToConstant: 75),
@@ -53,7 +54,7 @@ final class SplashViewController: UIViewController {
         if isUserAuthorized(with: token) {
             fetchProfile(token)
         } else {
-            let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as! AuthViewController
+            guard let authViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else { return }
             
             authViewController.delegate = self
             authViewController.modalPresentationStyle = .fullScreen
@@ -82,25 +83,11 @@ final class SplashViewController: UIViewController {
     }
     
     private func isUserAuthorized(with token: String) -> Bool {
-        return token.isEmpty ? false : true
+        !token.isEmpty
     }
 }
 
 extension SplashViewController: AuthViewControllerDelegate {
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier ==  showAuthFlowSegueIdentifier {
-//            guard let navigationController = segue.destination as? UINavigationController,
-//                  let authVC = navigationController.viewControllers.first as? AuthViewController
-//            else {
-//                assertionFailure("Invalid segue destination")
-//                return
-//            }
-//            
-//            authVC.delegate = self
-//        } else {
-//            super.prepare(for: segue, sender: sender)
-//        }
-//    }
     func didAuthenticate(_ vc: AuthViewController) {
         let token = checkToken()
         vc.dismiss(animated: true)

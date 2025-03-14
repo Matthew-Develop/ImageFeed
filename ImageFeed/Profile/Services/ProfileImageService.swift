@@ -69,7 +69,7 @@ final class ProfileImageService {
     
     //MARK: Private Functions
     private func makeProfileImageRequest(token: String, username: String) -> URLRequest? {
-        let url = URL(string: "\(Constants.unsplashGetProfileImageURLString)\(username)")!
+        guard let url = URL(string: "\(Constants.unsplashGetProfileImageURLString)\(username)") else { return nil }
         var request = URLRequest(url: url)
         
         request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")

@@ -41,16 +41,18 @@ final class OAuth2Service {
         }
         
         let task = getData.decodeData(request: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            guard let self = self else { return }
+            
             switch result {
             case .success(let tokenDecoded):
-                self?.authTokenService.saveToken(tokenDecoded.accessToken)
+                self.authTokenService.saveToken(tokenDecoded.accessToken)
                 handler(.success(tokenDecoded.accessToken))
             case .failure(let error):
                 handler(.failure(error))
             }
             
-            self?.lastCode = nil
-            self?.task = nil
+            self.lastCode = nil
+            self.task = nil
         }
         
         self.task = task

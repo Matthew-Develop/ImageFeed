@@ -9,6 +9,12 @@ import Foundation
 
 final class NetworkClientAndDecode {
     static let shared = NetworkClientAndDecode()
+    
+    private var decoder: JSONDecoder {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        return decoder
+    }
 
     private init() {}
     
@@ -22,15 +28,14 @@ final class NetworkClientAndDecode {
         request: URLRequest,
         handler: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        let task = fetchData(request) { (result: Result<Data, Error >) in
+        let task = fetchData(request) { [weak self] (result: Result<Data, Error >) in
+            guard let self = self else { return }
             
             switch result {
             case .success(let data):
                 do {
-                    let decodedData = try decoder.decode(T.self, from: data)
+                    let decodedData = try self.decoder.decode(T.self, from: data)
                     handler(.success(decodedData))
                 } catch {
                     handler(.failure(error))
