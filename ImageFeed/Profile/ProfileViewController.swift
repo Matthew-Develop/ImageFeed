@@ -16,26 +16,21 @@ final class ProfileViewController: UIViewController {
     private var profileBio = UILabel()
     private var vStack = UIStackView(arrangedSubviews: [])
     
+    private var profileImageServiceObserver: NSObjectProtocol?
+    private var profileImageURL: URL?
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let authTokenService = AuthTokenService.shared
-    private var profileImageServiceObserver: NSObjectProtocol?
-    private var profileImageURL: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //TODO: Обработать / Проверить
         profileImageServiceObserver = NotificationCenter.default
             .addObserver(
                 forName: ProfileImageService.didChangeNotification,
                 object: nil,
                 queue: .main) { [weak self] (result) in
                     guard let self = self else { return }
-                    // почему-то не удается принять "url" из ProfileImageService((
-//                    profileImageURL = result.userInfo?["url"] as? URL
-//                    self.updateProfileImage(profileImageURL)
-//                    print(profileImageURL)
                     self.updateProfileImage(profileImageService.profileImageURL)
                 }
         updateProfileImage(profileImageService.profileImageURL)
@@ -43,15 +38,16 @@ final class ProfileViewController: UIViewController {
         getProfileData(profile: profileService.profile)
         
         setupView()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .ypBlack
+        
         setupUserInfo()
         addProfileImage()
         addUserInfo()
         addExitButton()
         addFavoriteImages()
-    }
-    
-    private func setupView() {
-        view.backgroundColor = .ypBlack
     }
     
     private func setupUserInfo() {

@@ -9,8 +9,8 @@ import UIKit
 
 final class GradientView: UIView {
     private let gradientLayer = CAGradientLayer()
-    private let firstColor = UIColor.ypBlack.withAlphaComponent(0.025).cgColor
-    private let secondColor = UIColor.ypBlack.withAlphaComponent(1).cgColor
+    private let firstColor = UIColor.ypBlack.withAlphaComponent(0.01).cgColor
+    private let secondColor = UIColor.ypBlack.withAlphaComponent(0.5).cgColor
     
     override init(frame: CGRect) {
         super.init(frame: frame)
