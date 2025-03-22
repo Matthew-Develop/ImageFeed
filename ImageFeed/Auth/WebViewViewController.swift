@@ -99,8 +99,9 @@ final class WebViewViewController: UIViewController {
             }
         }
     }
-    
-    
+}
+
+extension WebViewViewController {
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
             print("ERROR Creating URL Components for WebView")

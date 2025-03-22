@@ -45,7 +45,9 @@ final class SplashViewController: UIViewController {
             imageLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
-    
+}
+
+extension SplashViewController {
     private func showNextController() {
         let token = checkToken()
         
