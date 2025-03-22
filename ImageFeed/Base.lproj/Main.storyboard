@@ -17,42 +17,9 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="tdi-EU-PmF">
-                                <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
-                                <color key="backgroundColor" name="YP Black"/>
-                                <color key="sectionIndexBackgroundColor" name="YP White (Alpha 50)"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ImagesListCell" rowHeight="200" id="k1A-8g-ZYo" customClass="ImagesListCell" customModule="ImageFeed" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="50" width="402" height="200"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="k1A-8g-ZYo" id="wxU-Mf-VuX">
-                                            <rect key="frame" x="0.0" y="0.0" width="402" height="200"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <color key="backgroundColor" name="YP Black"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="eGY-l3-v4q"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="QQ9-2f-Ney"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="tdi-EU-PmF" secondAttribute="trailing" id="iTB-8M-Ze7"/>
-                            <constraint firstItem="tdi-EU-PmF" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="k8l-w8-9Uy"/>
-                            <constraint firstAttribute="bottom" secondItem="tdi-EU-PmF" secondAttribute="bottom" id="pBq-cT-aOn"/>
-                            <constraint firstItem="tdi-EU-PmF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xyD-bu-C1g"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Ob3-aR-lNQ"/>
-                    <connections>
-                        <outlet property="tableView" destination="tdi-EU-PmF" id="eq4-0K-F9A"/>
-                        <segue destination="Q7V-yW-4Ja" kind="presentation" identifier="ShowSingleImage" modalPresentationStyle="overFullScreen" id="QPw-Fb-Jbe"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -107,7 +74,6 @@
         <scene sceneID="lCe-uE-eGS">
             <objects>
                 <tabBarController storyboardIdentifier="TabBar" id="YJ0-X0-fRW" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="Vua-pX-fqn"/>
                     <tabBar key="tabBar" contentMode="scaleAspectFit" insetsLayoutMarginsFromSafeArea="NO" id="BCL-mt-zKw">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -131,9 +97,6 @@
         </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="YP White (Alpha 50)">
-            <color red="0.99607843137254903" green="1" blue="1" alpha="0.5" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

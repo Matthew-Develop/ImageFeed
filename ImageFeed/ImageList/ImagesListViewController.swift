@@ -9,12 +9,10 @@ import UIKit
 
 final class ImagesListViewController: UIViewController {
     
-    // MARK: - IB Outlets
-    @IBOutlet private var tableView: UITableView!
+    private var tableView = UITableView()
     
-    // MARK: - Private Properties
+    // MARK: Private Properties
     private let photosName: [String] = Array(0..<20).map{"\($0)"}
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -24,31 +22,37 @@ final class ImagesListViewController: UIViewController {
         return formatter
     }()
     
-    // MARK: - Overrides Methods
+    // MARK: Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-    
-        tableView.contentInset = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        
+        setupView()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showSingleImageSegueIdentifier {
-            guard
-                let viewController = segue.destination as? SingleImageViewController,
-                let indexPath = sender as? IndexPath
-            else {
-                assertionFailure("Invalid segue destination")
-                return
-            }
-            
-            let image = UIImage(named: photosName[indexPath.row])
-            viewController.image = image
-        } else {
-            super.prepare(for: segue, sender: sender)
-        }
+    //MARK: Private Methods
+    private func setupView() {
+        view.backgroundColor = .ypBlack
+        
+        addTableView()
     }
     
-    // MARK: - Private Methods
+    private func addTableView() {
+        tableView.autoResizeOff()
+        tableView.register(ImagesListCell.self, forCellReuseIdentifier: ImagesListCell.reuseIdentifier)
+        tableView.delegate = self
+        tableView.dataSource = self
+        
+        tableView.backgroundColor = .ypBlack
+        tableView.separatorColor = .clear
+        
+        view.addSubview(tableView)
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
 }
 
 extension ImagesListViewController {
@@ -88,7 +92,13 @@ extension ImagesListViewController: UITableViewDataSource {
 extension ImagesListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
+        guard let singleImageViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "SingleImageViewController") as? SingleImageViewController else { return }
+        
+        let image = UIImage(named: photosName[indexPath.row])
+        singleImageViewController.image = image
+        
+        singleImageViewController.modalPresentationStyle = .fullScreen
+        present(singleImageViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
