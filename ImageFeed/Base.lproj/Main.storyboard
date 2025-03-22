@@ -222,52 +222,9 @@
                     <view key="view" contentMode="scaleToFill" id="tp2-uI-aib">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mII-nR-wGV">
-                                <rect key="frame" x="0.0" y="62" width="402" height="812"/>
-                                <color key="backgroundColor" name="YP White"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eeP-yL-3bV">
-                                <rect key="frame" x="0.0" y="45" width="44" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="EZN-Td-Yjg"/>
-                                    <constraint firstAttribute="width" constant="44" id="SE0-Ry-V1i"/>
-                                </constraints>
-                                <color key="tintColor" name="YP Black"/>
-                                <inset key="imageEdgeInsets" minX="9" minY="10" maxX="11" maxY="10"/>
-                                <state key="normal" image="nav_back_button"/>
-                                <connections>
-                                    <action selector="didTapBackAuthButton:" destination="Ml2-kD-Tz8" eventType="touchUpInside" id="lUf-Aj-Z5w"/>
-                                </connections>
-                            </button>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.40000000000000002" translatesAutoresizingMaskIntoConstraints="NO" id="VOw-eL-rwc">
-                                <rect key="frame" x="0.0" y="89" width="402" height="4"/>
-                                <color key="progressTintColor" name="YP Black"/>
-                            </progressView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="w12-Nw-psI"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="eeP-yL-3bV" firstAttribute="leading" secondItem="tp2-uI-aib" secondAttribute="leading" id="1ko-1B-byu"/>
-                            <constraint firstItem="VOw-eL-rwc" firstAttribute="top" secondItem="eeP-yL-3bV" secondAttribute="bottom" id="Bgw-5g-D4K"/>
-                            <constraint firstAttribute="bottom" secondItem="mII-nR-wGV" secondAttribute="bottom" id="Czk-lH-901"/>
-                            <constraint firstItem="w12-Nw-psI" firstAttribute="trailing" secondItem="VOw-eL-rwc" secondAttribute="trailing" id="Djd-tZ-4XZ"/>
-                            <constraint firstItem="eeP-yL-3bV" firstAttribute="top" secondItem="tp2-uI-aib" secondAttribute="top" constant="45" id="OaW-DG-PHK"/>
-                            <constraint firstItem="VOw-eL-rwc" firstAttribute="leading" secondItem="w12-Nw-psI" secondAttribute="leading" id="T25-e6-rB3"/>
-                            <constraint firstItem="mII-nR-wGV" firstAttribute="top" secondItem="w12-Nw-psI" secondAttribute="top" id="bFR-UY-nlP"/>
-                            <constraint firstItem="mII-nR-wGV" firstAttribute="leading" secondItem="tp2-uI-aib" secondAttribute="leading" id="wk0-60-ufy"/>
-                            <constraint firstAttribute="trailing" secondItem="mII-nR-wGV" secondAttribute="trailing" id="zOt-WE-O04"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" style="editor" id="brg-Sf-9cu"/>
-                    <connections>
-                        <outlet property="progressView" destination="VOw-eL-rwc" id="diV-dw-oQ5"/>
-                        <outlet property="webView" destination="mII-nR-wGV" id="DZm-4n-RZc"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3dy-gX-gbw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -301,7 +258,6 @@
         <image name="active" width="168" height="168"/>
         <image name="back_fromSingleImage_button" width="96" height="96"/>
         <image name="like_button_singleImage" width="204" height="204"/>
-        <image name="nav_back_button" width="96" height="96"/>
         <image name="share_button_singleImage" width="204" height="204"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

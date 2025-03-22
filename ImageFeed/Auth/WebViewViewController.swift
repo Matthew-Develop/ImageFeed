@@ -9,9 +9,8 @@ import UIKit
 @preconcurrency import WebKit
 
 final class WebViewViewController: UIViewController {
-    //MARK: IB Outlets
-    @IBOutlet private var webView: WKWebView!
-    @IBOutlet private var progressView: UIProgressView!
+    private var webView = WKWebView()
+    private var progressView = UIProgressView()
     
     //MARK: Public Properties
     weak var delegate: WebViewViewControllerDelegate?
@@ -35,14 +34,73 @@ final class WebViewViewController: UIViewController {
         }
     
         webView.navigationDelegate = self
-    }
-    
-    // MARK: IB Actions
-    @IBAction func didTapBackAuthButton(_ sender: Any) {
-        self.delegate?.webViewControllerDidCancel(self)
+        
+        setupView()
     }
 
     // MARK: Private Methods
+    private func setupView() {
+        addWebView()
+        addProgressView()
+        addBackButton()
+    }
+    
+    private func addWebView() {
+        webView.autoResizeOff()
+        view.addSubview(webView)
+        NSLayoutConstraint.activate([
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 33)
+        ])
+    }
+    
+    private func addProgressView() {
+        progressView.tintColor = .ypBlack
+        progressView.trackTintColor = .ypWhiteAlpha50
+        
+        progressView.autoResizeOff()
+        view.addSubview(progressView)
+        NSLayoutConstraint.activate([
+            progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 33),
+            progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func addBackButton() {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(didBackButtonTapped), for: .touchUpInside)
+        button.setImage(UIImage(named: "nav_back_button"), for: .normal)
+        button.tintColor = .ypBlack
+        
+        button.autoResizeOff()
+        view.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 24),
+            button.widthAnchor.constraint(equalToConstant: 24),
+            
+            button.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 9),
+            button.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 9)
+        ])
+    }
+    
+    @objc private func didBackButtonTapped(_ sender: UIButton!) {
+        self.delegate?.webViewControllerDidCancel(self)
+        
+        UIView.animate(withDuration: 0.3) {
+            sender.alpha = 0.7
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 ) {
+            UIView.animate(withDuration: 0.3) {
+                sender.alpha = 1.0
+            }
+        }
+    }
+    
+    
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString) else {
             print("ERROR Creating URL Components for WebView")
