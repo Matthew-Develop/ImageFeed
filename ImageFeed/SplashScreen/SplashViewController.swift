@@ -8,9 +8,7 @@
 import UIKit
 
 final class SplashViewController: UIViewController {
-    // MARK: - Private Properties
-    private var ypImageLogo = UIImageView()
-    
+   
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let authTokenService = AuthTokenService.shared
@@ -20,7 +18,6 @@ final class SplashViewController: UIViewController {
         super.viewDidLoad()
         
         setupView()
-        addYpImageLogo()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -33,18 +30,19 @@ final class SplashViewController: UIViewController {
     // MARK: Private Methods
     private func setupView() {
         view.backgroundColor = .ypBlack
+        addYpImageLogo()
     }
     
     private func addYpImageLogo() {
-        ypImageLogo.image = UIImage(named: "launchScreenLogo")
-        ypImageLogo.autoResizeOff()
-        view.addSubview(ypImageLogo)
+        let imageLogo = UIImageView(image: UIImage(named: "launchScreenLogo"))
+        imageLogo.autoResizeOff()
+        view.addSubview(imageLogo)
         NSLayoutConstraint.activate([
-            ypImageLogo.heightAnchor.constraint(equalToConstant: 75),
-            ypImageLogo.widthAnchor.constraint(equalToConstant: 72),
+            imageLogo.heightAnchor.constraint(equalToConstant: 75),
+            imageLogo.widthAnchor.constraint(equalToConstant: 72),
             
-            ypImageLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            ypImageLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            imageLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
@@ -68,7 +66,8 @@ final class SplashViewController: UIViewController {
             return
         }
         
-        let tabBarController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBar")
+        let tabBarController = TabBarController()
+//        UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBar")
         
         window.rootViewController = tabBarController
     }

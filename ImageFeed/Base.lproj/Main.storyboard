@@ -108,9 +108,6 @@
                             <constraint firstItem="tdi-EU-PmF" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="xyD-bu-C1g"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="" image="tab_editorial_active" id="SFg-oA-iC9">
-                        <inset key="imageInsets" minX="45" minY="45" maxX="45" maxY="45"/>
-                    </tabBarItem>
                     <navigationItem key="navigationItem" id="Ob3-aR-lNQ"/>
                     <connections>
                         <outlet property="tableView" destination="tdi-EU-PmF" id="eq4-0K-F9A"/>
@@ -210,47 +207,9 @@
                     <view key="view" contentMode="scaleToFill" id="1LE-NQ-isS">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_unsplash" translatesAutoresizingMaskIntoConstraints="NO" id="4Vp-fb-0yF">
-                                <rect key="frame" x="171" y="280" width="60" height="60"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="OJs-xD-0GW"/>
-                                    <constraint firstAttribute="height" constant="60" id="ZBh-Qs-fOk"/>
-                                </constraints>
-                            </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nOU-ak-MDu">
-                                <rect key="frame" x="16" y="702" width="370" height="48"/>
-                                <color key="backgroundColor" name="YP White"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="sMx-Rl-Epi"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Войти">
-                                    <color key="titleColor" name="YP Black"/>
-                                </state>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="16"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
-                                </userDefinedRuntimeAttributes>
-                                <connections>
-                                    <segue destination="Ml2-kD-Tz8" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" modalTransitionStyle="coverVertical" id="Jn8-Ga-8qr"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="hwC-zj-TuI"/>
                         <color key="backgroundColor" name="YP Black"/>
-                        <constraints>
-                            <constraint firstItem="4Vp-fb-0yF" firstAttribute="centerX" secondItem="1LE-NQ-isS" secondAttribute="centerX" id="2PK-NU-JNv"/>
-                            <constraint firstItem="nOU-ak-MDu" firstAttribute="leading" secondItem="1LE-NQ-isS" secondAttribute="leading" constant="16" id="3iz-UQ-UAy"/>
-                            <constraint firstAttribute="bottom" secondItem="nOU-ak-MDu" secondAttribute="bottom" constant="124" id="9mA-8f-axK"/>
-                            <constraint firstItem="4Vp-fb-0yF" firstAttribute="top" secondItem="1LE-NQ-isS" secondAttribute="top" constant="280" id="cth-fJ-3wd"/>
-                            <constraint firstAttribute="trailing" secondItem="nOU-ak-MDu" secondAttribute="trailing" constant="16" id="wMf-23-nbV"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" largeTitleDisplayMode="never" style="editor" id="i50-5t-F5g"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EJq-4w-V4m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -259,13 +218,13 @@
         <!--Web View View Controller-->
         <scene sceneID="TIa-h7-qD8">
             <objects>
-                <viewController id="Ml2-kD-Tz8" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="Ml2-kD-Tz8" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tp2-uI-aib">
                         <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mII-nR-wGV">
-                                <rect key="frame" x="0.0" y="0.0" width="402" height="874"/>
+                                <rect key="frame" x="0.0" y="62" width="402" height="812"/>
                                 <color key="backgroundColor" name="YP White"/>
                                 <wkWebViewConfiguration key="configuration">
                                     <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
@@ -335,24 +294,6 @@
             </objects>
             <point key="canvasLocation" x="-685" y="78"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="UBq-LZ-u3K">
-            <objects>
-                <navigationController storyboardIdentifier="AuthView" automaticallyAdjustsScrollViewInsets="NO" id="AIG-uc-8Eo" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="K8e-U3-wGV">
-                        <rect key="frame" x="0.0" y="62" width="402" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="NN4-Wi-8Y5" kind="relationship" relationship="rootViewController" id="Kz4-iO-ZWi"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Yrr-3C-vT3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-684" y="-1081"/>
-        </scene>
     </scenes>
     <resources>
         <image name="0" width="1600" height="1059"/>
@@ -360,10 +301,8 @@
         <image name="active" width="168" height="168"/>
         <image name="back_fromSingleImage_button" width="96" height="96"/>
         <image name="like_button_singleImage" width="204" height="204"/>
-        <image name="logo_unsplash" width="240" height="240"/>
         <image name="nav_back_button" width="96" height="96"/>
         <image name="share_button_singleImage" width="204" height="204"/>
-        <image name="tab_editorial_active" width="120" height="120"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

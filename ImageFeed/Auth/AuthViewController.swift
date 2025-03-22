@@ -9,11 +9,9 @@ import UIKit
 import ProgressHUD
 
 final class AuthViewController: UIViewController {
-    // MARK: Public Properties
     weak var delegate: AuthViewControllerDelegate?
     
     // MARK: Private Properties
-    private let showWebViewSegueIdentifier = "ShowWebView"
     private let oAuthService = OAuth2Service.shared
     private var alertPresenter: AlertPresenter?
     
@@ -22,9 +20,72 @@ final class AuthViewController: UIViewController {
         super.viewDidLoad()
         
         alertPresenter = AlertPresenter(viewController: self, delegate: self)
+        
+        setupView()
     }
     
     // MARK: Private Methods
+    private func setupView() {
+        view.backgroundColor =  .ypBlack
+        
+        addLoginButton()
+        addUnsplashLogo()
+    }
+    
+    private func addLoginButton() {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(didLoginButtonTapped), for: .touchUpInside)
+        
+        button.setTitle("Войти", for: .normal)
+        button.setTitleColor(.ypBlack, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17, weight: .bold)
+        button.backgroundColor = .ypWhite
+        button.layer.cornerRadius = 15
+        
+        button.autoResizeOff()
+        view.addSubview(button)
+        NSLayoutConstraint.activate([
+            button.heightAnchor.constraint(equalToConstant: 48),
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -90)
+        ])
+    }
+    
+    private func addUnsplashLogo() {
+        let image = UIImageView(image: UIImage(named: "logo_unsplash"))
+        
+        image.autoResizeOff()
+        view.addSubview(image)
+        NSLayoutConstraint.activate([
+            image.heightAnchor.constraint(equalToConstant: 60),
+            image.widthAnchor.constraint(equalToConstant: 60),
+            
+            image.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50),
+            image.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+    
+    @objc private func didLoginButtonTapped(_ sender: UIButton!) {
+        guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else { return }
+        
+        webViewViewController.delegate = self
+        webViewViewController.modalPresentationStyle = .fullScreen
+        present(webViewViewController, animated: true)
+        
+        UIView.animate(withDuration: 0.3) {
+            sender.alpha = 0.7
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 ) {
+            UIView.animate(withDuration: 0.3) {
+                sender.alpha = 1.0
+            }
+        }
+    }
+}
+
+extension AuthViewController {
     private func showAuthAlertError(_ errorMessage: String) {
         alertPresenter?.showAlert(
             title: "Что-то пошло не так",
@@ -36,16 +97,6 @@ final class AuthViewController: UIViewController {
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard segue.identifier == showWebViewSegueIdentifier,
-           let webVC = segue.destination as? WebViewViewController
-        else {
-            super.prepare(for: segue, sender: sender)
-            return
-        }
-        
-        webVC.delegate = self
-    }
     
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
