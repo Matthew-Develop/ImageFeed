@@ -12,6 +12,7 @@ final class ImagesListService {
     static let didChangeNotification = Notification.Name("ImagesListServiceDidChange")
     
     private let getData = NetworkClientAndDecode.shared
+    private let authTokenService = AuthTokenService.shared
     private(set) var photos: [Photo] = []
     private var lastLoadedPage: Int?
     private var task: URLSessionTask?
@@ -54,10 +55,9 @@ final class ImagesListService {
                     return
                 }
                 
-                DispatchQueue.main.async {
-                    self.photos.append(contentsOf: photos)
-                }
-                
+                self.lastLoadedPage = nextPage
+                self.photos += photos
+
                 NotificationCenter.default
                     .post(
                         name: ImagesListService.didChangeNotification,
@@ -65,8 +65,6 @@ final class ImagesListService {
                     )
                                 
                 handler(.success(photos))
-                
-                self.lastLoadedPage = nextPage
                 
             case .failure(let error):
                 handler(.failure(error))
@@ -95,8 +93,16 @@ final class ImagesListService {
             assertionFailure("ERROR creating fetchPhotosNextPage URL from URLComponents")
             return nil
         }
+        
         var request = URLRequest(url: url)
+        guard let token = authTokenService.getToken() else {
+            print("ERROR Getting token")
+            return nil
+        }
+        
+        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
         request.httpMethod = "GET"
+
         return request
     }
     

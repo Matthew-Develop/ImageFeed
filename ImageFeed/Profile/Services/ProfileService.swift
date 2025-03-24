@@ -31,15 +31,17 @@ final class ProfileService {
         }
         
         let task = getData.decodeData(request: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            guard let self = self else { return }
+
             switch result {
             case .success(let decodedData):
-                guard let profile = self?.convertResponseToProfile(data: decodedData)
+                guard let profile = self.convertResponseToProfile(data: decodedData)
                 else {
                     print("ERROR Convert Profile: \(GetProfileError.failConvertToProfile))")
                     return
                 }
                 handler(.success(profile))
-                self?.profile = profile
+                self.profile = profile
                 
             case .failure(let error):
                 handler(.failure(error))
@@ -60,7 +62,7 @@ final class ProfileService {
         return request
     }
     
-    private func convertResponseToProfile(data: ProfileResult) -> Profile {
+    private func convertResponseToProfile(data: ProfileResult) -> Profile? {
         Profile(username: data.username, name: "\(data.firstName) \(data.lastName)", bio: data.bio)
     }
 }
