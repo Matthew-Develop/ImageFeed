@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		34072DBD2D7B38E600EA022A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34072DBC2D7B38E600EA022A /* AlertPresenter.swift */; };
+		34211CC92D916BF1007B6D05 /* ImagesListService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34211CC82D916BF1007B6D05 /* ImagesListService.swift */; };
+		34211CCB2D916C25007B6D05 /* Photo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34211CCA2D916C25007B6D05 /* Photo.swift */; };
+		34211CCD2D916E98007B6D05 /* PhotoResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34211CCC2D916E98007B6D05 /* PhotoResult.swift */; };
 		34296D422D7AE0C80088B170 /* NetworkClient+Decode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34296D412D7AE0C80088B170 /* NetworkClient+Decode.swift */; };
 		344460EC2D621892007C18ED /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344460EB2D621892007C18ED /* OAuth2Service.swift */; };
 		344460F92D622D30007C18ED /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344460F82D622D30007C18ED /* OAuthTokenResponseBody.swift */; };
@@ -44,6 +47,9 @@
 
 /* Begin PBXFileReference section */
 		34072DBC2D7B38E600EA022A /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		34211CC82D916BF1007B6D05 /* ImagesListService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesListService.swift; sourceTree = "<group>"; };
+		34211CCA2D916C25007B6D05 /* Photo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photo.swift; sourceTree = "<group>"; };
+		34211CCC2D916E98007B6D05 /* PhotoResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoResult.swift; sourceTree = "<group>"; };
 		34296D412D7AE0C80088B170 /* NetworkClient+Decode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NetworkClient+Decode.swift"; sourceTree = "<group>"; };
 		344460EB2D621892007C18ED /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		344460F82D622D30007C18ED /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
@@ -91,6 +97,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		34211CC72D916BE0007B6D05 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				34211CC82D916BF1007B6D05 /* ImagesListService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		34296D402D7AE0A60088B170 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +131,8 @@
 				344F93F72D75EF6300775845 /* ProfileResult.swift */,
 				344F93F92D75EF8200775845 /* Profile.swift */,
 				34BE2F692D7727FA0072E3BE /* UserResult.swift */,
+				34211CCA2D916C25007B6D05 /* Photo.swift */,
+				34211CCC2D916E98007B6D05 /* PhotoResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -244,6 +260,7 @@
 			children = (
 				9F05679E2D44FDC100D3244E /* ImagesListViewController.swift */,
 				9F79A2872D476E0700986E30 /* ImagesListCell.swift */,
+				34211CC72D916BE0007B6D05 /* Services */,
 			);
 			path = ImageList;
 			sourceTree = "<group>";
@@ -360,12 +377,15 @@
 				9F0567A12D44FDC100D3244E /* SceneDelegate.swift in Sources */,
 				34BE2F6A2D7727FA0072E3BE /* UserResult.swift in Sources */,
 				9F0567A22D44FDC100D3244E /* ImagesListViewController.swift in Sources */,
+				34211CCD2D916E98007B6D05 /* PhotoResult.swift in Sources */,
 				344F93FA2D75EF8200775845 /* Profile.swift in Sources */,
 				34F9F4FB2D5F3F9700BE4CE9 /* Constants.swift in Sources */,
 				345A7F3C2D7F0B61002FE876 /* AuthTokenService.swift in Sources */,
 				3457DA752D8163D400AE4656 /* TabBarController.swift in Sources */,
+				34211CC92D916BF1007B6D05 /* ImagesListService.swift in Sources */,
 				344460F92D622D30007C18ED /* OAuthTokenResponseBody.swift in Sources */,
 				34296D422D7AE0C80088B170 /* NetworkClient+Decode.swift in Sources */,
+				34211CCB2D916C25007B6D05 /* Photo.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

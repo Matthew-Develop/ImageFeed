@@ -19,4 +19,5 @@ enum Constants {
     static let unsplashAuthorizeTokenURLString = "https://unsplash.com/oauth/token"
     static let unsplashGetProfileDataURLString = "https://api.unsplash.com/me"
     static let unsplashGetProfileImageURLString = "https://api.unsplash.com/users/"
+    static let unsplashGetPhotosURLString = "https://api.unsplash.com/photos"
 }

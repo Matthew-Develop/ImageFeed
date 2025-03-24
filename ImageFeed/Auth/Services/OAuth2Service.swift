@@ -25,7 +25,8 @@ final class OAuth2Service {
     func loadToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
         
         assert(Thread.isMainThread)
-        guard lastCode != code else {
+        guard lastCode != code
+        else {
             handler(.failure(LoadTokenError.taskIssue))
             return
         }
