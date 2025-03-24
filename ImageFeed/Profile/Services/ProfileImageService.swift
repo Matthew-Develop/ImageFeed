@@ -35,15 +35,15 @@ final class ProfileImageService {
             
             switch result {
             case .success(let decodedData):
-                guard let mediumImage = decodedData.profileImage["medium"]
+                guard let largeImage = decodedData.profileImage["large"]
                 else {
-                    print("ERROR Get medium image: \(GetProfileImageError.smallImageIssue), Decoded data: \(decodedData)")
+                    print("ERROR Get large image: \(GetProfileImageError.smallImageIssue), Decoded data: \(decodedData)")
                     return
                 }
                 
-                guard let url = URL(string: mediumImage)
+                guard let url = URL(string: largeImage)
                 else {
-                    print("ERROR Get URL medium image: \(GetProfileImageError.smallImageIssue), Image string: \(mediumImage)")
+                    print("ERROR Get URL large image: \(GetProfileImageError.smallImageIssue), Image string: \(largeImage)")
                     return
                 }
                 
