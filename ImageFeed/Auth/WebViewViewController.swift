@@ -89,12 +89,12 @@ final class WebViewViewController: UIViewController {
     @objc private func didBackButtonTapped(_ sender: UIButton!) {
         self.delegate?.webViewControllerDidCancel(self)
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.1) {
             sender.alpha = 0.7
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 ) {
-            UIView.animate(withDuration: 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 ) {
+            UIView.animate(withDuration: 0.1) {
                 sender.alpha = 1.0
             }
         }

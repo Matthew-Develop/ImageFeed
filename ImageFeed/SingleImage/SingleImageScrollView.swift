@@ -51,10 +51,8 @@ final class SingleImageScrollView: UIScrollView {
     }
     
     private func configurateFor(imageSize: CGSize) {
-        let window = UIApplication.shared.windows.first!
-
         self.contentSize = imageSize
-        let boundsSize = window.bounds.size
+        let boundsSize = self.bounds.size
         
         let x = abs((imageSize.width - boundsSize.width) / 2)
         let y = abs((imageSize.height - boundsSize.height) / 2)

@@ -73,12 +73,12 @@ final class AuthViewController: UIViewController {
         webViewViewController.modalPresentationStyle = .fullScreen
         present(webViewViewController, animated: true)
         
-        UIView.animate(withDuration: 0.3) {
+        UIView.animate(withDuration: 0.1) {
             sender.alpha = 0.7
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3 ) {
-            UIView.animate(withDuration: 0.3) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 ) {
+            UIView.animate(withDuration: 0.1) {
                 sender.alpha = 1.0
             }
         }
