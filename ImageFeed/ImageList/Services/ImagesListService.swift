@@ -99,12 +99,27 @@ final class ImagesListService {
             return
         }
         
-        let task = URLSession.shared.dataTask(with: request) { [weak self] (_, response, error) in
+        let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
             
-            if let response = response,
+            if let data = data,
+               let response = response,
                let statusCode = (response as? HTTPURLResponse)?.statusCode {
-                if statusCode < 200 && statusCode > 300 {
+                if 200..<300 ~= statusCode {
+                    let photo = self.photos[indexPath.row]
+                    let newPhoto = Photo(
+                        id: photo.id,
+                        size: photo.size,
+                        createdAt: photo.createdAt,
+                        welcomeDescription: photo.welcomeDescription,
+                        regularImageURL: photo.regularImageURL,
+                        fullImageURL: photo.fullImageURL,
+                        isLiked: !photo.isLiked
+                    )
+                    self.photos[indexPath.row] = newPhoto
+                    
+                    handlerOnMainThread(.success(()))
+                } else {
                     handlerOnMainThread(.failure(LikeError.httpCodeError(statusCode)))
                     print("ERROR HTTPResponse: \(LikeError.httpCodeError(statusCode)), Code: \(statusCode))")
                 }
@@ -115,20 +130,6 @@ final class ImagesListService {
                 handlerOnMainThread(.failure(LikeError.urlSessionError))
                 print("ERROR URL Session: \(LikeError.urlSessionError))")
             }
-            
-            let photo = self.photos[indexPath.row]
-            let newPhoto = Photo(
-                id: photo.id,
-                size: photo.size,
-                createdAt: photo.createdAt,
-                welcomeDescription: photo.welcomeDescription,
-                regularImageURL: photo.regularImageURL,
-                fullImageURL: photo.fullImageURL,
-                isLiked: !photo.isLiked
-            )
-            self.photos[indexPath.row] = newPhoto
-            
-            handlerOnMainThread(.success(()))
         }
         
         task.resume()

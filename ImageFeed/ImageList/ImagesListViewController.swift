@@ -187,10 +187,10 @@ extension ImagesListViewController: ImagesListCellDelegate {
             
             switch result {
             case .failure(let error):
-                print("ERROR like photo: \(error)")
+                print("ERROR like photo: \(error.localizedDescription)")
                 UIBlockingProgressHUD.dismiss()
-                
-                self.showLikeAlert(message: error.localizedDescription)
+                let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
+                self.showLikeAlert(message: errorMessage)
             case .success():
                 self.photos = self.imagesListService.photos
                 cell.changeLikeButtonImage(changeToLike: !photo.isLiked)
@@ -205,10 +205,11 @@ extension ImagesListViewController: ImagesListCellDelegate {
 
 extension ImagesListViewController: SingleImageViewControllerDelegate {
     func didLikeButtonTapped(singleImageViewController: SingleImageViewController) {
-        guard let photo = singleImageViewController.photo,
-              let index = photos.firstIndex(where: { $0.id == photo.id })
+        guard let photoFromController = singleImageViewController.photo,
+              let index = photos.firstIndex(where: { $0.id == photoFromController.id })
         else { return }
         let indexPath = IndexPath(row: index, section: 0)
+        let photo = photos[indexPath.row]
         
         UIBlockingProgressHUD.show()
         imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
@@ -238,7 +239,7 @@ extension ImagesListViewController: AlertPresenterDelegate {
     private func showLikeAlert(message: String) {
         alertPresenter?.showAlert(
             title: "Что-то пошло не так",
-            message: "Не удалось поставить/снять лайк/n\(message)",
+            message: "Не удалось поставить/снять лайк\n\(message)",
             buttonTitle: nil,
             completion1: {[weak self] in
                 self?.dismissAlert()

@@ -136,7 +136,8 @@ extension SingleImageViewController {
                 self.setZoomScale(image: imageResult.image)
                 self.centerImage()
             case .failure(let error):
-                self.showErrorAlert(error.localizedDescription)
+                let errorMessage = "\(error.localizedDescription[error.localizedDescription.startIndex...error.localizedDescription.index(error.localizedDescription.startIndex, offsetBy: 25)])..."
+                self.showErrorAlert(String(errorMessage))
             }
         }
     }
@@ -242,7 +243,7 @@ extension SingleImageViewController: AlertPresenterDelegate {
     private func showErrorAlert(_ message: String) {
         alertPresenter?.showAlert(
             title: "Что-то пошло не так",
-            message: "Не удалось загрузить фото/n\(message)",
+            message: "Не удалось загрузить фото\n\(message)",
             buttonTitle: "OK",
             button2Title: "Повторить",
             completion1: { [weak self] in
