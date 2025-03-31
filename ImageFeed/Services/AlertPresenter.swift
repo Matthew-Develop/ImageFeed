@@ -20,7 +20,7 @@ class AlertPresenter {
         self.delegate = delegate
     }
     
-    func showAlert(title: String?, message: String?, buttonTitle: String?, completion: @escaping (() -> Void)) {
+    func showAlert(title: String?, message: String?, buttonTitle: String?, button2Title: String? = nil, completion1: @escaping (() -> Void), completion2: @escaping (() -> Void)) {
         let alert = UIAlertController(
             title: title ?? "Error",
             message: message ?? "Something went wrong",
@@ -29,10 +29,20 @@ class AlertPresenter {
         let action = UIAlertAction(
             title: buttonTitle ?? "OK",
             style: .default) { _ in
-                completion()
+                completion1()
         }
         
         alert.addAction(action)
+
+        if button2Title != nil {
+            let secondAction = UIAlertAction(
+                title: button2Title,
+                style: .default) { _ in
+                    completion2()
+                }
+            alert.addAction(secondAction)
+        }
+        
         viewController?.present(alert, animated: true)
     }
 }

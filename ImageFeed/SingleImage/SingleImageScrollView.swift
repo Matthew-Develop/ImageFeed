@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class SingleImageScrollView: UIScrollView {
     
@@ -37,17 +38,28 @@ final class SingleImageScrollView: UIScrollView {
     }
     
     //MARK: Public Functions
-    func set(image: UIImage) {
+    func set(photo: Photo) {
         imageView?.removeFromSuperview()
         imageView = nil
         
-        imageView = UIImageView(image: image)
+        imageView = UIImageView()
+        guard let imageView = imageView,
+              let url = URL(string: photo.fullImageURL)
+        else { return }
+
+        let processor = RoundCornerImageProcessor(cornerRadius: 0)
         
-        guard let imageView = imageView else { return }
+        imageView.kf.indicatorType = .activity
+        imageView.kf.setImage(
+            with: url,
+            placeholder: nil,
+            options: [.processor(processor)]
+        )
+        
         imageView.autoResizeOff()
         self.addSubview(imageView)
-        
-        configurateFor(imageSize: image.size)
+            
+        configurateFor(imageSize: photo.size)
     }
     
     private func configurateFor(imageSize: CGSize) {
@@ -71,18 +83,18 @@ final class SingleImageScrollView: UIScrollView {
         let xScale = boundsSize.width / imageSize.width
         let yScale = boundsSize.height / imageSize.height
         let minScale = min(xScale, yScale)
-        var maxScale: CGFloat = 1.3
+        var maxScale: CGFloat = 1
         
         if minScale < 0.1 {
             maxScale = 0.3
         } else if minScale >= 0.1 && minScale < 0.5 {
             maxScale = 0.7
         } else {
-            maxScale = 1.3
+            maxScale = 1
         }
-        
-        self.minimumZoomScale = minScale
-        self.maximumZoomScale = maxScale
+        //TODO: поменял на константы
+        self.minimumZoomScale = 0.1
+        self.maximumZoomScale = 1
     }
     
     private func centerImage() {

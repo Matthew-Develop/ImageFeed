@@ -28,26 +28,6 @@ final class SplashViewController: UIViewController {
     }
     
     // MARK: Private Methods
-    private func setupView() {
-        view.backgroundColor = .ypBlack
-        addYpImageLogo()
-    }
-    
-    private func addYpImageLogo() {
-        let imageLogo = UIImageView(image: UIImage(named: "launchScreenLogo"))
-        imageLogo.autoResizeOff()
-        view.addSubview(imageLogo)
-        NSLayoutConstraint.activate([
-            imageLogo.heightAnchor.constraint(equalToConstant: 75),
-            imageLogo.widthAnchor.constraint(equalToConstant: 72),
-            
-            imageLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
-}
-
-extension SplashViewController {
     private func showNextController() {
         let token = checkToken()
         
@@ -69,8 +49,6 @@ extension SplashViewController {
         }
         
         let tabBarController = TabBarController()
-//        UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "TabBar")
-        
         window.rootViewController = tabBarController
     }
     
@@ -85,6 +63,26 @@ extension SplashViewController {
     
     private func isUserAuthorized(with token: String) -> Bool {
         !token.isEmpty
+    }
+}
+
+extension SplashViewController {
+    private func setupView() {
+        view.backgroundColor = .ypBlack
+        addYpImageLogo()
+    }
+    
+    private func addYpImageLogo() {
+        let imageLogo = UIImageView(image: UIImage(named: "launchScreenLogo"))
+        imageLogo.autoResizeOff()
+        view.addSubview(imageLogo)
+        NSLayoutConstraint.activate([
+            imageLogo.heightAnchor.constraint(equalToConstant: 75),
+            imageLogo.widthAnchor.constraint(equalToConstant: 72),
+            
+            imageLogo.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageLogo.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
 }
 
