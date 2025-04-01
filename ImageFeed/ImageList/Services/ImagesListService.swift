@@ -194,7 +194,9 @@ final class ImagesListService {
               isLiked: photoResult.likedByUser
             )
             
-            photos.append(photo)
+            if !self.photos.contains(where: { $0.id == photo.id }) {
+                photos.append(photo)
+            }
         }
         
         return photos
