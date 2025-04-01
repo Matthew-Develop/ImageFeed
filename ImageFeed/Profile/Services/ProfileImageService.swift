@@ -78,3 +78,9 @@ final class ProfileImageService {
         return request
     }
 }
+
+extension ProfileImageService {
+    func clearProfileImage() {
+        profileImageURL = nil
+    }
+}

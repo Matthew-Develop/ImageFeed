@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class SingleImageScrollView: UIScrollView {
+final class OLDSingleImageScrollView: UIScrollView {
     
     private var imageView: UIImageView?
     private lazy var zoomTap: UITapGestureRecognizer = {
@@ -92,7 +92,7 @@ final class SingleImageScrollView: UIScrollView {
         } else {
             maxScale = 1
         }
-        //TODO: поменял на константы
+        
         self.minimumZoomScale = 0.1
         self.maximumZoomScale = 1
     }
@@ -151,7 +151,7 @@ final class SingleImageScrollView: UIScrollView {
     }
 }
 
-extension SingleImageScrollView: UIScrollViewDelegate {
+extension OLDSingleImageScrollView: UIScrollViewDelegate {
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return self.imageView
     }

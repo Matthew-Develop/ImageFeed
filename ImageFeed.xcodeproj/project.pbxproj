@@ -24,13 +24,14 @@
 		345A7F3A2D7F0B30002FE876 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 345A7F392D7F0B30002FE876 /* SwiftKeychainWrapper */; };
 		345A7F3C2D7F0B61002FE876 /* AuthTokenService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 345A7F3B2D7F0B61002FE876 /* AuthTokenService.swift */; };
 		346362232D9A581200326E52 /* SingleImageViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346362222D9A581200326E52 /* SingleImageViewControllerDelegate.swift */; };
+		346362252D9AB00D00326E52 /* ProfileLogoutService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346362242D9AB00D00326E52 /* ProfileLogoutService.swift */; };
 		347A98232D52299500FC28A6 /* ExtensionsUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347A98222D52299500FC28A6 /* ExtensionsUIView.swift */; };
 		34A8F30A2D649F9F0051C20A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A8F3092D649F9F0051C20A /* SplashViewController.swift */; };
 		34A8F30C2D64BE470051C20A /* AuthViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34A8F30B2D64BE470051C20A /* AuthViewControllerDelegate.swift */; };
 		34BE2F682D7727B70072E3BE /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BE2F672D7727B70072E3BE /* ProfileImageService.swift */; };
 		34BE2F6A2D7727FA0072E3BE /* UserResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34BE2F692D7727FA0072E3BE /* UserResult.swift */; };
 		34ECA8042D733AF500034625 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 34ECA8032D733AF500034625 /* ProgressHUD */; };
-		34ED19002D8F25A400C8DEEF /* SingleImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ED18FF2D8F25A400C8DEEF /* SingleImageScrollView.swift */; };
+		34ED19002D8F25A400C8DEEF /* OLDSingleImageScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34ED18FF2D8F25A400C8DEEF /* OLDSingleImageScrollView.swift */; };
 		34F2A4332D60AF3400583FE5 /* WebViewViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F2A4322D60AF3400583FE5 /* WebViewViewControllerDelegate.swift */; };
 		34F9F4FB2D5F3F9700BE4CE9 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F9F4FA2D5F3F9700BE4CE9 /* Constants.swift */; };
 		34F9F4FE2D5F514000BE4CE9 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34F9F4FD2D5F514000BE4CE9 /* AuthViewController.swift */; };
@@ -63,12 +64,13 @@
 		3457DA742D8163D400AE4656 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		345A7F3B2D7F0B61002FE876 /* AuthTokenService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenService.swift; sourceTree = "<group>"; };
 		346362222D9A581200326E52 /* SingleImageViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewControllerDelegate.swift; sourceTree = "<group>"; };
+		346362242D9AB00D00326E52 /* ProfileLogoutService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileLogoutService.swift; sourceTree = "<group>"; };
 		347A98222D52299500FC28A6 /* ExtensionsUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsUIView.swift; sourceTree = "<group>"; };
 		34A8F3092D649F9F0051C20A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		34A8F30B2D64BE470051C20A /* AuthViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewControllerDelegate.swift; sourceTree = "<group>"; };
 		34BE2F672D7727B70072E3BE /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 		34BE2F692D7727FA0072E3BE /* UserResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserResult.swift; sourceTree = "<group>"; };
-		34ED18FF2D8F25A400C8DEEF /* SingleImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageScrollView.swift; sourceTree = "<group>"; };
+		34ED18FF2D8F25A400C8DEEF /* OLDSingleImageScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OLDSingleImageScrollView.swift; sourceTree = "<group>"; };
 		34F2A4322D60AF3400583FE5 /* WebViewViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewViewControllerDelegate.swift; sourceTree = "<group>"; };
 		34F9F4FA2D5F3F9700BE4CE9 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		34F9F4FD2D5F514000BE4CE9 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 			children = (
 				344F93F52D75EF2C00775845 /* ProfileService.swift */,
 				34BE2F672D7727B70072E3BE /* ProfileImageService.swift */,
+				346362242D9AB00D00326E52 /* ProfileLogoutService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -185,8 +188,8 @@
 		34F2A4312D60AF1000583FE5 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				34F2A4322D60AF3400583FE5 /* WebViewViewControllerDelegate.swift */,
 				34A8F30B2D64BE470051C20A /* AuthViewControllerDelegate.swift */,
+				34F2A4322D60AF3400583FE5 /* WebViewViewControllerDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -274,7 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				9FDDB2C72D4F620D002EEF93 /* SingleImageViewController.swift */,
-				34ED18FF2D8F25A400C8DEEF /* SingleImageScrollView.swift */,
+				34ED18FF2D8F25A400C8DEEF /* OLDSingleImageScrollView.swift */,
 				346362222D9A581200326E52 /* SingleImageViewControllerDelegate.swift */,
 			);
 			path = SingleImage;
@@ -367,7 +370,8 @@
 				34F9F5002D5F52A500BE4CE9 /* WebViewViewController.swift in Sources */,
 				344460EC2D621892007C18ED /* OAuth2Service.swift in Sources */,
 				34A8F30A2D649F9F0051C20A /* SplashViewController.swift in Sources */,
-				34ED19002D8F25A400C8DEEF /* SingleImageScrollView.swift in Sources */,
+				346362252D9AB00D00326E52 /* ProfileLogoutService.swift in Sources */,
+				34ED19002D8F25A400C8DEEF /* OLDSingleImageScrollView.swift in Sources */,
 				9F0567A02D44FDC100D3244E /* AppDelegate.swift in Sources */,
 				34F2A4332D60AF3400583FE5 /* WebViewViewControllerDelegate.swift in Sources */,
 				34A8F30C2D64BE470051C20A /* AuthViewControllerDelegate.swift in Sources */,

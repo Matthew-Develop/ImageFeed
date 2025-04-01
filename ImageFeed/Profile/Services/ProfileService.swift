@@ -64,3 +64,9 @@ final class ProfileService {
         Profile(username: data.username, name: "\(data.firstName) \(data.lastName)", bio: data.bio)
     }
 }
+
+extension ProfileService {
+    func clearProfile() {
+        profile = nil
+    }
+}

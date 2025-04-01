@@ -8,8 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
-    
+final class ProfileViewController: UIViewController {    
     private var profileImage = UIImageView()
     private var profileName = UILabel()
     private var profileLoginName = UILabel()
@@ -21,6 +20,7 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let authTokenService = AuthTokenService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -155,16 +155,22 @@ final class ProfileViewController: UIViewController {
         if url.description.contains("placeholder") {
             profileImage.image = UIImage(named: "placeholder_profile_image")
         } else {
-            let processor = RoundCornerImageProcessor(cornerRadius: 35)
             profileImage.kf.indicatorType = .activity
-            profileImage.kf.setImage(with: url,
-                                     placeholder: UIImage(named: "placeholder_profile_image"),
-                                     options: [.processor(processor)])
+            profileImage.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "placeholder_profile_image")
+            )
         }
     }
     
     @objc
     private func exitButton() {
-        authTokenService.removeToken()
+        profileLogoutService.logout()
+        guard let window = UIApplication.shared.windows.first else {
+            assertionFailure("ERROR window configuration after user Logout")
+            return
+        }
+        let splashViewController = SplashViewController()
+        window.rootViewController = splashViewController
     }
 }

@@ -65,7 +65,7 @@ final class ImagesListService {
                 }
                 
                 self.lastLoadedPage = nextPage
-                self.photos += photos
+                self.photos.append(contentsOf: photos)
                                 
                 NotificationCenter.default
                     .post(
@@ -102,7 +102,7 @@ final class ImagesListService {
         let task = URLSession.shared.dataTask(with: request) { [weak self] data, response, error in
             guard let self = self else { return }
             
-            if let data = data,
+            if let _ = data,
                let response = response,
                let statusCode = (response as? HTTPURLResponse)?.statusCode {
                 if 200..<300 ~= statusCode {
@@ -198,5 +198,11 @@ final class ImagesListService {
         }
         
         return photos
+    }
+}
+
+extension ImagesListService {
+    func clearImagesList() {
+        photos = []
     }
 }
