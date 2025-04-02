@@ -105,6 +105,7 @@ final class SingleImageViewController: UIViewController {
     }
 }
 
+//Setup view
 extension SingleImageViewController {
     private func setupView() {
         addImageScrollView()

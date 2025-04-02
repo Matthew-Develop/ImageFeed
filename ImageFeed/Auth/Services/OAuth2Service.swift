@@ -15,11 +15,6 @@ final class OAuth2Service {
     private var task: URLSessionTask?
     private var lastCode: String?
     
-    private enum LoadTokenError: Error {
-        case badRequest
-        case taskIssue
-    }
-    
     private init() {}
     
     func loadToken(code: String, handler: @escaping (Result<String, Error>) -> Void) {
@@ -84,5 +79,13 @@ final class OAuth2Service {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         return request
+    }
+}
+
+//ERROR keys
+extension OAuth2Service {
+    private enum LoadTokenError: Error {
+        case badRequest
+        case taskIssue
     }
 }

@@ -19,20 +19,6 @@ final class ImagesListService {
     
     private init() {}
     
-    private enum LoadPhotosError: Error {
-        case badRequest
-        case taskIssue
-        case failToConvertDataToPhotos
-    }
-    
-    private enum LikeError: Error {
-        case badRequest
-        case taskIssue
-        case httpCodeError(Int)
-        case urlRequestError(Error)
-        case urlSessionError
-    }
-    
     //MARK: - Public Functions
     func fetchPhotosNextpage(handler: @escaping (Result<[Photo], Error>)-> Void) {
         let nextPage = (lastLoadedPage ?? 0 ) + 1
@@ -48,6 +34,7 @@ final class ImagesListService {
         
         guard let request = makeFetchPhotosNextPageURLRequest(page: nextPage)
         else {
+            print("ERROR: Could not create Fetch photos URLRequest")
             handler(.failure(LoadPhotosError.badRequest))
             return
         }
@@ -95,6 +82,7 @@ final class ImagesListService {
         
         guard let request = makeToggleLikeURLRequest(photoID: photoID, toLike: toLike)
         else {
+            print("ERROR: Could not create Like URLRequest")
             handler(.failure(LikeError.badRequest))
             return
         }
@@ -203,8 +191,26 @@ final class ImagesListService {
     }
 }
 
+//Logout clear
 extension ImagesListService {
     func clearImagesList() {
         photos = []
+    }
+}
+
+//ERROR keys
+extension ImagesListService {
+    private enum LoadPhotosError: Error {
+        case badRequest
+        case taskIssue
+        case failToConvertDataToPhotos
+    }
+    
+    private enum LikeError: Error {
+        case badRequest
+        case taskIssue
+        case httpCodeError(Int)
+        case urlRequestError(Error)
+        case urlSessionError
     }
 }

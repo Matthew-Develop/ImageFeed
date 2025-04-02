@@ -99,6 +99,7 @@ final class ImagesListViewController: UIViewController {
     }
 }
 
+//Setup view
 extension ImagesListViewController {
     private func setupView() {
         view.backgroundColor = .ypBlack
@@ -171,7 +172,6 @@ extension ImagesListViewController: UITableViewDelegate {
         
         let dynamicCellHeight = imageViewHeight + 4*2
         
-//        guard tableView.cellForRow(at: indexPath)?.contentView.frame.height else { return 200 }
         return dynamicCellHeight
     }
 }
@@ -189,6 +189,7 @@ extension ImagesListViewController: ImagesListCellDelegate {
             case .failure(let error):
                 print("ERROR like photo: \(error.localizedDescription)")
                 UIBlockingProgressHUD.dismiss()
+                
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
                 self.showLikeAlert(message: errorMessage)
             case .success():
@@ -217,11 +218,13 @@ extension ImagesListViewController: SingleImageViewControllerDelegate {
             
             switch result {
             case .failure(let error):
-                print("ERROR like photo: \(error)")
+                print("ERROR like photo: \(error.localizedDescription)")
                 UIBlockingProgressHUD.dismiss()
                 
-                self.showLikeAlert(message: error.localizedDescription)
+                let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
+                self.showLikeAlertSingleImage(message: errorMessage, viewController: singleImageViewController)
             case .success():
+                print("success)))")
                 self.photos = self.imagesListService.photos
                 singleImageViewController.changeLikeButtonImage(changeToLike: !photo.isLiked)
                 
@@ -238,6 +241,20 @@ extension ImagesListViewController: AlertPresenterDelegate {
     
     private func showLikeAlert(message: String) {
         alertPresenter?.showAlert(
+            title: "Что-то пошло не так",
+            message: "Не удалось поставить/снять лайк\n\(message)",
+            buttonTitle: nil,
+            completion1: {[weak self] in
+                self?.dismissAlert()
+            },
+            completion2: {}
+        )
+    }
+    
+    private func showLikeAlertSingleImage(message: String, viewController: SingleImageViewController) {
+        let singleImageAlertPresenter = AlertPresenter(viewController: viewController, delegate: self)
+        
+        singleImageAlertPresenter.showAlert(
             title: "Что-то пошло не так",
             message: "Не удалось поставить/снять лайк\n\(message)",
             buttonTitle: nil,

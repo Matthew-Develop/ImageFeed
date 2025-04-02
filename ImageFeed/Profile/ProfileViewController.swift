@@ -76,6 +76,7 @@ final class ProfileViewController: UIViewController {
     }
 }
 
+//Setup view
 extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .ypBlack

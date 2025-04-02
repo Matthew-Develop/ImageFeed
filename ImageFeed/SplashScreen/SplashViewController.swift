@@ -66,6 +66,7 @@ final class SplashViewController: UIViewController {
     }
 }
 
+//Setup view
 extension SplashViewController {
     private func setupView() {
         view.backgroundColor = .ypBlack

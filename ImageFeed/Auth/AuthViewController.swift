@@ -56,6 +56,7 @@ final class AuthViewController: UIViewController {
     }
 }
 
+//Setup view
 extension AuthViewController {
     private func setupView() {
         view.backgroundColor =  .ypBlack

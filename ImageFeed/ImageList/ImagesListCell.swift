@@ -67,6 +67,7 @@ final class ImagesListCell: UITableViewCell {
     }
 }
 
+//Setup view
 extension ImagesListCell {
     private func setupView() {
         self.backgroundColor = .clear

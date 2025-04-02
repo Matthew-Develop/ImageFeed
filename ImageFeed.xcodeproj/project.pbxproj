@@ -169,6 +169,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		3486166A2D9D0B5600B94471 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				3432E60B2D97DF0600A01264 /* ImagesListCellDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		34A8F3082D649F870051C20A /* SplashScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -267,8 +275,8 @@
 			children = (
 				9F05679E2D44FDC100D3244E /* ImagesListViewController.swift */,
 				9F79A2872D476E0700986E30 /* ImagesListCell.swift */,
-				3432E60B2D97DF0600A01264 /* ImagesListCellDelegate.swift */,
 				34211CC72D916BE0007B6D05 /* Services */,
+				3486166A2D9D0B5600B94471 /* Protocol */,
 			);
 			path = ImageList;
 			sourceTree = "<group>";
