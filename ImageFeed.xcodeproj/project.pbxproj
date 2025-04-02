@@ -177,6 +177,14 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
+		3486166B2D9D12E600B94471 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				346362222D9A581200326E52 /* SingleImageViewControllerDelegate.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		34A8F3082D649F870051C20A /* SplashScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -286,7 +294,7 @@
 			children = (
 				9FDDB2C72D4F620D002EEF93 /* SingleImageViewController.swift */,
 				34ED18FF2D8F25A400C8DEEF /* OLDSingleImageScrollView.swift */,
-				346362222D9A581200326E52 /* SingleImageViewControllerDelegate.swift */,
+				3486166B2D9D12E600B94471 /* Protocol */,
 			);
 			path = SingleImage;
 			sourceTree = "<group>";
