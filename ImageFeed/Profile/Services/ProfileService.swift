@@ -13,12 +13,6 @@ final class ProfileService {
     private let getData = NetworkClientAndDecode.shared
     private(set) var profile: Profile?
     
-    private enum GetProfileError: Error {
-        case badRequest
-        case taskIssue
-        case failConvertToProfile
-    }
-    
     private init() { }
     
     //MARK: Public Functions
@@ -62,5 +56,21 @@ final class ProfileService {
     
     private func convertResponseToProfile(data: ProfileResult) -> Profile {
         Profile(username: data.username, name: "\(data.firstName) \(data.lastName)", bio: data.bio)
+    }
+}
+
+//Logout clear
+extension ProfileService {
+    func clearProfile() {
+        profile = nil
+    }
+}
+
+//ERROR keys
+extension ProfileService {
+    private enum GetProfileError: Error {
+        case badRequest
+        case taskIssue
+        case failConvertToProfile
     }
 }

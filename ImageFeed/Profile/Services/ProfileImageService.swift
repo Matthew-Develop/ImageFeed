@@ -14,12 +14,6 @@ final class ProfileImageService {
     private var getData = NetworkClientAndDecode.shared
     private(set) var profileImageURL: URL?
     
-    private enum GetProfileImageError: Error {
-        case badRequest
-        case taskIssue
-        case smallImageIssue
-    }
-    
     private init() {}
     
     //MARK: Public Functions
@@ -76,5 +70,21 @@ final class ProfileImageService {
         request.httpMethod = "GET"
 
         return request
+    }
+}
+
+//Logout clear
+extension ProfileImageService {
+    func clearProfileImage() {
+        profileImageURL = nil
+    }
+}
+
+//ERROR keys
+extension ProfileImageService {
+    private enum GetProfileImageError: Error {
+        case badRequest
+        case taskIssue
+        case smallImageIssue
     }
 }

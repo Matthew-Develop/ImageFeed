@@ -29,7 +29,7 @@ final class NetworkClientAndDecode {
         handler: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
         
-        let task = fetchData(request) { [weak self] (result: Result<Data, Error >) in
+        let task = fetchData(request) { [weak self] (result: Result<Data, Error>) in
             guard let self = self else { return }
             
             switch result {

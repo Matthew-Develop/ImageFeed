@@ -8,8 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
-    
+final class ProfileViewController: UIViewController {    
     private var profileImage = UIImageView()
     private var profileName = UILabel()
     private var profileLoginName = UILabel()
@@ -21,6 +20,7 @@ final class ProfileViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let authTokenService = AuthTokenService.shared
+    private let profileLogoutService = ProfileLogoutService.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,6 +40,41 @@ final class ProfileViewController: UIViewController {
         setupView()
     }
     
+    //MARK: Private Functions
+    private func getProfileData(profile: Profile?) {
+        guard let profile = profile
+        else {
+            assertionFailure("ERROR getting profile data")
+            return
+        }
+        
+        profileName.text = profile.name
+        profileLoginName.text = profile.loginName
+        profileBio.text = profile.bio
+    }
+    
+    private func updateProfileImage(_ url: URL?) {
+        guard let url = url else { return }
+        
+        if url.description.contains("placeholder") {
+            profileImage.image = UIImage(named: "placeholder_profile_image")
+        } else {
+            profileImage.kf.indicatorType = .activity
+            profileImage.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "placeholder_profile_image")
+            )
+        }
+    }
+    
+    @objc
+    private func exitButton() {
+        showLogoutAlert()
+    }
+}
+
+//Setup view
+extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .ypBlack
         
@@ -136,35 +171,30 @@ final class ProfileViewController: UIViewController {
             emptyFavoriteImage.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
-    private func getProfileData(profile: Profile?) {
-        guard let profile = profile
-        else {
-            assertionFailure("ERROR getting profile data")
-            return
-        }
-        
-        profileName.text = profile.name
-        profileLoginName.text = profile.loginName
-        profileBio.text = profile.bio
-    }
-    
-    private func updateProfileImage(_ url: URL?) {
-        guard let url = url else { return }
-        
-        if url.description.contains("placeholder") {
-            profileImage.image = UIImage(named: "placeholder_profile_image")
-        } else {
-            let processor = RoundCornerImageProcessor(cornerRadius: 35)
-            profileImage.kf.indicatorType = .activity
-            profileImage.kf.setImage(with: url,
-                                     placeholder: UIImage(named: "placeholder_profile_image"),
-                                     options: [.processor(processor)])
-        }
-    }
-    
-    @objc
-    private func exitButton() {
-        authTokenService.removeToken()
+}
+
+extension ProfileViewController {
+    private func showLogoutAlert() {
+        AlertPresenter.showAlert(
+            viewController: self,
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            buttonTitle: "Да",
+            button2Title: "Нет",
+            completion1: { [weak self] in
+                UIBlockingProgressHUD.show()
+                
+                self?.profileLogoutService.logout()
+                guard let window = UIApplication.shared.windows.first else {
+                    assertionFailure("ERROR window configuration after user Logout")
+                    return
+                }
+                let splashViewController = SplashViewController()
+                window.rootViewController = splashViewController
+                
+                UIBlockingProgressHUD.dismiss()
+            },
+            completion2: { }
+        )
     }
 }

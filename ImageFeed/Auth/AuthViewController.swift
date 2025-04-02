@@ -13,18 +13,47 @@ final class AuthViewController: UIViewController {
     
     // MARK: Private Properties
     private let oAuthService = OAuth2Service.shared
-    private var alertPresenter: AlertPresenter?
     
     //MARK: Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        alertPresenter = AlertPresenter(viewController: self, delegate: self)
-        
         setupView()
     }
     
     // MARK: Private Methods
+    private func showAuthAlertError(_ errorMessage: String) {
+        AlertPresenter.showAlert(
+            viewController: self,
+            title: "Что-то пошло не так :(",
+            message: "Не удалось войти в систему: \(errorMessage)",
+            buttonTitle: "Ок",
+            completion1: {},
+            completion2: {}
+        )
+    }
+    
+    @objc private func didLoginButtonTapped(_ sender: UIButton!) {
+        guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else { return }
+        
+        webViewViewController.delegate = self
+        webViewViewController.modalPresentationStyle = .fullScreen
+        present(webViewViewController, animated: true)
+        
+        UIView.animate(withDuration: 0.1) {
+            sender.alpha = 0.7
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 ) {
+            UIView.animate(withDuration: 0.1) {
+                sender.alpha = 1.0
+            }
+        }
+    }
+}
+
+//Setup view
+extension AuthViewController {
     private func setupView() {
         view.backgroundColor =  .ypBlack
         
@@ -65,35 +94,6 @@ final class AuthViewController: UIViewController {
             image.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
-    
-    @objc private func didLoginButtonTapped(_ sender: UIButton!) {
-        guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else { return }
-        
-        webViewViewController.delegate = self
-        webViewViewController.modalPresentationStyle = .fullScreen
-        present(webViewViewController, animated: true)
-        
-        UIView.animate(withDuration: 0.1) {
-            sender.alpha = 0.7
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 ) {
-            UIView.animate(withDuration: 0.1) {
-                sender.alpha = 1.0
-            }
-        }
-    }
-}
-
-extension AuthViewController {
-    private func showAuthAlertError(_ errorMessage: String) {
-        alertPresenter?.showAlert(
-            title: "Что-то пошло не так",
-            message: "Не удалось войти в систему: \(errorMessage)",
-            buttonTitle: "Ок") { [weak self] in
-                self?.dismissAlert()
-            }
-    }
 }
 
 extension AuthViewController: WebViewViewControllerDelegate {
@@ -121,8 +121,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
-}
-
-extension AuthViewController: AlertPresenterDelegate {
-    func dismissAlert() { }
 }
