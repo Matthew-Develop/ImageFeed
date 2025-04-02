@@ -65,7 +65,7 @@ final class ImagesListService {
                 }
                 
                 self.lastLoadedPage = nextPage
-                self.photos.append(contentsOf: photos)
+                self.photos += photos
                                 
                 NotificationCenter.default
                     .post(

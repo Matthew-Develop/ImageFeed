@@ -21,6 +21,7 @@ final class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     private let authTokenService = AuthTokenService.shared
     private let profileLogoutService = ProfileLogoutService.shared
+    private var alertPresenter: AlertPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,8 +39,44 @@ final class ProfileViewController: UIViewController {
         getProfileData(profile: profileService.profile)
         
         setupView()
+        
+        alertPresenter = AlertPresenter(viewController: self, delegate: self)
     }
     
+    //MARK: Private Functions
+    private func getProfileData(profile: Profile?) {
+        guard let profile = profile
+        else {
+            assertionFailure("ERROR getting profile data")
+            return
+        }
+        
+        profileName.text = profile.name
+        profileLoginName.text = profile.loginName
+        profileBio.text = profile.bio
+    }
+    
+    private func updateProfileImage(_ url: URL?) {
+        guard let url = url else { return }
+        
+        if url.description.contains("placeholder") {
+            profileImage.image = UIImage(named: "placeholder_profile_image")
+        } else {
+            profileImage.kf.indicatorType = .activity
+            profileImage.kf.setImage(
+                with: url,
+                placeholder: UIImage(named: "placeholder_profile_image")
+            )
+        }
+    }
+    
+    @objc
+    private func exitButton() {
+        showLogoutAlert()
+    }
+}
+
+extension ProfileViewController {
     private func setupView() {
         view.backgroundColor = .ypBlack
         
@@ -136,41 +173,33 @@ final class ProfileViewController: UIViewController {
             emptyFavoriteImage.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
+}
+
+extension ProfileViewController: AlertPresenterDelegate {
+    func dismissAlert() { }
     
-    private func getProfileData(profile: Profile?) {
-        guard let profile = profile
-        else {
-            assertionFailure("ERROR getting profile data")
-            return
-        }
-        
-        profileName.text = profile.name
-        profileLoginName.text = profile.loginName
-        profileBio.text = profile.bio
-    }
-    
-    private func updateProfileImage(_ url: URL?) {
-        guard let url = url else { return }
-        
-        if url.description.contains("placeholder") {
-            profileImage.image = UIImage(named: "placeholder_profile_image")
-        } else {
-            profileImage.kf.indicatorType = .activity
-            profileImage.kf.setImage(
-                with: url,
-                placeholder: UIImage(named: "placeholder_profile_image")
-            )
-        }
-    }
-    
-    @objc
-    private func exitButton() {
-        profileLogoutService.logout()
-        guard let window = UIApplication.shared.windows.first else {
-            assertionFailure("ERROR window configuration after user Logout")
-            return
-        }
-        let splashViewController = SplashViewController()
-        window.rootViewController = splashViewController
+    private func showLogoutAlert() {
+        alertPresenter?.showAlert(
+            title: "Пока, пока!",
+            message: "Уверены, что хотите выйти?",
+            buttonTitle: "Да",
+            button2Title: "Нет",
+            completion1: { [weak self] in
+                UIBlockingProgressHUD.show()
+                
+                self?.profileLogoutService.logout()
+                guard let window = UIApplication.shared.windows.first else {
+                    assertionFailure("ERROR window configuration after user Logout")
+                    return
+                }
+                let splashViewController = SplashViewController()
+                window.rootViewController = splashViewController
+                
+                UIBlockingProgressHUD.dismiss()
+            },
+            completion2: { [weak self] in
+                self?.dismissAlert()
+            }
+        )
     }
 }
