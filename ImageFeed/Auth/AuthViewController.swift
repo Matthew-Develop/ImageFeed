@@ -13,26 +13,22 @@ final class AuthViewController: UIViewController {
     
     // MARK: Private Properties
     private let oAuthService = OAuth2Service.shared
-    private var alertPresenter: AlertPresenter?
     
     //MARK: Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        alertPresenter = AlertPresenter(viewController: self, delegate: self)
         
         setupView()
     }
     
     // MARK: Private Methods
     private func showAuthAlertError(_ errorMessage: String) {
-        alertPresenter?.showAlert(
-            title: "Что-то пошло не так",
+        AlertPresenter.showAlert(
+            viewController: self,
+            title: "Что-то пошло не так :(",
             message: "Не удалось войти в систему: \(errorMessage)",
             buttonTitle: "Ок",
-            completion1: { [weak self] in
-                self?.dismissAlert()
-            },
+            completion1: {},
             completion2: {}
         )
     }
@@ -125,8 +121,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
     func webViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
     }
-}
-
-extension AuthViewController: AlertPresenterDelegate {
-    func dismissAlert() { }
 }

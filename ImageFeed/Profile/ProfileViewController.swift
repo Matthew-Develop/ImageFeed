@@ -21,7 +21,6 @@ final class ProfileViewController: UIViewController {
     private let profileImageService = ProfileImageService.shared
     private let authTokenService = AuthTokenService.shared
     private let profileLogoutService = ProfileLogoutService.shared
-    private var alertPresenter: AlertPresenter?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +38,6 @@ final class ProfileViewController: UIViewController {
         getProfileData(profile: profileService.profile)
         
         setupView()
-        
-        alertPresenter = AlertPresenter(viewController: self, delegate: self)
     }
     
     //MARK: Private Functions
@@ -176,11 +173,10 @@ extension ProfileViewController {
     }
 }
 
-extension ProfileViewController: AlertPresenterDelegate {
-    func dismissAlert() { }
-    
+extension ProfileViewController {
     private func showLogoutAlert() {
-        alertPresenter?.showAlert(
+        AlertPresenter.showAlert(
+            viewController: self,
             title: "Пока, пока!",
             message: "Уверены, что хотите выйти?",
             buttonTitle: "Да",
@@ -198,9 +194,7 @@ extension ProfileViewController: AlertPresenterDelegate {
                 
                 UIBlockingProgressHUD.dismiss()
             },
-            completion2: { [weak self] in
-                self?.dismissAlert()
-            }
+            completion2: { }
         )
     }
 }

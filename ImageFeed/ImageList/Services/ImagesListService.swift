@@ -21,16 +21,16 @@ final class ImagesListService {
     
     //MARK: - Public Functions
     func fetchPhotosNextpage(handler: @escaping (Result<[Photo], Error>)-> Void) {
-        let nextPage = (lastLoadedPage ?? 0 ) + 1
+        let nextPage = (lastLoadedPage ?? -1) + 1
         
         assert(Thread.isMainThread)
-        guard lastLoadedPage != nextPage
+        guard lastLoadedPage != nextPage,
+              task == nil
         else {
             handler(.failure(LoadPhotosError.taskIssue))
+            print("ERROR: Task already exist")
             return
         }
-        
-        task?.cancel()
         
         guard let request = makeFetchPhotosNextPageURLRequest(page: nextPage)
         else {

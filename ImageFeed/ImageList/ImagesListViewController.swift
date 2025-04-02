@@ -13,22 +13,18 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: Private Properties
     private let imagesListService = ImagesListService.shared
-    private var alertPresenter: AlertPresenter?
     private var photos: [Photo] = []
     
+    private lazy var dateFormatterFromString = ISO8601DateFormatter()
     private lazy var dateFormatterToString: DateFormatter = {
         let dateFormatterToString = DateFormatter()
         dateFormatterToString.dateFormat = "d MMM yyyy"
-        dateFormatterToString.locale = Locale(identifier: "ru_RU")
         return dateFormatterToString
     }()
     
     // MARK: Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        alertPresenter = AlertPresenter(viewController: self, delegate: self)
-        
         setupView()
         
         NotificationCenter.default
@@ -70,7 +66,7 @@ final class ImagesListViewController: UIViewController {
         
         let date = photo.createdAt
         var dateString: String = ""
-        if let dateGet = ISO8601DateFormatter().date(from: date) {
+        if let dateGet = dateFormatterFromString.date(from: date) {
             dateString = dateFormatterToString.string(from: dateGet)
         }
         cell.setDate(dateString: dateString)
@@ -184,21 +180,17 @@ extension ImagesListViewController: ImagesListCellDelegate {
         UIBlockingProgressHUD.show()
         imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
             guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
             
             switch result {
             case .failure(let error):
                 print("ERROR like photo: \(error.localizedDescription)")
-                UIBlockingProgressHUD.dismiss()
-                
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
                 self.showLikeAlert(message: errorMessage)
             case .success():
                 self.photos = self.imagesListService.photos
                 cell.changeLikeButtonImage(changeToLike: !photo.isLiked)
-                
                 self.tableView.reloadRows(at: [indexPath], with: .none)
-                
-                UIBlockingProgressHUD.dismiss()
             }
         }
     }
@@ -215,52 +207,42 @@ extension ImagesListViewController: SingleImageViewControllerDelegate {
         UIBlockingProgressHUD.show()
         imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
             guard let self = self else { return }
+            UIBlockingProgressHUD.dismiss()
             
             switch result {
             case .failure(let error):
                 print("ERROR like photo: \(error.localizedDescription)")
-                UIBlockingProgressHUD.dismiss()
-                
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
                 self.showLikeAlertSingleImage(message: errorMessage, viewController: singleImageViewController)
             case .success():
-                print("success)))")
                 self.photos = self.imagesListService.photos
                 singleImageViewController.changeLikeButtonImage(changeToLike: !photo.isLiked)
-                
                 self.tableView.reloadRows(at: [indexPath], with: .none)
-                
-                UIBlockingProgressHUD.dismiss()
             }
         }
     }
 }
 
-extension ImagesListViewController: AlertPresenterDelegate {
-    func dismissAlert() { }
-    
+//Show alert
+extension ImagesListViewController {
     private func showLikeAlert(message: String) {
-        alertPresenter?.showAlert(
-            title: "Что-то пошло не так",
+        AlertPresenter.showAlert(
+            viewController: self,
+            title: "Что-то пошло не так :(",
             message: "Не удалось поставить/снять лайк\n\(message)",
             buttonTitle: nil,
-            completion1: {[weak self] in
-                self?.dismissAlert()
-            },
+            completion1: {},
             completion2: {}
         )
     }
     
     private func showLikeAlertSingleImage(message: String, viewController: SingleImageViewController) {
-        let singleImageAlertPresenter = AlertPresenter(viewController: viewController, delegate: self)
-        
-        singleImageAlertPresenter.showAlert(
+        AlertPresenter.showAlert(
+            viewController: viewController,
             title: "Что-то пошло не так",
             message: "Не удалось поставить/снять лайк\n\(message)",
             buttonTitle: nil,
-            completion1: {[weak self] in
-                self?.dismissAlert()
-            },
+            completion1: {},
             completion2: {}
         )
     }

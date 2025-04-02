@@ -11,12 +11,10 @@ import Kingfisher
 final class SingleImageViewController: UIViewController {
     weak var delegate: SingleImageViewControllerDelegate?
     
-    private var scrollView: UIScrollView?
-    private var imageView: UIImageView?
-    private var buttonLike = UIButton(type: .custom)
-    private var buttonShare = UIButton(type: .custom)
-    
-    private var alertPresenter: AlertPresenter?
+    private var scrollView = UIScrollView()
+    private var imageView = UIImageView()
+    private lazy var buttonLike = UIButton(type: .custom)
+    private lazy var buttonShare = UIButton(type: .custom)
     
     // MARK: Public Properties
     var photo: Photo? {
@@ -29,8 +27,7 @@ final class SingleImageViewController: UIViewController {
     // MARK: Overrides Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        alertPresenter = AlertPresenter(viewController: self, delegate: self)
+    
         setupView()
         loadImage()
     }
@@ -45,7 +42,8 @@ final class SingleImageViewController: UIViewController {
         view.layoutIfNeeded()
         
         let imageSize = image.size
-        guard let rectSize = scrollView?.bounds.size,
+        let rectSize = scrollView.bounds.size
+        guard
               imageSize.width != 0, imageSize.height != 0
         else { return }
         
@@ -56,27 +54,26 @@ final class SingleImageViewController: UIViewController {
         let initialScale = max(hScale, vScale) * 1.2
         let maxScale = max(hScale, vScale) * 2
         
-        scrollView?.minimumZoomScale = minScale
-        scrollView?.maximumZoomScale = maxScale
-        scrollView?.zoomScale = initialScale
+        scrollView.minimumZoomScale = minScale
+        scrollView.maximumZoomScale = maxScale
+        scrollView.zoomScale = initialScale
         
-        scrollView?.layoutIfNeeded()
+        scrollView.layoutIfNeeded()
     }
     
     private func centerImage() {
-        guard let rectSize = scrollView?.bounds.size,
-              let contentSize = scrollView?.contentSize
-        else { return }
+        let rectSize = scrollView.bounds.size
+        let contentSize = scrollView.contentSize
         
         let x = (contentSize.width - rectSize.width) / 2
         let y = (contentSize.height - rectSize.height) / 2
         
-        scrollView?.setContentOffset(CGPoint(x: x, y: y), animated: false)
+        scrollView.setContentOffset(CGPoint(x: x, y: y), animated: false)
         
         let vInset = max((rectSize.height - contentSize.height) / 2, 0)
         let hInset = max((rectSize.width - contentSize.width) / 2, 0)
         
-        scrollView?.contentInset = UIEdgeInsets(top: vInset, left: hInset, bottom: vInset, right: hInset)
+        scrollView.contentInset = UIEdgeInsets(top: vInset, left: hInset, bottom: vInset, right: hInset)
     }
     
     @objc private func didTapSingleBackButton(_ sender: UIButton) {
@@ -97,8 +94,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @objc private func didTapShareButton(_ sender: UIButton) {
-        guard let imageView = imageView,
-              let image = imageView.image else { return }
+        guard let image = imageView.image else { return }
         let items: [Any] = [image,"Изображение"]
         let activity = UIActivityViewController(activityItems: items, applicationActivities: nil)
         present(activity, animated: true, completion: nil)
@@ -114,15 +110,10 @@ extension SingleImageViewController {
     }
     
     private func loadImage() {
-        imageView?.kf.cancelDownloadTask()
-        imageView?.removeFromSuperview()
-        imageView = nil
+        imageView.kf.cancelDownloadTask()
+        imageView.autoResizeOff()
         
-        imageView = UIImageView()
-        imageView?.autoResizeOff()
-        
-        guard let imageView = imageView,
-              let photo = photo,
+        guard let photo = photo,
               let fullURL = URL(string: photo.fullImageURL)
         else  { return }
         
@@ -144,17 +135,11 @@ extension SingleImageViewController {
     }
     
     private func setupScrollView(imageView: UIImageView, imageSize: CGSize) {
-        scrollView?.contentSize = imageSize
-        scrollView?.addSubview(imageView)
+        scrollView.contentSize = imageSize
+        scrollView.addSubview(imageView)
     }
     
     private func addImageScrollView() {
-        scrollView?.removeFromSuperview()
-        scrollView = nil
-        
-        scrollView = UIScrollView(frame: view.bounds)
-        
-        guard let scrollView = scrollView else { return }
         scrollView.delegate = self
         scrollView.decelerationRate = UIScrollView.DecelerationRate.normal
         scrollView.showsVerticalScrollIndicator = false
@@ -234,24 +219,24 @@ extension SingleImageViewController: UIScrollViewDelegate {
     }
 }
 
-extension SingleImageViewController: AlertPresenterDelegate {
-    func dismissAlert() { }
-    
-    private func repeatLoadImage() {
+//Show alert
+extension SingleImageViewController {
+    private func repeatLoadImageAction() {
         loadImage()
     }
     
     private func showErrorAlert(_ message: String) {
-        alertPresenter?.showAlert(
+        AlertPresenter.showAlert(
+            viewController: self,
             title: "Что-то пошло не так",
             message: "Не удалось загрузить фото\n\(message)",
             buttonTitle: "OK",
             button2Title: "Повторить",
-            completion1: { [weak self] in
-                self?.dismissAlert()
+            completion1: {
+                self.dismiss(animated: true)
             },
             completion2: { [weak self] in
-                self?.repeatLoadImage()
+                self?.repeatLoadImageAction()
             }
         )
     }

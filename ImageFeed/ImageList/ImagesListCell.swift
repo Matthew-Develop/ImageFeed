@@ -11,15 +11,14 @@ import Kingfisher
 final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
     static let didChangeNotification = Notification.Name("ImagesListCellDidChange")
-    
     weak var delegate: ImagesListCellDelegate?
-    //MARK: Views
-    private var cellImageView: UIImageView?
-    private var likeButton: UIButton?
-    private var date: UILabel?
-    private var gradientBox = GradientView()
     
-    private var imagesListService = ImagesListService.shared
+    //MARK: Views
+    private var cellImageView = UIImageView()
+    private var likeButton = UIButton()
+    private var date = UILabel()
+    private lazy var gradientBox = GradientView()
+    
     private var photo: Photo?
     private var isLiked: Bool = false
     
@@ -44,15 +43,37 @@ final class ImagesListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        cellImageView?.kf.cancelDownloadTask()
+        cellImageView.kf.cancelDownloadTask()
+    }
+    
+    //MARK: Public Functions
+    func setImage(url: URL?, completion: @escaping (() -> Void)) {
+        guard let url = url else { return }
+        cellImageView.kf.indicatorType = .activity
+        cellImageView.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "placeholder_cell")
+        ) { _ in
+            completion()
+        }
+    }
+    
+    func setLikeButton(isLiked: Bool) {
+        guard let buttonImage = isLiked ? UIImage(named: "like_active") : UIImage(named: "like_no_active")
+        else { return }
+        likeButton.setImage(buttonImage, for: .normal)
+    }
+    
+    func setDate(dateString: String) {
+        date.text = dateString
+    }
+    
+    func changeLikeButtonImage(changeToLike: Bool) {
+        let buttonImage = changeToLike ? UIImage(named: "like_active") : UIImage(named: "like_no_active")
+        likeButton.setImage(buttonImage, for: .normal)
     }
     
     //MARK: Private Functions
-    func changeLikeButtonImage(changeToLike: Bool) {
-        let buttonImage = changeToLike ? UIImage(named: "like_active") : UIImage(named: "like_no_active")
-        likeButton?.setImage(buttonImage, for: .normal)
-    }
-    
     @objc private func toggleLikeButton(_ sender: UIButton) {
         delegate?.didLikeButtonTapped(cell: self)
         
@@ -72,46 +93,18 @@ extension ImagesListCell {
     private func setupView() {
         self.backgroundColor = .clear
         self.selectionStyle = .none
+        addImage()
+        addLikeButton()
+        addDateLabel()
     }
     
-    private func addGradientBox() {
-        gradientBox.autoResizeOff()
-        
-        self.addSubview(gradientBox)
-        guard let cellImageView else { return }
-        NSLayoutConstraint.activate([
-            gradientBox.heightAnchor.constraint(equalToConstant: 30),
-            gradientBox.leadingAnchor.constraint(equalTo: cellImageView.leadingAnchor),
-            gradientBox.trailingAnchor.constraint(equalTo: cellImageView.trailingAnchor),
-            gradientBox.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor)
-        ])
-    }
-    
-    func setImage(url: URL?, completion: @escaping (() -> Void)) {
-        cellImageView?.removeFromSuperview()
-        cellImageView = nil
-        
-        cellImageView = UIImageView()
-        guard let cellImageView = cellImageView,
-              let url = url
-        else { return }
-
-        let processor = RoundCornerImageProcessor(cornerRadius: 0)
-        cellImageView.kf.indicatorType = .activity
-        cellImageView.kf.setImage(
-            with: url,
-            placeholder: UIImage(named: "placeholder_cell"),
-            options: [.processor(processor)]
-        ) { _ in
-            completion()
-        }
-        
+    private func addImage() {
         cellImageView.contentMode = .scaleAspectFill
         cellImageView.layer.cornerRadius = 16
         cellImageView.layer.masksToBounds = true
         cellImageView.autoResizeOff()
-        self.addSubview(cellImageView)
         
+        self.addSubview(cellImageView)
         NSLayoutConstraint.activate([
             cellImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             cellImageView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
@@ -120,22 +113,11 @@ extension ImagesListCell {
         ])
     }
     
-    func setLikeButton(isLiked: Bool) {
-        likeButton?.removeFromSuperview()
-        likeButton = nil
-        
-        likeButton = UIButton(type: .custom)
-       
-        guard let likeButton,
-              let buttonImage = isLiked ? UIImage(named: "like_active") : UIImage(named: "like_no_active")
-        else { return }
-        
-        likeButton.setImage(buttonImage, for: .normal)
+    private func addLikeButton() {
         likeButton.addTarget(self, action: #selector(toggleLikeButton), for: .touchUpInside)
         
         likeButton.autoResizeOff()
         self.addSubview(likeButton)
-        guard let cellImageView else { return }
         NSLayoutConstraint.activate([
             likeButton.heightAnchor.constraint(equalToConstant: 42),
             likeButton.widthAnchor.constraint(equalToConstant: 42),
@@ -145,25 +127,28 @@ extension ImagesListCell {
         ])
     }
     
-    func setDate(dateString: String) {
-        date?.removeFromSuperview()
-        date = nil
-        
-        date = UILabel()
-        
-        guard let date else { return }
-        date.autoResizeOff()
-
-        date.text = dateString
+    private func addDateLabel() {
         date.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         date.textColor = .ypWhite
         
         addGradientBox()
+        date.autoResizeOff()
         self.addSubview(date)
-        guard let cellImageView else { return }
         NSLayoutConstraint.activate([
             date.leadingAnchor.constraint(equalTo: cellImageView.leadingAnchor, constant: 8),
             date.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor, constant: -8)
+        ])
+    }
+    
+    private func addGradientBox() {
+        gradientBox.autoResizeOff()
+        
+        self.addSubview(gradientBox)
+        NSLayoutConstraint.activate([
+            gradientBox.heightAnchor.constraint(equalToConstant: 30),
+            gradientBox.leadingAnchor.constraint(equalTo: cellImageView.leadingAnchor),
+            gradientBox.trailingAnchor.constraint(equalTo: cellImageView.trailingAnchor),
+            gradientBox.bottomAnchor.constraint(equalTo: cellImageView.bottomAnchor)
         ])
     }
 }
