@@ -8,17 +8,18 @@
 import UIKit
 @preconcurrency import WebKit
 
-final class WebViewViewController: UIViewController {
+public protocol WebViewViewControllerProtocol: AnyObject {
+    var presenter: WebViewPresenterProtocol? { get set }
+}
+
+final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+    weak var delegate: WebViewViewControllerDelegate?
+    var presenter: WebViewPresenterProtocol?
+    
+    private var estimatedProgressObservation: NSKeyValueObservation?
     private var webView = WKWebView()
     private var progressView = UIProgressView()
-    
-    //MARK: Public Properties
-    weak var delegate: WebViewViewControllerDelegate?
-    
-    //MARK: Private Properties
-    private var estimatedProgressObservation: NSKeyValueObservation?
 
-    //MARK: Override Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         progressView.progress = 0
@@ -53,7 +54,8 @@ final class WebViewViewController: UIViewController {
         
         guard let url = urlComponents.url else {
             print("ERROR creating URL from URLComponents WebView")
-            return }
+            return
+        }
         
         let request = URLRequest(url: url)
         webView.load(request)
