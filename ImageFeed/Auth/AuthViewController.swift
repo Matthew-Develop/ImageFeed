@@ -36,6 +36,10 @@ final class AuthViewController: UIViewController {
     @objc private func didLoginButtonTapped(_ sender: UIButton!) {
         guard let webViewViewController = UIStoryboard(name: "Main", bundle: .main).instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else { return }
         
+        let webViewPresenter = WebViewPresenter()
+        webViewViewController.presenter = webViewPresenter
+        webViewPresenter.view = webViewViewController
+        
         webViewViewController.delegate = self
         webViewViewController.modalPresentationStyle = .fullScreen
         present(webViewViewController, animated: true)
@@ -43,7 +47,6 @@ final class AuthViewController: UIViewController {
         UIView.animate(withDuration: 0.1) {
             sender.alpha = 0.7
         }
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.1 ) {
             UIView.animate(withDuration: 0.1) {
                 sender.alpha = 1.0
