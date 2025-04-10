@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		34072DBD2D7B38E600EA022A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34072DBC2D7B38E600EA022A /* AlertPresenter.swift */; };
 		341075FD2DA7A65C00B5919E /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341075FC2DA7A65C00B5919E /* ProfileViewPresenter.swift */; };
+		341076052DA7B67000B5919E /* ProfileViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341076022DA7B67000B5919E /* ProfileViewTests.swift */; };
+		341076062DA7B67000B5919E /* WebViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341076032DA7B67000B5919E /* WebViewTests.swift */; };
 		341CB2002DA67C7E00B80E3B /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341CB1FF2DA67C7E00B80E3B /* WebViewPresenter.swift */; };
 		341CB2022DA6845000B80E3B /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341CB2012DA6845000B80E3B /* AuthConfiguration.swift */; };
 		341CB2042DA6857300B80E3B /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341CB2032DA6857300B80E3B /* AuthHelper.swift */; };
@@ -64,6 +66,8 @@
 /* Begin PBXFileReference section */
 		34072DBC2D7B38E600EA022A /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
 		341075FC2DA7A65C00B5919E /* ProfileViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenter.swift; sourceTree = "<group>"; };
+		341076022DA7B67000B5919E /* ProfileViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewTests.swift; sourceTree = "<group>"; };
+		341076032DA7B67000B5919E /* WebViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewTests.swift; sourceTree = "<group>"; };
 		341CB1FF2DA67C7E00B80E3B /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		341CB2012DA6845000B80E3B /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 		341CB2032DA6857300B80E3B /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
@@ -106,14 +110,6 @@
 		9FDDB2C72D4F620D002EEF93 /* SingleImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleImageViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		341CB2172DA688DB00B80E3B /* ImageFeedTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = ImageFeedTests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
-
 /* Begin PBXFrameworksBuildPhase section */
 		341CB2132DA688DB00B80E3B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -135,6 +131,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		341076042DA7B67000B5919E /* ImageFeedTests */ = {
+			isa = PBXGroup;
+			children = (
+				341076022DA7B67000B5919E /* ProfileViewTests.swift */,
+				341076032DA7B67000B5919E /* WebViewTests.swift */,
+			);
+			path = ImageFeedTests;
+			sourceTree = "<group>";
+		};
 		34211CC72D916BE0007B6D05 /* Services */ = {
 			isa = PBXGroup;
 			children = (
@@ -292,7 +297,7 @@
 			isa = PBXGroup;
 			children = (
 				9F05679F2D44FDC100D3244E /* ImageFeed */,
-				341CB2172DA688DB00B80E3B /* ImageFeedTests */,
+				341076042DA7B67000B5919E /* ImageFeedTests */,
 				9F5275F52D426D97007D2DEE /* Products */,
 			);
 			sourceTree = "<group>";
@@ -351,9 +356,6 @@
 			);
 			dependencies = (
 				341CB21B2DA688DB00B80E3B /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				341CB2172DA688DB00B80E3B /* ImageFeedTests */,
 			);
 			name = ImageFeedTests;
 			packageProductDependencies = (
@@ -453,6 +455,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				341076052DA7B67000B5919E /* ProfileViewTests.swift in Sources */,
+				341076062DA7B67000B5919E /* WebViewTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

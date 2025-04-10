@@ -11,6 +11,7 @@ import Foundation
 
 final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
     var viewDidLoadCalled = false
+    var showLogoutAlertCalled = false
     var view: ProfileViewControllerProtocol?
 
     func viewDidLoad() {
@@ -18,6 +19,7 @@ final class ProfileViewPresenterSpy: ProfileViewPresenterProtocol {
     }
     
     func showLogoutAlert(view: UIViewController) {
+        showLogoutAlertCalled = true
     }
 }
 final class ProfileViewControllerSpy: ProfileViewControllerProtocol {
@@ -49,33 +51,45 @@ final class ProfileViewTests: XCTestCase {
         XCTAssertTrue(presenterSpy.viewDidLoadCalled)
     }
     
+    func testViewControllerCallsLogoutAlert() {
+        //Given
+        let viewController = ProfileViewController()
+        let presenterSpy = ProfileViewPresenterSpy()
+        viewController.presenter = presenterSpy
+        presenterSpy.view = viewController
+        
+        //When
+        viewController.showLogoutAlert()
+        
+        //Then
+        XCTAssertTrue(presenterSpy.showLogoutAlertCalled)
+    }
+    
     func testPresenterCallsUpdateProfileData() {
         //Given
         let presenter = ProfileViewPresenter()
-        let viewController = ProfileViewControllerSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
+        let viewControllerSpy = ProfileViewControllerSpy()
+        viewControllerSpy.presenter = presenter
+        presenter.view = viewControllerSpy
         
         //When
         presenter.viewDidLoad()
         
         //Then
-        XCTAssertTrue(viewController.updateProfileDataCalled)
+        XCTAssertTrue(viewControllerSpy.updateProfileDataCalled)
     }
     
     func testPresenterCallsUpdateProfileImage() {
         //Given
         let presenter = ProfileViewPresenter()
-        let viewController = ProfileViewControllerSpy()
-        viewController.presenter = presenter
-        presenter.view = viewController
+        let viewControllerSpy = ProfileViewControllerSpy()
+        viewControllerSpy.presenter = presenter
+        presenter.view = viewControllerSpy
         
         //When
         presenter.viewDidLoad()
         
         //Then
-        XCTAssertTrue(viewController.updateProfileImageCalled)
+        XCTAssertTrue(viewControllerSpy.updateProfileImageCalled)
     }
-    
-    
 }
