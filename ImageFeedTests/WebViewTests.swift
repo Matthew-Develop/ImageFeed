@@ -44,15 +44,15 @@ final class WebViewTests: XCTestCase {
     func testViewControllerCallsViewDidLoad() {
         //Given
         let view = WebViewViewController()
-        let presenter = WebViewPresenterSpy()
-        view.presenter = presenter
-        presenter.view = view
+        let presenterSpy = WebViewPresenterSpy()
+        view.presenter = presenterSpy
+        presenterSpy.view = view
         
         //When
         _ = view.view
         
         //Then
-        XCTAssertTrue(presenter.viewDidLoadCalled)
+        XCTAssertTrue(presenterSpy.viewDidLoadCalled)
     }
     
     func testPresenterCallsLoadRequest() {
@@ -133,6 +133,4 @@ final class WebViewTests: XCTestCase {
         //Then
         XCTAssertEqual(code, "testCode")
     }
-    
-    
 }

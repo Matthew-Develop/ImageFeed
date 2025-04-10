@@ -9,16 +9,18 @@ import UIKit
 @preconcurrency import WebKit
 
 public protocol WebViewViewControllerProtocol: AnyObject {
-    var presenter: WebViewPresenterProtocol? { get set }
     func load(request: URLRequest)
     func setProgressValue(_ newValue: Float)
     func setProgressHidden(_ isHidden: Bool)
+    var presenter: WebViewPresenterProtocol? { get set }
 }
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+    //MARK: Public Properties
     weak var delegate: WebViewViewControllerDelegate?
     var presenter: WebViewPresenterProtocol?
     
+    //MARK: Private Properties
     private var estimatedProgressObservation: NSKeyValueObservation?
     private var webView = WKWebView()
     private var progressView = UIProgressView()

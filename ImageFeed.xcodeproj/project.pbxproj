@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		34072DBD2D7B38E600EA022A /* AlertPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34072DBC2D7B38E600EA022A /* AlertPresenter.swift */; };
+		341075FD2DA7A65C00B5919E /* ProfileViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341075FC2DA7A65C00B5919E /* ProfileViewPresenter.swift */; };
 		341CB2002DA67C7E00B80E3B /* WebViewPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341CB1FF2DA67C7E00B80E3B /* WebViewPresenter.swift */; };
 		341CB2022DA6845000B80E3B /* AuthConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341CB2012DA6845000B80E3B /* AuthConfiguration.swift */; };
 		341CB2042DA6857300B80E3B /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 341CB2032DA6857300B80E3B /* AuthHelper.swift */; };
@@ -62,6 +63,7 @@
 
 /* Begin PBXFileReference section */
 		34072DBC2D7B38E600EA022A /* AlertPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresenter.swift; sourceTree = "<group>"; };
+		341075FC2DA7A65C00B5919E /* ProfileViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewPresenter.swift; sourceTree = "<group>"; };
 		341CB1FF2DA67C7E00B80E3B /* WebViewPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewPresenter.swift; sourceTree = "<group>"; };
 		341CB2012DA6845000B80E3B /* AuthConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfiguration.swift; sourceTree = "<group>"; };
 		341CB2032DA6857300B80E3B /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
@@ -255,9 +257,9 @@
 				34F9F4FD2D5F514000BE4CE9 /* AuthViewController.swift */,
 				34F9F4FF2D5F52A500BE4CE9 /* WebViewViewController.swift */,
 				341CB1FF2DA67C7E00B80E3B /* WebViewPresenter.swift */,
+				341CB2032DA6857300B80E3B /* AuthHelper.swift */,
 				344460E82D6214A7007C18ED /* Services */,
 				34F2A4312D60AF1000583FE5 /* Delegate protocol */,
-				341CB2032DA6857300B80E3B /* AuthHelper.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -308,6 +310,7 @@
 			isa = PBXGroup;
 			children = (
 				9F780B512D4BB83B0071B2E2 /* ProfileViewController.swift */,
+				341075FC2DA7A65C00B5919E /* ProfileViewPresenter.swift */,
 				344F93F42D75EF1C00775845 /* Services */,
 			);
 			path = Profile;
@@ -458,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9F780B522D4BB83B0071B2E2 /* ProfileViewController.swift in Sources */,
+				341075FD2DA7A65C00B5919E /* ProfileViewPresenter.swift in Sources */,
 				346362232D9A581200326E52 /* SingleImageViewControllerDelegate.swift in Sources */,
 				34F9F5002D5F52A500BE4CE9 /* WebViewViewController.swift in Sources */,
 				344460EC2D621892007C18ED /* OAuth2Service.swift in Sources */,

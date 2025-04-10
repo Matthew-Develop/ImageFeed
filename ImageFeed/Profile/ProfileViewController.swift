@@ -8,53 +8,58 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {    
+public protocol ProfileViewControllerProtocol: AnyObject {
+    func updateProfileData(profile: Profile?)
+    func updateProfileImage(url: URL?)
+    var presenter: ProfileViewPresenterProtocol? { get set }
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    //MARK: View
     private var profileImage = UIImageView()
     private var profileName = UILabel()
     private var profileLoginName = UILabel()
     private var profileBio = UILabel()
     private var vStack = UIStackView(arrangedSubviews: [])
     
-    private var profileImageServiceObserver: NSObjectProtocol?
-    private var profileImageURL: URL?
-    private let profileService = ProfileService.shared
-    private let profileImageService = ProfileImageService.shared
-    private let authTokenService = AuthTokenService.shared
-    private let profileLogoutService = ProfileLogoutService.shared
+    //MARK: Public Properties
+    var presenter: ProfileViewPresenterProtocol?
+    
+    //MARK: Private Properties
+//    private var profileImageServiceObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        profileImageServiceObserver = NotificationCenter.default
-            .addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main) { [weak self] (result) in
-                    guard let self = self else { return }
-                    self.updateProfileImage(profileImageService.profileImageURL)
-                }
-        updateProfileImage(profileImageService.profileImageURL)
-        
-        getProfileData(profile: profileService.profile)
-        
+        presenter?.viewDidLoad()
         setupView()
+//        profileImageServiceObserver = NotificationCenter.default
+//            .addObserver(
+//                forName: ProfileImageService.didChangeNotification,
+//                object: nil,
+//                queue: .main) { [weak self] (result) in
+//                    guard let self = self else { return }
+//                    self.updateProfileImage(profileImageService.profileImageURL)
+//                }
     }
     
-    //MARK: Private Functions
-    private func getProfileData(profile: Profile?) {
+    //MARK: Public Functions
+    func updateProfileData(profile: Profile?) {
         guard let profile = profile
         else {
-            assertionFailure("ERROR getting profile data")
+            print("ERROR getting profile data")
             return
         }
-        
         profileName.text = profile.name
         profileLoginName.text = profile.loginName
         profileBio.text = profile.bio
     }
     
-    private func updateProfileImage(_ url: URL?) {
-        guard let url = url else { return }
+    func updateProfileImage(url: URL?) {
+        guard let url = url
+        else {
+            print("ERROR getting profileImage URL")
+            return
+        }
         
         if url.description.contains("placeholder") {
             profileImage.image = UIImage(named: "placeholder_profile_image")
@@ -173,28 +178,9 @@ extension ProfileViewController {
     }
 }
 
+//Alert
 extension ProfileViewController {
-    private func showLogoutAlert() {
-        AlertPresenter.showAlert(
-            viewController: self,
-            title: "Пока, пока!",
-            message: "Уверены, что хотите выйти?",
-            buttonTitle: "Да",
-            button2Title: "Нет",
-            completion1: { [weak self] in
-                UIBlockingProgressHUD.show()
-                
-                self?.profileLogoutService.logout()
-                guard let window = UIApplication.shared.windows.first else {
-                    assertionFailure("ERROR window configuration after user Logout")
-                    return
-                }
-                let splashViewController = SplashViewController()
-                window.rootViewController = splashViewController
-                
-                UIBlockingProgressHUD.dismiss()
-            },
-            completion2: { }
-        )
+    func showLogoutAlert() {
+        presenter?.showLogoutAlert(view: self)
     }
 }
