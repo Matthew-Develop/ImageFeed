@@ -12,10 +12,8 @@ public protocol ImagesListViewPresenterProtocol: AnyObject {
     func displayPhotos(indexPath: IndexPath)
     func configCell(for cell: ImagesListCell, with indexPath: IndexPath)
     func updateTableViewAnimated()
-    func didTapLikeButtonTableView(cell: ImagesListCell, indexPath: IndexPath)
+    func didTapLikeButtonTableView(cell: ImagesListCell, view: UIViewController)
     func didTapLikeButtonSingleImageView(_ singleImageViewController: SingleImageViewController)
-    func showLikeAlertTableView(view: UIViewController, message: String)
-    func showLikeAlertSingleImage(view: UIViewController, message: String)
     var view: ImagesListViewControllerProtocol? { get set }
     var photos: [Photo] { get }
 }
@@ -36,6 +34,14 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
     }()
    
     //MARK: Public Functions
+    func reloadTableRow(indexPath: IndexPath) {
+        view?.reloadTableRow(indexPath: indexPath)
+    }
+    
+    func insertTableRows(indexPathArray: [IndexPath]) {
+        view?.insertTableRows(indexPathArray: indexPathArray)
+    }
+    
     func viewDidLoad() {
         fetchPhotosNextPage()
     }
@@ -63,7 +69,7 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
         let regularURLString = photo.regularImageURL
         let regularURL = URL(string: regularURLString)
         cell.setImage(url: regularURL) { [weak self] in
-            self?.view?.reloadTableRow(indexPath: indexPath)
+            self?.reloadTableRow(indexPath: indexPath)
         }
         
         let date = photo.createdAt
@@ -88,11 +94,13 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
                 indexPathArray.append(IndexPath(row: i, section: 0))
             }
             
-            view?.insertTableRows(indexPathArray: indexPathArray)
+            insertTableRows(indexPathArray: indexPathArray)
         }
     }
     
-    func didTapLikeButtonTableView(cell: ImagesListCell, indexPath: IndexPath) {
+    //MARK: Did TapLike Functions
+    func didTapLikeButtonTableView(cell: ImagesListCell, view: UIViewController) {
+        guard let indexPath = self.view?.getIndexPath(from: cell) else { return }
         let photo = photos[indexPath.row]
         
         UIBlockingProgressHUD.show()
@@ -104,11 +112,11 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
             case .failure(let error):
                 print("ERROR like photo: \(error.localizedDescription)")
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
-                self.view?.showLikeAlertTableView(message: errorMessage)
+                self.showLikeAlertTableView(view: view, message: errorMessage)
             case .success():
                 self.photos = self.imagesListService.photos
                 cell.changeLikeButtonImage(changeToLike: !photo.isLiked)
-                self.view?.reloadTableRow(indexPath: indexPath)
+                self.reloadTableRow(indexPath: indexPath)
             }
         }
     }
@@ -129,15 +137,16 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
             case .failure(let error):
                 print("ERROR like photo: \(error.localizedDescription)")
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
-                self.view?.showLikeAlertSingleImage(message: errorMessage, viewController: singleImageViewController)
+                self.showLikeAlertSingleImage(view: singleImageViewController, message: errorMessage)
             case .success():
                 self.photos = self.imagesListService.photos
                 singleImageViewController.changeLikeButtonImage(changeToLike: !photo.isLiked)
-                self.view?.reloadTableRow(indexPath: indexPath)
+                self.reloadTableRow(indexPath: indexPath)
             }
         }
     }
     
+    //MARK: Show Like Alert
     func showLikeAlertTableView(view: UIViewController, message: String) {
         AlertPresenter.showAlert(
             viewController: view,

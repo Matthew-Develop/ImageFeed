@@ -10,8 +10,7 @@ import UIKit
 public protocol ImagesListViewControllerProtocol: AnyObject {
     func reloadTableRow(indexPath: IndexPath)
     func insertTableRows(indexPathArray: [IndexPath])
-    func showLikeAlertTableView(message: String)
-    func showLikeAlertSingleImage(message: String, viewController: SingleImageViewController)
+    func getIndexPath(from cell: ImagesListCell) -> IndexPath?
     var presenter: ImagesListViewPresenterProtocol? { get set }
 }
 
@@ -21,17 +20,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     
     // MARK: Public Properties
     var presenter: ImagesListViewPresenterProtocol?
-    
-    // MARK: Private Properties
-//    private let imagesListService = ImagesListService.shared
-//    private var photos: [Photo] = []
-    
-//    private lazy var dateFormatterFromString = ISO8601DateFormatter()
-//    private lazy var dateFormatterToString: DateFormatter = {
-//        let dateFormatterToString = DateFormatter()
-//        dateFormatterToString.dateFormat = "d MMM yyyy"
-//        return dateFormatterToString
-//    }()
     
     // MARK: Overrides Methods
     override func viewDidLoad() {
@@ -46,7 +34,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
                 queue: .main
             ) { [weak self] _ in
                 guard let self else { return }
-//                self.updateTableViewAnimated()
                 self.presenter?.updateTableViewAnimated()
             }
     }
@@ -54,16 +41,6 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
     //MARK: Public Functions
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         presenter?.displayPhotos(indexPath: indexPath)
-//        if indexPath.row + 1 == photos.count {
-//            imagesListService.fetchPhotosNextpage { result in
-//                switch result {
-//                case .failure(let error):
-//                    print("ERROR fetch next page: \(error.localizedDescription)")
-//                case .success:
-//                    print("success fetch next page")
-//                }
-//            }
-//        }
     }
     
     func reloadTableRow(indexPath: IndexPath) {
@@ -78,47 +55,9 @@ final class ImagesListViewController: UIViewController & ImagesListViewControlle
         } completion: { _ in }
     }
     
-//    //MARK: Private Methods
-//    private func configCell(for cell: ImagesListCell, with indexPath: IndexPath) {
-//        presenter?.configCell(for: cell, with: indexPath)
-////        let photo = photos[indexPath.row]
-////        
-////        let regularURLString = photo.regularImageURL
-////        let regularURL = URL(string: regularURLString)
-////        cell.setImage(url: regularURL) { [weak self] in
-////            self?.tableView.reloadRows(at: [indexPath], with: .none)
-////        }
-////        
-////        let date = photo.createdAt
-////        var dateString: String = ""
-////        if let dateGet = dateFormatterFromString.date(from: date) {
-////            dateString = dateFormatterToString.string(from: dateGet)
-////        }
-////        cell.setDate(dateString: dateString)
-////        
-////        cell.setLikeButton(isLiked: photo.isLiked)
-//    }
-//    
-//    private func updateTableViewAnimated() {
-//        presenter?.updateTableViewAnimated()
-////        let oldCount = photos.count
-////        let newCount = imagesListService.photos.count
-////        
-////        photos = imagesListService.photos
-////        
-////        if oldCount != newCount {
-////            var indexPathArray: [IndexPath] = []
-////            for i in oldCount..<newCount {
-////                indexPathArray.append(IndexPath(row: i, section: 0))
-////            }
-////            
-////            tableView.performBatchUpdates {
-////                self.tableView.insertRows(
-////                    at: indexPathArray,
-////                    with: .automatic)
-////            } completion: { _ in }
-////        }
-//    }
+    func getIndexPath(from cell: ImagesListCell) -> IndexPath? {
+        tableView.indexPath(for: cell)
+    }
 }
 
 //Setup view
@@ -169,7 +108,6 @@ extension ImagesListViewController: UITableViewDataSource {
         }
         
         imageListCell.delegate = self
-//        configCell(for: imageListCell, with: indexPath)
         presenter?.configCell(for: imageListCell, with: indexPath)
         
         return imageListCell
@@ -208,80 +146,12 @@ extension ImagesListViewController: UITableViewDelegate {
 
 extension ImagesListViewController: ImagesListCellDelegate {
     func didTapLikeButtonTableView(cell: ImagesListCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
-        presenter?.didTapLikeButtonTableView(cell: cell, indexPath: indexPath)
-//        let photo = photos[indexPath.row]
-//        
-//        UIBlockingProgressHUD.show()
-//        imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
-//            guard let self = self else { return }
-//            UIBlockingProgressHUD.dismiss()
-//            
-//            switch result {
-//            case .failure(let error):
-//                print("ERROR like photo: \(error.localizedDescription)")
-//                let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
-//                self.showLikeAlert(message: errorMessage)
-//            case .success():
-//                self.photos = self.imagesListService.photos
-//                cell.changeLikeButtonImage(changeToLike: !photo.isLiked)
-//                self.tableView.reloadRows(at: [indexPath], with: .none)
-//            }
-//        }
+        presenter?.didTapLikeButtonTableView(cell: cell, view: self)
     }
 }
 
 extension ImagesListViewController: SingleImageViewControllerDelegate {
     func didTapLikeButtonSingleImageView(singleImageViewController: SingleImageViewController) {
         presenter?.didTapLikeButtonSingleImageView(singleImageViewController)
-//        guard let photoFromController = singleImageViewController.photo,
-//              let index = photos.firstIndex(where: { $0.id == photoFromController.id })
-//        else { return }
-//        let indexPath = IndexPath(row: index, section: 0)
-//        let photo = photos[indexPath.row]
-//        
-//        UIBlockingProgressHUD.show()
-//        imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
-//            guard let self = self else { return }
-//            UIBlockingProgressHUD.dismiss()
-//            
-//            switch result {
-//            case .failure(let error):
-//                print("ERROR like photo: \(error.localizedDescription)")
-//                let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
-//                self.showLikeAlertSingleImage(message: errorMessage, viewController: singleImageViewController)
-//            case .success():
-//                self.photos = self.imagesListService.photos
-//                singleImageViewController.changeLikeButtonImage(changeToLike: !photo.isLiked)
-//                self.tableView.reloadRows(at: [indexPath], with: .none)
-//            }
-//        }
-    }
-}
-
-//Show alert
-extension ImagesListViewController {
-    func showLikeAlertTableView(message: String) {
-        presenter?.showLikeAlertTableView(view: self, message: message)
-//        AlertPresenter.showAlert(
-//            viewController: self,
-//            title: "Что-то пошло не так :(",
-//            message: "Не удалось поставить/снять лайк\n\(message)",
-//            buttonTitle: nil,
-//            completion1: {},
-//            completion2: {}
-//        )
-    }
-    
-    func showLikeAlertSingleImage(message: String, viewController: SingleImageViewController) {
-        presenter?.showLikeAlertSingleImage(view: viewController, message: message)
-//        AlertPresenter.showAlert(
-//            viewController: viewController,
-//            title: "Что-то пошло не так",
-//            message: "Не удалось поставить/снять лайк\n\(message)",
-//            buttonTitle: nil,
-//            completion1: {},
-//            completion2: {}
-//        )
     }
 }

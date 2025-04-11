@@ -25,21 +25,10 @@ final class ProfileViewController: UIViewController & ProfileViewControllerProto
     //MARK: Public Properties
     var presenter: ProfileViewPresenterProtocol?
     
-    //MARK: Private Properties
-//    private var profileImageServiceObserver: NSObjectProtocol?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.viewDidLoad()
         setupView()
-//        profileImageServiceObserver = NotificationCenter.default
-//            .addObserver(
-//                forName: ProfileImageService.didChangeNotification,
-//                object: nil,
-//                queue: .main) { [weak self] (result) in
-//                    guard let self = self else { return }
-//                    self.updateProfileImage(profileImageService.profileImageURL)
-//                }
     }
     
     //MARK: Public Functions
