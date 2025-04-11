@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class SingleImageViewController: UIViewController {
+public final class SingleImageViewController: UIViewController {
     weak var delegate: SingleImageViewControllerDelegate?
     
     private var scrollView = UIScrollView()
@@ -25,7 +25,7 @@ final class SingleImageViewController: UIViewController {
     }
 
     // MARK: Overrides Methods
-    override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
     
         setupView()
@@ -81,7 +81,7 @@ final class SingleImageViewController: UIViewController {
     }
     
     @objc private func didTapLikeButton(_ sender: UIButton) {
-        delegate?.didLikeButtonTapped(singleImageViewController: self)
+        delegate?.didTapLikeButtonSingleImageView(singleImageViewController: self)
         
         UIView.animate(withDuration: 0.05) {
             sender.alpha = 0.7
@@ -210,11 +210,11 @@ extension SingleImageViewController {
 }
 
 extension SingleImageViewController: UIScrollViewDelegate {
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+    public func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
-    func scrollViewDidZoom(_ scrollView: UIScrollView) {
+    public func scrollViewDidZoom(_ scrollView: UIScrollView) {
         centerImage()
     }
 }

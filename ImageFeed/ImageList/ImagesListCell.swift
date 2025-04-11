@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class ImagesListCell: UITableViewCell {
+public final class ImagesListCell: UITableViewCell {
     static let reuseIdentifier = "ImagesListCell"
     static let didChangeNotification = Notification.Name("ImagesListCellDidChange")
     weak var delegate: ImagesListCellDelegate?
@@ -35,12 +35,12 @@ final class ImagesListCell: UITableViewCell {
     }
     
     //MARK: Override Methods
-    override func layoutSubviews() {
+    public override func layoutSubviews() {
         super.layoutSubviews()
         setupView()
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         cellImageView.kf.cancelDownloadTask()
@@ -75,7 +75,7 @@ final class ImagesListCell: UITableViewCell {
     
     //MARK: Private Functions
     @objc private func toggleLikeButton(_ sender: UIButton) {
-        delegate?.didLikeButtonTapped(cell: self)
+        delegate?.didTapLikeButtonTableView(cell: self)
         
         UIView.animate(withDuration: 0.05) {
             sender.alpha = 0.7

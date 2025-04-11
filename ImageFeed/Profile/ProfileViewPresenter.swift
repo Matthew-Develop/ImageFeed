@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol ProfileViewPresenterProtocol {
+public protocol ProfileViewPresenterProtocol: AnyObject {
     func viewDidLoad()
     func showLogoutAlert(view: UIViewController)
     var view: ProfileViewControllerProtocol? { get set }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol ImagesListCellDelegate: AnyObject {
-    func didLikeButtonTapped(cell: ImagesListCell)
+    func didTapLikeButtonTableView(cell: ImagesListCell)
 }

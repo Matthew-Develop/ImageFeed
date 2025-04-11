@@ -8,5 +8,5 @@
 import Foundation
 
 protocol SingleImageViewControllerDelegate: AnyObject {
-    func didLikeButtonTapped(singleImageViewController: SingleImageViewController)
+    func didTapLikeButtonSingleImageView(singleImageViewController: SingleImageViewController)
 }

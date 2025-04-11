@@ -21,7 +21,7 @@ final class ImagesListService {
     
     //MARK: - Public Functions
     func fetchPhotosNextpage(handler: @escaping (Result<[Photo], Error>)-> Void) {
-        let nextPage = (lastLoadedPage ?? -1) + 1
+        let nextPage = (lastLoadedPage ?? 0) + 1
         
         assert(Thread.isMainThread)
         guard lastLoadedPage != nextPage,
