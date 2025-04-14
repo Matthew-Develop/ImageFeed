@@ -32,14 +32,14 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(loginTextField.waitForExistence(timeout: 5))
     
         loginTextField.tap()
-        loginTextField.typeText("sold4817@gmail.com")
+        loginTextField.typeText("email")
         loginTextField.swipeUp()
 
         let passwordTextField = authWebView.descendants(matching: .secureTextField).element
         XCTAssertTrue(passwordTextField.waitForExistence(timeout: 5))
         
         passwordTextField.tap()
-        passwordTextField.typeText("Mateves007")
+        passwordTextField.typeText("pass")
         passwordTextField.swipeUp()
         
         //Нажатие на кнопку логин
@@ -116,9 +116,9 @@ final class ImageFeedUITests: XCTestCase {
         app.tabBars.buttons.element(boundBy: 1).tap()
         
         // Проверить, что на нём отображаются ваши персональные данные
-        XCTAssertTrue(app.staticTexts["Matthew Matt"].exists)
-        XCTAssertTrue(app.staticTexts["@matt_dev"].exists)
-        XCTAssertTrue(app.staticTexts["IOS Developer | Dubai"].exists)
+        XCTAssertTrue(app.staticTexts["name"].exists)
+        XCTAssertTrue(app.staticTexts["@nickname"].exists)
+        XCTAssertTrue(app.staticTexts["bio"].exists)
         XCTAssertTrue(app.staticTexts["Избранное"].exists)
         
         // Нажать кнопку логаута
