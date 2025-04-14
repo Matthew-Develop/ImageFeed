@@ -69,6 +69,7 @@ extension AuthViewController {
     private func addLoginButton() {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didLoginButtonTapped), for: .touchUpInside)
+        button.accessibilityIdentifier = "Authenticate" 
         
         button.setTitle("Войти", for: .normal)
         button.setTitleColor(.ypBlack, for: .normal)

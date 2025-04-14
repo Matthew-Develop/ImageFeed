@@ -16,14 +16,16 @@ public protocol WebViewViewControllerProtocol: AnyObject {
 }
 
 final class WebViewViewController: UIViewController & WebViewViewControllerProtocol {
+    //MARK: View
+    private var webView = WKWebView()
+    private var progressView = UIProgressView()
+    
     //MARK: Public Properties
     weak var delegate: WebViewViewControllerDelegate?
     var presenter: WebViewPresenterProtocol?
     
     //MARK: Private Properties
     private var estimatedProgressObservation: NSKeyValueObservation?
-    private var webView = WKWebView()
-    private var progressView = UIProgressView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -85,6 +87,7 @@ extension WebViewViewController {
     }
     
     private func addWebView() {
+        webView.accessibilityIdentifier = "AuthWebView"
         webView.autoResizeOff()
         view.addSubview(webView)
         NSLayoutConstraint.activate([

@@ -160,6 +160,8 @@ extension SingleImageViewController {
     private func addBackButton() {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(didTapSingleBackButton), for: .touchUpInside)
+        button.accessibilityIdentifier = "SingleImageBackButton"
+        
         button.setImage(UIImage(named: "singleImage_back_button"), for: .normal)
         button.tintColor = .ypWhite
         
@@ -200,6 +202,7 @@ extension SingleImageViewController {
         buttonLike.autoResizeOff()
         buttonLike.setImage(buttonImage, for: .normal)
         buttonLike.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
+        buttonLike.accessibilityIdentifier = "SingleImageLikeButton"
     }
     
     private func configureShareButton() {

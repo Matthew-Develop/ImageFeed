@@ -125,10 +125,12 @@ extension ProfileViewController {
             with: UIImage(systemName: "ipad.and.arrow.forward") ?? UIImage(),
             target: self,
             action: #selector(Self.exitButton))
-        button.autoResizeOff()
+        button.accessibilityIdentifier = "LogoutButton"
+        
         button.tintColor = .ypRed
         button.imageEdgeInsets = UIEdgeInsets(top: 11, left: 12, bottom: 11, right: 12)
         
+        button.autoResizeOff()
         view.addSubview(button)
         NSLayoutConstraint.activate([
             button.heightAnchor.constraint(equalToConstant: 44),

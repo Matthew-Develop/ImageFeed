@@ -115,6 +115,7 @@ extension ImagesListCell {
     
     private func addLikeButton() {
         likeButton.addTarget(self, action: #selector(toggleLikeButton), for: .touchUpInside)
+        likeButton.accessibilityIdentifier = "CellLikeButton"
         
         likeButton.autoResizeOff()
         self.addSubview(likeButton)
