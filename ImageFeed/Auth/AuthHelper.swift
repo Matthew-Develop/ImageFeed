@@ -7,8 +7,8 @@
 
 import Foundation
 
-public protocol AuthHelperProtocol: AnyObject {
-    func authRequest() -> URLRequest?
+protocol AuthHelperProtocol: AnyObject {
+    func createAuthURLRequest() -> URLRequest?
     func code(from url: URL) -> String?
 }
 
@@ -20,7 +20,7 @@ final class AuthHelper: AuthHelperProtocol {
     }
     
     //MARK: Public Functions
-    func authRequest() -> URLRequest? {
+    func createAuthURLRequest() -> URLRequest? {
         guard let url = authURL() else { return nil }
         return URLRequest(url: url)
     }

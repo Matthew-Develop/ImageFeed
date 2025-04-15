@@ -8,7 +8,7 @@
 import UIKit
 
 final class AlertPresenter {
-    static func showAlert(viewController: UIViewController, title: String?, message: String?, buttonTitle: String?, button2Title: String? = nil, completion1: @escaping (() -> Void), completion2: @escaping (() -> Void)) {
+    static func showAlert(viewController: UIViewController, title: String?, message: String?, buttonTitle: String?, button2Title: String? = nil, completionFirstButton: @escaping (() -> Void), completionSecondButton: @escaping (() -> Void)) {
         let alert = UIAlertController(
             title: title ?? "Error",
             message: message ?? "Something went wrong",
@@ -17,7 +17,7 @@ final class AlertPresenter {
         let action = UIAlertAction(
             title: buttonTitle ?? "OK",
             style: .default) { _ in
-                completion1()
+                completionFirstButton()
         }
         
         alert.addAction(action)
@@ -26,7 +26,7 @@ final class AlertPresenter {
             let secondAction = UIAlertAction(
                 title: button2Title,
                 style: .default) { _ in
-                    completion2()
+                    completionSecondButton()
                 }
             alert.addAction(secondAction)
         }

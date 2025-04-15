@@ -38,7 +38,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
             message: "Уверены, что хотите выйти?",
             buttonTitle: "Да",
             button2Title: "Нет",
-            completion1: { [weak self] in
+            completionFirstButton: { [weak self] in
                 UIBlockingProgressHUD.show()
                 
                 self?.profileLogoutService.logout()
@@ -51,7 +51,7 @@ final class ProfileViewPresenter: ProfileViewPresenterProtocol {
                 
                 UIBlockingProgressHUD.dismiss()
             },
-            completion2: { }
+            completionSecondButton: { }
         )
     }
 }

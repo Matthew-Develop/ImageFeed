@@ -87,7 +87,7 @@ extension WebViewViewController {
     }
     
     private func addWebView() {
-        webView.accessibilityIdentifier = "AuthWebView"
+        webView.accessibilityIdentifier = AccessID.authWebView
         webView.autoResizeOff()
         view.addSubview(webView)
         NSLayoutConstraint.activate([

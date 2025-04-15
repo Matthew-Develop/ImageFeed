@@ -28,8 +28,8 @@ final class AuthViewController: UIViewController {
             title: "Что-то пошло не так :(",
             message: "Не удалось войти в систему: \(errorMessage)",
             buttonTitle: "Ок",
-            completion1: {},
-            completion2: {}
+            completionFirstButton: {},
+            completionSecondButton: {}
         )
     }
     
@@ -69,7 +69,7 @@ extension AuthViewController {
     private func addLoginButton() {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didLoginButtonTapped), for: .touchUpInside)
-        button.accessibilityIdentifier = "Authenticate" 
+        button.accessibilityIdentifier = AccessID.authLoginButton
         
         button.setTitle("Войти", for: .normal)
         button.setTitleColor(.ypBlack, for: .normal)
@@ -110,7 +110,6 @@ extension AuthViewController: WebViewViewControllerDelegate {
         
         oAuthService.loadToken(code: code) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-
             guard let self = self else { return }
         
             switch result {

@@ -105,18 +105,18 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
         
         UIBlockingProgressHUD.show()
         imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
-            guard let self = self else { return }
             UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
             
             switch result {
+            case .success:
+                self.photos = self.imagesListService.photos
+                cell.changeLikeButtonImage(changeToLike: !photo.isLiked)
+                self.reloadTableRow(indexPath: indexPath)
             case .failure(let error):
                 print("ERROR like photo: \(error.localizedDescription)")
                 let errorMessage = error.localizedDescription.components(separatedBy: "(")[0]
                 self.showLikeAlertTableView(view: view, message: errorMessage)
-            case .success():
-                self.photos = self.imagesListService.photos
-                cell.changeLikeButtonImage(changeToLike: !photo.isLiked)
-                self.reloadTableRow(indexPath: indexPath)
             }
         }
     }
@@ -130,8 +130,8 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
         
         UIBlockingProgressHUD.show()
         imagesListService.toggleLike(photoID: photo.id, toLike: !photo.isLiked, indexPath: indexPath) { [weak self] result in
-            guard let self = self else { return }
             UIBlockingProgressHUD.dismiss()
+            guard let self = self else { return }
             
             switch result {
             case .failure(let error):
@@ -153,8 +153,8 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
             title: "Что-то пошло не так :(",
             message: "Не удалось поставить/снять лайк\n\(message)",
             buttonTitle: nil,
-            completion1: {},
-            completion2: {}
+            completionFirstButton: {},
+            completionSecondButton: {}
         )
     }
     
@@ -164,8 +164,8 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
             title: "Что-то пошло не так",
             message: "Не удалось поставить/снять лайк\n\(message)",
             buttonTitle: nil,
-            completion1: {},
-            completion2: {}
+            completionFirstButton: {},
+            completionSecondButton: {}
         )
     }
 }

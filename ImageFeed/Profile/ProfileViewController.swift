@@ -125,7 +125,7 @@ extension ProfileViewController {
             with: UIImage(systemName: "ipad.and.arrow.forward") ?? UIImage(),
             target: self,
             action: #selector(Self.exitButton))
-        button.accessibilityIdentifier = "LogoutButton"
+        button.accessibilityIdentifier = AccessID.profileLogoutButton
         
         button.tintColor = .ypRed
         button.imageEdgeInsets = UIEdgeInsets(top: 11, left: 12, bottom: 11, right: 12)

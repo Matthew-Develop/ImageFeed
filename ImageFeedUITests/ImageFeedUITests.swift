@@ -18,11 +18,11 @@ final class ImageFeedUITests: XCTestCase {
     
     func testAuth() throws {
         //Нажатие на кнопку авторизации и переход к Web View
-        let buttonAuth = app.buttons["Authenticate"]
+        let buttonAuth = app.buttons[AccessID.authLoginButton]
         buttonAuth.tap()
         
         sleep(1)
-        let authWebView = app.webViews["AuthWebView"]
+        let authWebView = app.webViews[AccessID.authWebView]
         
         //Ожидание появления Web View
         XCTAssertTrue(authWebView.waitForExistence(timeout: 5))
@@ -61,49 +61,56 @@ final class ImageFeedUITests: XCTestCase {
         let tablesQuery = app.tables.element
         let cell = tablesQuery.children(matching: .cell).element(boundBy: 0)
         XCTAssertTrue(cell.waitForExistence(timeout: 5))
-        let likeButton = cell.buttons["CellLikeButton"]
-        
-        // Поставить лайк в ячейке верхней картинки
-        sleep(2)
-        likeButton.tap()
-
-        // Отменить лайк в ячейке верхней картинки
-        sleep(10)
-        likeButton.tap()
         
         //Скроллинг вниз - вверх
-        sleep(4)
+        sleep(2)
         app.swipeUp()
-        sleep(4)
-        app.swipeDown()
+        sleep(1)
         app.swipeDown()
         
-        // Нажать на верхнюю ячейку
+        //Нахождение второй ячейки
+        sleep(3)
+        let secondCell = tablesQuery.children(matching: .cell).element(boundBy: 1)
+        let likeButton = secondCell.buttons[AccessID.cellLikeButton].firstMatch
+
+        // Поставить лайк в ячейке второй картинки
+        sleep(3)
+        likeButton.tap()
+
+        // Отменить лайк в ячейке второй картинки
+        sleep(4)
+        likeButton.tap()
+        
+        // Нажать на вторую ячейку
         sleep(2)
-        cell.tap()
+        secondCell.tap()
         
         // Подождать, пока картинка открывается на весь экран
         let image = app.scrollViews.images.element(boundBy: 0)
         XCTAssertTrue(image.waitForExistence(timeout: 5))
-        let likeButtonSingleImage = app.buttons["SingleImageLikeButton"]
+        let likeButtonSingleImage = app.buttons[AccessID.singleImageLikeButton]
         
         // Поставить лайк Single Image
         sleep(2)
         likeButtonSingleImage.tap()
 
         // Отменить лайк Single image
-        sleep(10)
+        sleep(4)
         likeButtonSingleImage.tap()
         
         // Увеличить картинку
+        sleep(2)
         image.pinch(withScale: 3, velocity: 1)
+        
         // Уменьшить картинку
-        sleep(3)
-        image.pinch(withScale: 0.5, velocity: -1)
+        sleep(2)
+        image.pinch(withScale: 0.3, velocity: -1)
         
         // Вернуться на экран ленты
         sleep(2)
-        app.buttons["SingleImageBackButton"].tap()
+        app.buttons[AccessID.singleImageBackButton].tap()
+        
+        XCTAssertTrue(tablesQuery.children(matching: .cell).element(boundBy: 0).waitForExistence(timeout: 5))
     }
     
     func testProfile() throws {
@@ -122,12 +129,16 @@ final class ImageFeedUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Избранное"].exists)
         
         // Нажать кнопку логаута
-        let logoutButton = app.buttons["LogoutButton"]
+        let logoutButton = app.buttons[AccessID.profileLogoutButton]
         logoutButton.tap()
         
         // Проверить, что открылся экран авторизации
         XCTAssertTrue(app.alerts["Пока, пока!"].waitForExistence(timeout: 3))
         sleep(1)
         app.alerts["Пока, пока!"].scrollViews.otherElements.buttons["Да"].tap()
+        
+        //Проверка на появление экрана авторизации
+        sleep(5)
+        XCTAssertTrue(app.buttons[AccessID.authLoginButton].exists)
     }
 }

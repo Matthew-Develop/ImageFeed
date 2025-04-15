@@ -120,8 +120,8 @@ extension SingleImageViewController {
         UIBlockingProgressHUD.show()
         imageView.kf.setImage(with: fullURL) { [weak self] result in
             UIBlockingProgressHUD.dismiss()
-            
             guard let self = self else { return }
+            
             switch result {
             case .success(let imageResult):
                 self.setupScrollView(imageView: imageView, imageSize: imageResult.image.size)
@@ -160,7 +160,7 @@ extension SingleImageViewController {
     private func addBackButton() {
         let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(didTapSingleBackButton), for: .touchUpInside)
-        button.accessibilityIdentifier = "SingleImageBackButton"
+        button.accessibilityIdentifier = AccessID.singleImageBackButton
         
         button.setImage(UIImage(named: "singleImage_back_button"), for: .normal)
         button.tintColor = .ypWhite
@@ -202,7 +202,7 @@ extension SingleImageViewController {
         buttonLike.autoResizeOff()
         buttonLike.setImage(buttonImage, for: .normal)
         buttonLike.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
-        buttonLike.accessibilityIdentifier = "SingleImageLikeButton"
+        buttonLike.accessibilityIdentifier = AccessID.singleImageLikeButton
     }
     
     private func configureShareButton() {
@@ -235,10 +235,10 @@ extension SingleImageViewController {
             message: "Не удалось загрузить фото\n\(message)",
             buttonTitle: "OK",
             button2Title: "Повторить",
-            completion1: {
+            completionFirstButton: {
                 self.dismiss(animated: true)
             },
-            completion2: { [weak self] in
+            completionSecondButton: { [weak self] in
                 self?.repeatLoadImageAction()
             }
         )
