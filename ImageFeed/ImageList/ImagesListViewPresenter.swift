@@ -59,7 +59,6 @@ final class ImagesListViewPresenter: ImagesListViewPresenterProtocol {
     
     func displayPhotos(indexPath: IndexPath) {
         if !ProcessInfo().arguments.contains("testMode") {
-            print("Not test mode")
             if indexPath.row + 1 == photos.count {
                 fetchPhotosNextPage()
             }
